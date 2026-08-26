@@ -2,7 +2,7 @@ import { MediaBlock } from '@/blocks/MediaBlock/Component'
 import {
   SerializedBlockNode,
   SerializedLinkNode,
-  WithDefaultNodes,
+  DefaultNodeTypes,
 } from '@payloadcms/richtext-lexical'
 import type { SerializedEditorState } from '@payloadcms/richtext-lexical/lexical'
 import {
@@ -22,12 +22,12 @@ import { BannerBlock } from '@/blocks/Banner/Component'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
 import { cn } from '@/utilities/ui'
 
-type NodeTypes = WithDefaultNodes<
+type NodeTypes = 
+  | DefaultNodeTypes
   | SerializedBlockNode<BannerBlockProps>
   | SerializedBlockNode<CTABlockProps>
   | SerializedBlockNode<CodeBlockProps>
   | SerializedBlockNode<MediaBlockProps>
->
 
 const internalDocToHref = ({ linkNode }: { linkNode: SerializedLinkNode }) => {
   const { value, relationTo } = linkNode.fields.doc!
