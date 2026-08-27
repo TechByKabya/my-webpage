@@ -1523,6 +1523,21 @@ export interface HomepageSetting {
   heroFloatCard1Text?: string | null;
   heroFloatCard2Icon?: string | null;
   heroFloatCard2Text?: string | null;
+  skillsSectionTitle?: string | null;
+  skillsSectionSubtitle?: string | null;
+  /**
+   * Add or remove skills. Each shows as a card with an icon, name, and description.
+   */
+  skills?:
+    | {
+        name: string;
+        description?: string | null;
+        icon?:
+          ('microchip' | 'iot' | '3d' | 'code' | 'cad' | 'ai' | 'hardware' | 'electronics' | 'cv' | 'python') | null;
+        color?: ('indigo' | 'blue' | 'green' | 'amber' | 'red' | 'purple' | 'teal' | 'pink') | null;
+        id?: string | null;
+      }[]
+    | null;
   footerVideoBg?: (number | null) | Media;
   contactTitle?: string | null;
   contactSubtitle?: string | null;
@@ -1621,6 +1636,17 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
   heroFloatCard1Text?: T;
   heroFloatCard2Icon?: T;
   heroFloatCard2Text?: T;
+  skillsSectionTitle?: T;
+  skillsSectionSubtitle?: T;
+  skills?:
+    | T
+    | {
+        name?: T;
+        description?: T;
+        icon?: T;
+        color?: T;
+        id?: T;
+      };
   footerVideoBg?: T;
   contactTitle?: T;
   contactSubtitle?: T;

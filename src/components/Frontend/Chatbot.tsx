@@ -44,6 +44,15 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
         }),
       })
 
+      if (res.status === 401) {
+        setMessages(prev => [
+          ...prev,
+          { id: Date.now().toString(), role: 'assistant', content: 'Sorry, the AI is currently unavailable (API Key missing or invalid).' },
+        ])
+        setIsLoading(false)
+        return
+      }
+
       if (!res.ok) throw new Error('API error')
 
       const reader = res.body?.getReader()

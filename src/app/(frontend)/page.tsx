@@ -8,6 +8,7 @@ import { HeroSection } from '@/components/Frontend/HeroSection'
 import { ProjectGrid } from '@/components/Frontend/ProjectGrid'
 import { BlogGrid } from '@/components/Frontend/BlogGrid'
 import { FooterSection } from '@/components/Frontend/FooterSection'
+import { SkillsSection } from '@/components/Frontend/SkillsSection'
 
 export const revalidate = 60
 
@@ -69,6 +70,12 @@ export default async function PortfolioHome() {
           heroFloatCard1Text={settings.heroFloatCard1Text || 'Reliable'}
           heroFloatCard2Icon={settings.heroFloatCard2Icon || 'fas fa-brain'}
           heroFloatCard2Text={settings.heroFloatCard2Text || 'AI experiments'}
+        />
+
+        <SkillsSection 
+          title={settings.skillsSectionTitle || undefined}
+          subtitle={settings.skillsSectionSubtitle || undefined}
+          skills={(settings as any).skills || undefined}
         />
 
         <ProjectGrid projects={projects} />

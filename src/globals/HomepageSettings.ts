@@ -109,7 +109,88 @@ export const HomepageSettings: GlobalConfig = {
       ],
     },
 
-
+    // ── SKILLS SECTION ───────────────────────────────────
+    {
+      type: 'collapsible',
+      label: 'Skills Section',
+      fields: [
+        {
+          name: 'skillsSectionTitle',
+          type: 'text',
+          label: 'Section Title',
+          defaultValue: 'Core Competencies',
+        },
+        {
+          name: 'skillsSectionSubtitle',
+          type: 'text',
+          label: 'Section Subtitle',
+          defaultValue: 'From hardware to software — the tools and technologies I use to bring ideas to life.',
+        },
+        {
+          name: 'skills',
+          type: 'array',
+          label: 'Skills List',
+          admin: {
+            description: 'Add or remove skills. Each shows as a card with an icon, name, and description.',
+          },
+          fields: [
+            {
+              name: 'name',
+              type: 'text',
+              label: 'Skill Name',
+              required: true,
+            },
+            {
+              name: 'description',
+              type: 'text',
+              label: 'Short Description (e.g. "STM32, ESP32, RTOS")',
+            },
+            {
+              name: 'icon',
+              type: 'select',
+              label: 'Icon',
+              options: [
+                { label: 'Microchip (Embedded)', value: 'microchip' },
+                { label: 'WiFi/Radio (IoT)', value: 'iot' },
+                { label: 'Layers (3D Printing)', value: '3d' },
+                { label: 'Code (Web Dev)', value: 'code' },
+                { label: 'Box 3D (CAD / Fusion 360)', value: 'cad' },
+                { label: 'Brain (AI / ML)', value: 'ai' },
+                { label: 'Wrench (Hardware)', value: 'hardware' },
+                { label: 'Circuit (Electronics)', value: 'electronics' },
+                { label: 'Camera (Computer Vision)', value: 'cv' },
+                { label: 'Python (Programming)', value: 'python' },
+              ],
+              defaultValue: 'microchip',
+            },
+            {
+              name: 'color',
+              type: 'select',
+              label: 'Card Accent Color',
+              options: [
+                { label: 'Indigo', value: 'indigo' },
+                { label: 'Blue', value: 'blue' },
+                { label: 'Green', value: 'green' },
+                { label: 'Amber', value: 'amber' },
+                { label: 'Red', value: 'red' },
+                { label: 'Purple', value: 'purple' },
+                { label: 'Teal', value: 'teal' },
+                { label: 'Pink', value: 'pink' },
+              ],
+              defaultValue: 'indigo',
+            },
+          ],
+          defaultValue: [
+            { name: 'Embedded Systems', description: 'STM32, ESP32, AVR, RTOS', icon: 'microchip', color: 'indigo' },
+            { name: 'IoT', description: 'MQTT, Wi-Fi, BLE, LoRa', icon: 'iot', color: 'blue' },
+            { name: '3D Printing', description: 'FDM, Resin, Slicing, Design', icon: '3d', color: 'green' },
+            { name: 'Web Development', description: 'Next.js, React, Node.js', icon: 'code', color: 'amber' },
+            { name: 'Fusion 360', description: 'CAD, CAM, Simulation', icon: 'cad', color: 'red' },
+            { name: 'AIoT / Edge AI', description: 'TensorFlow Lite, ONNX, CV', icon: 'ai', color: 'purple' },
+          ],
+        },
+      ],
+    },
 
     // ── CONTACT SECTION ──────────────────────────────────
     {

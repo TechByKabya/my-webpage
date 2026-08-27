@@ -1702,3 +1702,90 @@ body {
 .bento-grid {
   gap: 24px !important;
 }
+
+/* Payload Lexical RichText Styles */
+.payload-richtext {
+  color: var(--text-main);
+  line-height: 1.8;
+  font-size: 1.1rem;
+}
+
+.payload-richtext h2 {
+  font-size: 2rem;
+  margin-top: 2.5rem;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+  font-weight: 700;
+}
+
+.payload-richtext h3 {
+  font-size: 1.5rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.payload-richtext h4 {
+  font-size: 1.25rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.8rem;
+  color: var(--text-main);
+  font-weight: 600;
+}
+
+.payload-richtext p {
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+
+.payload-richtext a {
+  color: #007aff;
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-bottom-color 0.2s ease;
+}
+
+.payload-richtext a:hover {
+  border-bottom-color: #007aff;
+}
+
+.payload-richtext ul {
+  list-style-type: disc;
+  margin-left: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+
+.payload-richtext ol {
+  list-style-type: decimal;
+  margin-left: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--text-muted);
+}
+
+.payload-richtext li {
+  margin-bottom: 0.5rem;
+}
+
+.payload-richtext blockquote {
+  border-left: 4px solid var(--border-color);
+  padding-left: 1rem;
+  margin-left: 0;
+  margin-bottom: 1.5rem;
+  font-style: italic;
+  color: var(--text-muted);
+}
+
+.payload-richtext hr {
+  border: 0;
+  border-top: 1px solid var(--border-color);
+  margin: 3rem 0;
+}
+
+.payload-richtext img {
+  border-radius: 12px;
+  max-width: 100%;
+  height: auto;
+  margin: 2rem 0;
+}
