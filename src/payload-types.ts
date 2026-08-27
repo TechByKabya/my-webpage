@@ -72,6 +72,7 @@ export interface Config {
     projects: Project;
     media: Media;
     users: User;
+    'contact-submissions': ContactSubmission;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -88,6 +89,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
+    'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -105,11 +107,13 @@ export interface Config {
     header: Header;
     footer: Footer;
     'homepage-settings': HomepageSetting;
+    'site-settings': SiteSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'homepage-settings': HomepageSettingsSelect<false> | HomepageSettingsSelect<true>;
+    'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -679,6 +683,22 @@ export interface User {
   collection: 'users';
 }
 /**
+ * Messages submitted through the contact form on the website.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions".
+ */
+export interface ContactSubmission {
+  id: number;
+  name: string;
+  email: string;
+  subject?: string | null;
+  message: string;
+  status?: ('new' | 'read' | 'replied' | 'archived') | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
@@ -851,6 +871,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'users';
         value: number | User;
+      } | null)
+    | ({
+        relationTo: 'contact-submissions';
+        value: number | ContactSubmission;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1173,6 +1197,19 @@ export interface UsersSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "contact-submissions_select".
+ */
+export interface ContactSubmissionsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  subject?: T;
+  message?: T;
+  status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1486,6 +1523,7 @@ export interface HomepageSetting {
   heroFloatCard1Text?: string | null;
   heroFloatCard2Icon?: string | null;
   heroFloatCard2Text?: string | null;
+  footerVideoBg?: (number | null) | Media;
   contactTitle?: string | null;
   contactSubtitle?: string | null;
   contactEmail?: string | null;
@@ -1495,6 +1533,20 @@ export interface HomepageSetting {
   facebookUrl?: string | null;
   youtubeUrl?: string | null;
   botWelcomeMessage?: string | null;
+  /**
+   * Provide a paragraph of information here. The AI chatbot will use this to learn about you and answer user questions.
+   */
+  chatbotKnowledge?: string | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings".
+ */
+export interface SiteSetting {
+  id: number;
+  logo?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1565,6 +1617,7 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
   heroFloatCard1Text?: T;
   heroFloatCard2Icon?: T;
   heroFloatCard2Text?: T;
+  footerVideoBg?: T;
   contactTitle?: T;
   contactSubtitle?: T;
   contactEmail?: T;
@@ -1574,6 +1627,17 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
   facebookUrl?: T;
   youtubeUrl?: T;
   botWelcomeMessage?: T;
+  chatbotKnowledge?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site-settings_select".
+ */
+export interface SiteSettingsSelect<T extends boolean = true> {
+  logo?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

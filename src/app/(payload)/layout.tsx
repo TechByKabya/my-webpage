@@ -9,7 +9,7 @@ import {
 } from '@payloadcms/next/layouts'
 import React from 'react'
 
-import { importMap } from './admin/importMap.js'
+import { importMap } from './kabya-52005/importMap.js'
 import './custom.css'
 
 

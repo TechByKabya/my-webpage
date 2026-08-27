@@ -90,67 +90,7 @@ export function ClientScripts() {
         });
     }
 
-    // --- Chatbot ---
-    const toggler = document.getElementById('chatbot-toggler');
-    const windowBot = document.getElementById('chatbot-window');
-    const closeBot = document.getElementById('close-bot');
-    const sendBtn = document.getElementById('chat-send');
-    const chatInput = document.getElementById('chat-input') as HTMLInputElement;
-    const chatBody = document.getElementById('chat-body');
 
-    if (toggler && windowBot) toggler.addEventListener('click', () => windowBot.classList.add('open'));
-    if (closeBot && windowBot) closeBot.addEventListener('click', () => windowBot.classList.remove('open'));
-
-    const botReply = (msg: string) => {
-        if(!chatBody) return;
-        const div = document.createElement('div');
-        div.className = 'msg bot-msg';
-
-        const lowerMsg = msg.toLowerCase();
-        let text = "I can help with that! Ask about my **Skills**, **Projects**, **Goals**, or **Contact** info.";
-
-        if (lowerMsg.includes('hello') || lowerMsg.includes('hi')) {
-            text = "Hi — I'm a small helper here. Ask about projects, skills, or how to get in touch.";
-        }
-        else if (lowerMsg.includes('who') || lowerMsg.includes('about') || lowerMsg.includes('bio')) {
-            text = "I'm Kabya Ghosh, a CSE student from Bangladesh interested in robotics, AI, and embedded systems. I like building practical projects to learn and solve problems.";
-        }
-        else if (lowerMsg.includes('skill') || lowerMsg.includes('stack') || lowerMsg.includes('code')) {
-            text = "My core skills include **Python, C++, Arduino, ESP32, Raspberry Pi, and ROS**. I also do PCB Design and Basic Web Dev.";
-        }
-        else if (lowerMsg.includes('project') || lowerMsg.includes('work')) {
-            text = "Here are my top projects:\n1. **Mission Bot** (Autonomous Rover)\n2. **Smart Irrigation** (GSM-based)\n3. **Laser Security System**\n4. **Flood Protection System**\n5. **CampusCore ERP**";
-        }
-        else if (lowerMsg.includes('contact') || lowerMsg.includes('email') || lowerMsg.includes('phone')) {
-            text = "You can reach me at **kabyaghosh4@gmail.com** or **+8801950440296**.";
-        }
-        else if (lowerMsg.includes('hardware') || lowerMsg.includes('tool') || lowerMsg.includes('inventory')) {
-            text = "I own a **Creality Ender 3 V3 KE** 3D Printer, various motors (Stepper, BLDC), Arduino/ESP32 boards, and a full soldering setup.";
-        }
-
-        div.innerHTML = text.replace(/\n/g, '<br>');
-        chatBody.appendChild(div);
-        chatBody.scrollTop = chatBody.scrollHeight;
-    };
-
-    if (sendBtn && chatInput && chatBody) {
-        sendBtn.addEventListener('click', () => {
-            const val = chatInput.value.trim();
-            if (!val) return;
-
-            const userDiv = document.createElement('div');
-            userDiv.className = 'msg user-msg';
-            userDiv.textContent = val;
-            chatBody.appendChild(userDiv);
-            chatInput.value = '';
-
-            setTimeout(() => botReply(val), 600);
-        });
-
-        chatInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') sendBtn.click();
-        });
-    }
 
     // --- Scroll Animations ---
     const observerOptions = {

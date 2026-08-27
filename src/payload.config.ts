@@ -5,6 +5,7 @@ import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
 import { Blogs } from './collections/Blogs'
+import { ContactSubmissions } from './collections/ContactSubmissions'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
@@ -12,6 +13,7 @@ import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { HomepageSettings } from './globals/HomepageSettings'
+import { SiteSettings } from './globals/SiteSettings'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -21,6 +23,7 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    theme: 'light',
     meta: {
       titleSuffix: '- Kabya Dev CMS',
       icons: [{ rel: 'icon', type: 'image/png', url: '/admin-favicon.png' }],
@@ -60,6 +63,9 @@ export default buildConfig({
       ],
     },
   },
+  routes: {
+    admin: '/kabya-52005',
+  },
   // This config helps us configure global or default features that the other editors can inherit
   editor: defaultLexical,
   db: postgresAdapter({
@@ -73,9 +79,10 @@ export default buildConfig({
     Projects,
     Media,
     Users,
+    ContactSubmissions,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, HomepageSettings],
+  globals: [Header, Footer, HomepageSettings, SiteSettings],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

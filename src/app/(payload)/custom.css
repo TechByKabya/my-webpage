@@ -1,352 +1,35 @@
 /* ============================================================
-   KABYA DEV CMS — FULL ADMIN PANEL THEME
-   Modern, Clean, White UI inspired by Tailwind & Indigo Accents
+   KABYA DEV CMS — CUSTOM COMPONENTS THEME
+   (Payload native Light Theme handles the rest of the UI)
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-/* ── ROOT VARIABLES ──────────────────────────────────────── */
+/* ── ROOT VARIABLES FOR CUSTOM COMPONENTS ────────────────── */
 :root {
-  --brand-primary: #4f46e5; /* Tailwind Indigo-600 */
-  --brand-secondary: #6366f1; /* Tailwind Indigo-500 */
+  --brand-primary: #4f46e5;
+  --brand-secondary: #6366f1;
   --brand-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
   --brand-glow: 0 4px 14px rgba(79, 70, 229, 0.25);
 
-  --bg-base: #f8fafc; /* Very light slate for main body */
-  --bg-surface: #ffffff; /* Pure white for sidebar/cards */
   --bg-card: #ffffff;
-  --bg-card-hover: #f1f5f9;
-  --bg-input: #f8fafc;
   --bg-border: #e2e8f0;
   --bg-border-hover: #cbd5e1;
-
-  --text-primary: #0f172a; /* Slate 900 */
-  --text-secondary: #475569; /* Slate 600 */
-  --text-muted: #94a3b8; /* Slate 400 */
-  --text-brand: #4f46e5;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
 
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
-  --radius-xl: 24px;
 
   --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
   --shadow-btn: 0 4px 12px rgba(79, 70, 229, 0.25);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ── GLOBAL BASE ─────────────────────────────────────────── */
+/* ── GLOBAL FONT ─────────────────────────────────────────── */
 * {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  box-sizing: border-box;
-}
-
-body,
-html {
-  background-color: var(--bg-base) !important;
-  color: var(--text-primary) !important;
-}
-
-/* ── SIDEBAR ─────────────────────────────────────────────── */
-.template-default__nav,
-aside.nav,
-nav.nav,
-.nav__wrap {
-  background: #ffffff !important;
-  border-right: 1px solid var(--bg-border) !important;
-  box-shadow: none !important;
-}
-
-.template-default__nav {
-  padding: 24px 16px !important;
-}
-
-/* Nav Groups (Headers) */
-.nav-group,
-[class*="NavGroup"] {
-  margin-bottom: 24px !important;
-}
-.nav-group__toggle,
-.nav-group__title,
-[class*="NavGroup"] button {
-  padding: 8px 12px 12px !important;
-  text-transform: uppercase !important;
-  font-size: 11px !important;
-  letter-spacing: 0.08em !important;
-  color: #94a3b8 !important; /* Tailwind slate-400 */
-  font-weight: 700 !important;
-}
-
-/* Sidebar nav links - CLEAN CARD STYLE */
-.nav__link,
-a.nav__link,
-div.nav__link {
-  display: flex !important;
-  align-items: center !important;
-  background: transparent !important;
-  border: none !important;
-  border-radius: var(--radius-md) !important;
-  padding: 10px 14px !important;
-  margin-bottom: 4px !important;
-  box-shadow: none !important;
-  color: #475569 !important; /* Tailwind slate-600 */
-  font-weight: 500 !important;
-  font-size: 14px !important;
-  transition: all 0.2s ease !important;
-  text-decoration: none !important;
-}
-
-.nav__link:hover,
-a.nav__link:hover {
-  background: #f1f5f9 !important; /* Tailwind slate-100 */
-  color: var(--brand-primary) !important;
-  transform: none !important;
-}
-
-/* Active Link State */
-.nav__link--active,
-div.nav__link,
-.nav__link:has(.nav__link-indicator) {
-  background: rgba(79, 70, 229, 0.08) !important; /* Faint Indigo */
-  color: var(--brand-primary) !important;
-  font-weight: 600 !important;
-}
-
-/* Hide Payload's default active line */
-.nav__link-indicator {
-  display: none !important;
-}
-
-/* ── MAIN CONTENT AREA ───────────────────────────────────── */
-.template-default__wrap,
-.collection-list__wrap,
-[class*="DefaultTemplate"] main,
-main[class*="template"] {
-  background: var(--bg-base) !important;
-}
-
-/* ── TOP HEADER / TOOLBAR ────────────────────────────────── */
-.render-title,
-.collection-list__header,
-[class*="ListHeader"],
-.doc-header {
-  background: rgba(255, 255, 255, 0.8) !important;
-  backdrop-filter: blur(12px) !important;
-  -webkit-backdrop-filter: blur(12px) !important;
-  border-bottom: 1px solid var(--bg-border) !important;
-}
-
-/* ── CARDS & PANELS ──────────────────────────────────────── */
-.render-fields,
-[class*="FieldCard"],
-.doc-controls,
-[class*="Card__"],
-.field-type,
-.section-title,
-.form-submit {
-  background: var(--bg-card) !important;
-  border: 1px solid var(--bg-border) !important;
-  border-radius: var(--radius-md) !important;
-  box-shadow: var(--shadow-card) !important;
-}
-
-/* ── INPUT FIELDS ────────────────────────────────────────── */
-input[type="text"],
-input[type="email"],
-input[type="password"],
-input[type="search"],
-input[type="url"],
-input[type="number"],
-textarea,
-select,
-.rs__control {
-  background: var(--bg-input) !important;
-  border: 1px solid var(--bg-border) !important;
-  border-radius: var(--radius-sm) !important;
-  color: var(--text-primary) !important;
-  transition: var(--transition) !important;
-}
-
-input:focus,
-textarea:focus,
-select:focus,
-.rs__control--is-focused {
-  border-color: var(--brand-primary) !important;
-  background: #ffffff !important;
-  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
-  outline: none !important;
-}
-
-input::placeholder,
-textarea::placeholder {
-  color: var(--text-muted) !important;
-}
-
-/* ── LABELS ──────────────────────────────────────────────── */
-label,
-.field-label,
-.field-label__label {
-  color: var(--text-secondary) !important;
-  font-weight: 600 !important;
-  font-size: 13px !important;
-  letter-spacing: 0.03em !important;
-  text-transform: uppercase !important;
-}
-
-/* ── BUTTONS ─────────────────────────────────────────────── */
-.btn,
-button[class*="btn"],
-[class*="Button"] {
-  border-radius: var(--radius-sm) !important;
-  font-weight: 600 !important;
-  transition: var(--transition) !important;
-}
-
-/* Primary save/confirm button */
-.btn--style-primary,
-button[class*="btn--style-primary"],
-[class*="Button--style-primary"] {
-  background: var(--brand-gradient) !important;
-  border: none !important;
-  color: white !important;
-  box-shadow: var(--shadow-btn) !important;
-}
-
-.btn--style-primary:hover {
-  transform: translateY(-1px) !important;
-  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35) !important;
-}
-
-/* Secondary buttons */
-.btn--style-secondary,
-[class*="btn--style-secondary"] {
-  background: var(--bg-card) !important;
-  border: 1px solid var(--bg-border) !important;
-  color: var(--text-primary) !important;
-}
-.btn--style-secondary:hover {
-  background: var(--bg-input) !important;
-}
-
-/* Delete/danger button */
-.btn--style-error,
-[class*="btn--style-error"] {
-  background: rgba(239, 68, 68, 0.1) !important;
-  border: 1px solid rgba(239, 68, 68, 0.2) !important;
-  color: #ef4444 !important;
-}
-
-/* ── TABLES / LIST VIEW ──────────────────────────────────── */
-.table,
-[class*="Table"],
-.collection-list table {
-  background: var(--bg-card) !important;
-  border-radius: var(--radius-md) !important;
-  overflow: hidden !important;
-  border: 1px solid var(--bg-border) !important;
-  box-shadow: var(--shadow-card) !important;
-}
-
-thead,
-[class*="TableHeader"],
-th {
-  background: var(--bg-input) !important;
-  color: var(--text-secondary) !important;
-  font-size: 12px !important;
-  text-transform: uppercase !important;
-  letter-spacing: 0.05em !important;
-  font-weight: 600 !important;
-  border-bottom: 1px solid var(--bg-border) !important;
-}
-
-tbody tr,
-[class*="TableRow"] {
-  border-bottom: 1px solid var(--bg-border) !important;
-  transition: var(--transition) !important;
-}
-
-tbody tr:hover,
-[class*="TableRow"]:hover {
-  background: var(--bg-input) !important;
-}
-
-td,
-[class*="TableCell"] {
-  color: var(--text-primary) !important;
-}
-
-/* ── STATUS BADGES ───────────────────────────────────────── */
-.pill,
-[class*="Pill"],
-[class*="status"] {
-  border-radius: 999px !important;
-  font-size: 11px !important;
-  font-weight: 600 !important;
-  letter-spacing: 0.04em !important;
-  padding: 4px 12px !important;
-}
-
-/* ── TABS ────────────────────────────────────────────────── */
-.tabs-header__tabs-container,
-[class*="TabsHeader"] {
-  border-bottom: 1px solid var(--bg-border) !important;
-  background: transparent !important;
-}
-
-.tabs-header__tab-button,
-[class*="TabButton"] {
-  color: var(--text-muted) !important;
-  font-weight: 500 !important;
-  transition: var(--transition) !important;
-}
-
-.tabs-header__tab-button--active,
-[class*="TabButton--active"] {
-  color: var(--brand-primary) !important;
-  border-bottom: 2px solid var(--brand-primary) !important;
-}
-
-/* ── RICH TEXT EDITOR ────────────────────────────────────── */
-.ContentEditable__root,
-[class*="editor"],
-.lexical-editor-wrap {
-  background: var(--bg-input) !important;
-  border: 1px solid var(--bg-border) !important;
-  border-radius: var(--radius-sm) !important;
-  color: var(--text-primary) !important;
-  min-height: 200px !important;
-}
-
-/* ── MODAL / DIALOG ──────────────────────────────────────── */
-.popup,
-[class*="Modal"],
-[class*="Drawer"] {
-  background: var(--bg-card) !important;
-  border: 1px solid var(--bg-border) !important;
-  border-radius: var(--radius-lg) !important;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
-}
-
-/* ── PAYLOAD WATERMARK — REMOVE ──────────────────────────── */
-.payload-credit,
-a[href*="payloadcms.com"] {
-  display: none !important;
-}
-
-/* ── SCROLLBAR ───────────────────────────────────────────── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: var(--bg-base);
-}
-::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
 }
 
 /* ═══════════════════════════════════════════════════════════
@@ -764,4 +447,50 @@ section.login.template-minimal::after {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MODERN UI ENHANCEMENTS FOR ADMIN PANEL
+   ═══════════════════════════════════════════════════════════ */
+body {
+  background-color: #f8fafc !important;
+}
+
+/* Sidebar Styling */
+nav.nav {
+  background-color: #ffffff !important;
+  border-right: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02) !important;
+}
+
+/* Header Styling */
+.app-header {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05) !important;
+}
+
+/* Cards & Collection Lists */
+.collection-list__wrap,
+.render-fields {
+  background: #ffffff !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(0, 0, 0, 0.05) !important;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.02) !important;
+  padding: 24px !important;
+}
+
+/* Primary Buttons */
+.btn--style-primary {
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
+  border: none !important;
+  border-radius: 8px !important;
+  box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2) !important;
+  color: white !important;
+  transition: all 0.2s ease !important;
+}
+
+.btn--style-primary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.3) !important;
 }

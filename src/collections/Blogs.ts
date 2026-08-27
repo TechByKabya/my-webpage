@@ -1,12 +1,13 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { documentationEditor } from '../fields/DocumentationContent'
 
 export const Blogs: CollectionConfig = {
   slug: 'blogs',
   admin: {
     useAsTitle: 'title',
-    group: 'Blog Posts',
+    group: '\u200B\u200B\u200BBlogs',
   },
   access: {
     create: authenticated,
@@ -43,6 +44,7 @@ export const Blogs: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+      editor: documentationEditor,
       label: 'Blog Content',
       required: true,
     },

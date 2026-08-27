@@ -10,7 +10,7 @@ export const HomepageSettings: GlobalConfig = {
     update: authenticated,
   },
   admin: {
-    group: 'Home Page Setup',
+    group: '\u200BSettings',
   },
   fields: [
     // ── NAVIGATION MENU ──────────────────────────────────
@@ -117,6 +117,12 @@ export const HomepageSettings: GlobalConfig = {
       label: 'Contact Section',
       fields: [
         {
+          name: 'footerVideoBg',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Footer Background Video (Optional, loops in background)',
+        },
+        {
           name: 'contactTitle',
           type: 'text',
           label: 'Title',
@@ -174,6 +180,15 @@ export const HomepageSettings: GlobalConfig = {
           name: 'botWelcomeMessage',
           type: 'textarea',
           defaultValue: 'Hello — ask me about projects, skills, or how to get in touch.',
+          label: 'Welcome Message',
+        },
+        {
+          name: 'chatbotKnowledge',
+          type: 'textarea',
+          label: 'AI Chatbot Knowledge Base',
+          admin: {
+            description: 'Provide a paragraph of information here. The AI chatbot will use this to learn about you and answer user questions.',
+          }
         },
       ],
     },

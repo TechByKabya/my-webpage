@@ -24,7 +24,7 @@ export const Media: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    group: 'Home Page Setup',
+    group: '\u200B\u200B\u200B\u200BOther',
   },
   fields: [
     {

@@ -21,8 +21,18 @@
     box-sizing: border-box;
 }
 
+html, body {
+    margin: 0;
+    padding: 0;
+}
+
 body {
     background-color: var(--bg-gray);
+    background-image: 
+        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-stack);
     line-height: 1.5;
@@ -729,6 +739,10 @@ footer {
         height: auto;
     }
 
+    .span-2 {
+        grid-column: span 1 !important;
+    }
+
     .studio-grid {
         grid-template-columns: 1fr;
     }
@@ -766,6 +780,43 @@ footer {
         width: 90%;
         right: 5%;
         bottom: 80px;
+    }
+
+    /* New Responsive Utilities for React Components */
+    .responsive-padding {
+        padding: 40px 20px !important;
+    }
+    
+    .responsive-flex-column {
+        flex-direction: column !important;
+        text-align: center;
+        gap: 40px !important;
+    }
+    
+    /* Ensure hero text content centers when stacked */
+    .responsive-flex-column > div {
+        align-items: center !important;
+    }
+    
+    .responsive-grid-1 {
+        grid-template-columns: 1fr !important;
+        gap: 20px !important;
+    }
+    
+    .responsive-footer-grid {
+        grid-template-columns: 1fr !important;
+        text-align: center !important;
+    }
+    
+    .responsive-footer-grid > div {
+        align-items: center !important;
+        justify-content: center !important;
+    }
+
+    .responsive-footer-bottom {
+        flex-direction: column !important;
+        justify-content: center !important;
+        gap: 20px !important;
     }
 }
 
@@ -1559,4 +1610,80 @@ footer {
     .password-screen {
         padding: 40px 20px;
     }
+}
+/* ═══════════════════════════════════════════════════════════
+   APPLE AESTHETIC ENHANCEMENTS
+   ═══════════════════════════════════════════════════════════ */
+
+body {
+  background-color: #f8fafc !important; /* Crisp, cool white-grey */
+  color: #1d1d1f !important;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+}
+
+/* Enhanced Typography */
+.hero-title-3d {
+  background: none !important;
+  -webkit-text-fill-color: initial !important;
+  color: #1d1d1f !important;
+  letter-spacing: -0.04em !important;
+  text-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
+}
+
+.bio {
+  color: #86868b !important;
+  font-weight: 500 !important;
+  letter-spacing: -0.01em !important;
+}
+
+/* Primary Button Apple-style */
+.btn-primary {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border-radius: 980px !important; /* Pill shape */
+  padding: 14px 32px !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em !important;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.1) !important;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.btn-primary:hover {
+  background: #1d1d1f !important;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.15) !important;
+  transform: scale(1.02) !important;
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(10px) !important;
+  border: 1px solid rgba(0,0,0,0.08) !important;
+  border-radius: 980px !important;
+  color: #1d1d1f !important;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.02) !important;
+}
+
+/* Glassmorphic Project Cards */
+.project-card {
+  background: #ffffff !important;
+  border: 1px solid rgba(0,0,0,0.04) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.04) !important;
+  overflow: hidden !important;
+}
+
+.project-card .p-content {
+  background: linear-gradient(to top, rgba(0,0,0,0.7), transparent) !important;
+  backdrop-filter: blur(2px) !important;
+}
+
+.dark-card {
+  background: #1d1d1f !important;
+  border: 1px solid rgba(255,255,255,0.1) !important;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.1) !important;
+}
+
+/* Beautiful Bento Layout tweaks */
+.bento-grid {
+  gap: 24px !important;
 }

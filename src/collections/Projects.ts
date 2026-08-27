@@ -1,13 +1,14 @@
 import type { CollectionConfig } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
+import { documentationEditor } from '../fields/DocumentationContent'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
-    group: 'Projects',
+    group: '\u200B\u200BProjects',
   },
   access: {
     create: authenticated,
@@ -73,6 +74,7 @@ export const Projects: CollectionConfig = {
     {
       name: 'content',
       type: 'richText',
+      editor: documentationEditor,
       label: 'Project Post Content',
       admin: {
         description: 'Write the full article or details about your project here.',

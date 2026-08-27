@@ -15,6 +15,7 @@ export const Users: CollectionConfig = {
     defaultColumns: ['name', 'email'],
     useAsTitle: 'name',
     hidden: () => true,
+    group: '\u200B\u200B\u200B\u200BOther',
   },
   auth: true,
   fields: [

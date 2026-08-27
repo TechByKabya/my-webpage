@@ -3,6 +3,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Script from 'next/script'
 import { ClientScripts } from '@/app/(frontend)/ClientScripts'
+import { Chatbot } from '@/components/Frontend/Chatbot'
 
 export default async function GlobalElements() {
   const payload = await getPayload({ config: configPromise })
@@ -50,27 +51,7 @@ export default async function GlobalElements() {
 
 
       {/* CHATBOT */}
-      <div className="chatbot-wrapper">
-          <div className="chatbot-window" id="chatbot-window">
-              <div className="chat-header">
-                  <div className="bot-id">
-                      <div className="bot-dot"></div>
-                      <span>Kabya AI</span>
-                  </div>
-                  <button id="close-bot">×</button>
-              </div>
-              <div className="chat-body" id="chat-body">
-                  <div className="msg bot-msg" dangerouslySetInnerHTML={{__html: botWelcome}}></div>
-              </div>
-              <div className="chat-input">
-                  <input type="text" id="chat-input" placeholder="Type a message..." />
-                  <button id="chat-send"><i className="fas fa-paper-plane"></i></button>
-              </div>
-          </div>
-          <button className="chatbot-toggler" id="chatbot-toggler">
-              <i className="fas fa-comment-dots"></i>
-          </button>
-      </div>
+      <Chatbot initialMessage={botWelcome} />
 
       <Script src="/particles.js" strategy="lazyOnload" />
       <ClientScripts />
