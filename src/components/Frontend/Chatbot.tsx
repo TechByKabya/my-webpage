@@ -8,9 +8,10 @@ import { motion, AnimatePresence } from 'framer-motion'
 
 export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const [text, setText] = useState('')
   const messagesEndRef = useRef<HTMLDivElement>(null)
 
-  const { messages, input, handleInputChange, handleSubmit, isLoading } = useChat({
+  const { messages, append, isLoading } = useChat({
     api: '/api/chat',
     initialMessages: [
       { id: '1', role: 'assistant', content: initialMessage },
@@ -22,6 +23,13 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
   }, [messages])
+
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!text.trim() || isLoading) return
+    append({ role: 'user', content: text })
+    setText('')
+  }
 
   return (
     <div className="chatbot-wrapper" style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999 }}>
@@ -76,7 +84,7 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
                     borderBottomRightRadius: m.role === 'user' ? '4px' : '16px',
                     borderBottomLeftRadius: m.role === 'assistant' ? '4px' : '16px',
                   }}>
-                    {m.content}
+                    {m.content as string}
                   </div>
                 </div>
               ))}
@@ -91,10 +99,10 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
             </div>
 
             {/* Input Form */}
-            <form onSubmit={handleSubmit} style={{ padding: '12px', borderTop: '1px solid rgba(0,0,0,0.05)', background: '#fff', display: 'flex', gap: '8px' }}>
+            <form onSubmit={onSubmit} style={{ padding: '12px', borderTop: '1px solid rgba(0,0,0,0.05)', background: '#fff', display: 'flex', gap: '8px' }}>
               <input
-                value={input}
-                onChange={handleInputChange}
+                value={text}
+                onChange={(e) => setText(e.target.value)}
                 placeholder="Ask me anything..."
                 style={{
                   flex: 1,
@@ -109,15 +117,15 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
               />
               <button 
                 type="submit" 
-                disabled={isLoading || !input.trim()}
+                disabled={isLoading || !text.trim()}
                 style={{
                   width: '40px',
                   height: '40px',
                   borderRadius: '50%',
                   border: 'none',
-                  background: input.trim() ? '#1d1d1f' : '#e5e7eb',
+                  background: text.trim() ? '#1d1d1f' : '#e5e7eb',
                   color: '#fff',
-                  cursor: input.trim() ? 'pointer' : 'not-allowed',
+                  cursor: text.trim() ? 'pointer' : 'not-allowed',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
