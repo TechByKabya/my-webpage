@@ -497,36 +497,29 @@ a[href*="payloadcms.com"] {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   LOGIN PAGE — SPLIT SCREEN DESIGN
-   Exact class names taken from Payload source code
-   Left: Dark branded panel | Right: White clean form
+   LOGIN PAGE — SPLIT SCREEN DESIGN (FIXED DOM STRUCTURE)
+   In Payload 3, the outermost element is <section class="login template-minimal">
+   Inside it is <div class="template-minimal__wrap"> containing the form
    ═══════════════════════════════════════════════════════════ */
 
 /* 1. OUTER PAGE WRAPPER — dark left background */
-.template-minimal {
+section.login.template-minimal {
+  width: 100% !important;
+  max-width: 100% !important;
   min-height: 100vh !important;
   background: linear-gradient(145deg, #0d0720 0%, #160b35 50%, #0a0f2e 100%) !important;
   padding: 0 !important;
   margin: 0 !important;
   position: relative !important;
   overflow: hidden !important;
-}
-
-/* 2. INNER WRAP — flex row, pushes login card to the right */
-.template-minimal__wrap {
-  min-height: 100vh !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
   display: flex !important;
   flex-direction: row !important;
   align-items: stretch !important;
-  justify-content: flex-end !important;
+  justify-content: flex-end !important; /* pushes inner wrap to right */
 }
 
-/* 3. GLOW ORB on the dark left side */
-.template-minimal__wrap::before {
+/* 2. GLOW ORB on the dark left side */
+section.login.template-minimal::before {
   content: '' !important;
   position: absolute !important;
   left: 20% !important;
@@ -540,16 +533,16 @@ a[href*="payloadcms.com"] {
   z-index: 0 !important;
 }
 
-/* 4. "Design. Build. Learn." text on the dark left */
-.template-minimal__wrap::after {
+/* 3. "Design. Build. Learn." text on the dark left */
+section.login.template-minimal::after {
   content: 'Design.\A Build.\A Learn.' !important;
   white-space: pre !important;
   position: absolute !important;
-  left: 5% !important;
+  left: 8% !important;
   top: 50% !important;
   transform: translateY(-50%) !important;
   font-family: 'Inter', sans-serif !important;
-  font-size: clamp(40px, 4.5vw, 68px) !important;
+  font-size: clamp(40px, 5vw, 76px) !important;
   font-weight: 900 !important;
   line-height: 1.05 !important;
   color: #ffffff !important;
@@ -559,10 +552,11 @@ a[href*="payloadcms.com"] {
   text-shadow: 0 0 80px rgba(139, 92, 246, 0.6) !important;
 }
 
-/* 5. THE LOGIN CONTAINER — right white panel */
-.login {
-  width: 500px !important;
-  min-width: 500px !important;
+/* 4. THE LOGIN CONTAINER (Right white panel) */
+.template-minimal__wrap {
+  width: 520px !important;
+  min-width: 520px !important;
+  max-width: 520px !important;
   min-height: 100vh !important;
   background: #ffffff !important;
   border-radius: 0 !important;
@@ -576,31 +570,31 @@ a[href*="payloadcms.com"] {
   z-index: 10 !important;
 }
 
-/* 6. LOGO AREA inside the white panel */
+/* 5. LOGO AREA inside the white panel */
 .login__brand {
   display: flex !important;
   justify-content: center !important;
-  margin-bottom: 36px !important;
+  margin-bottom: 24px !important;
   padding: 0 52px !important;
 }
 
-/* 7. THE FORM — padding and layout */
+/* 6. THE FORM — padding and layout */
 .login__form {
-  padding: 0 52px 52px !important;
+  padding: 0 60px 60px !important;
   display: flex !important;
   flex-direction: column !important;
   gap: 0 !important;
 }
 
-/* 8. INPUTS WRAPPER */
+/* 7. INPUTS WRAPPER */
 .login__form__inputWrap {
   display: flex !important;
   flex-direction: column !important;
-  gap: 12px !important;
-  margin-bottom: 16px !important;
+  gap: 16px !important;
+  margin-bottom: 20px !important;
 }
 
-/* 9. ALL INPUT FIELDS — pill shaped, clean */
+/* 8. ALL INPUT FIELDS — pill shaped, clean */
 .login__form input,
 .login__form .field-type input {
   background: #f5f5f7 !important;
@@ -626,7 +620,7 @@ a[href*="payloadcms.com"] {
   color: #aaa !important;
 }
 
-/* 10. FIELD LABELS */
+/* 9. FIELD LABELS */
 .login__form label,
 .login__form .field-label {
   color: #555 !important;
@@ -634,16 +628,16 @@ a[href*="payloadcms.com"] {
   font-weight: 600 !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
-  margin-bottom: 6px !important;
+  margin-bottom: 8px !important;
 }
 
-/* 11. FORGOT PASSWORD LINK */
+/* 10. FORGOT PASSWORD LINK */
 .login__form a {
   color: #6366f1 !important;
-  font-size: 13px !important;
-  font-weight: 500 !important;
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
   text-decoration: none !important;
-  margin: 8px 0 20px !important;
+  margin: 12px 0 24px !important;
   display: inline-block !important;
 }
 
@@ -652,7 +646,7 @@ a[href*="payloadcms.com"] {
   text-decoration: underline !important;
 }
 
-/* 12. SUBMIT BUTTON — bold gradient pill */
+/* 11. SUBMIT BUTTON — bold gradient pill */
 .login__form .form-submit button,
 .login__form button[type="submit"],
 .login__form .btn {
@@ -666,7 +660,7 @@ a[href*="payloadcms.com"] {
   height: 54px !important;
   width: 100% !important;
   cursor: pointer !important;
-  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45) !important;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35) !important;
   transition: transform 0.2s, box-shadow 0.2s !important;
   letter-spacing: 0.01em !important;
 }
@@ -674,46 +668,46 @@ a[href*="payloadcms.com"] {
 .login__form .form-submit button:hover,
 .login__form button[type="submit"]:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 12px 36px rgba(99, 102, 241, 0.55) !important;
+  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5) !important;
 }
 
-/* 13. The BeforeLogin branding component */
+/* 12. The BeforeLogin branding component */
 .before-login-wrap {
   text-align: center;
-  padding: 52px 52px 0;
-  margin-bottom: 0;
+  padding: 0 60px 0;
+  margin-bottom: 32px;
 }
 
 .before-login-logo {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  margin-bottom: 8px;
+  margin-bottom: 12px;
 }
 
 .before-login-icon {
-  width: 44px;
-  height: 44px;
+  width: 48px;
+  height: 48px;
   border-radius: 12px;
   background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 22px;
   font-weight: 800;
   color: white;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
 }
 
 .before-login-name {
-  font-size: 20px;
+  font-size: 24px;
   font-weight: 800;
   color: #0f0e17;
-  letter-spacing: -0.03em;
+  letter-spacing: -0.04em;
 }
 
 .before-login-title {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
   color: #0f0e17;
   margin: 16px 0 6px;
@@ -721,21 +715,27 @@ a[href*="payloadcms.com"] {
 }
 
 .before-login-sub {
-  font-size: 14px;
-  color: #888;
-  margin: 0 0 28px;
+  font-size: 15px;
+  color: #666;
+  margin: 0;
 }
 
-/* 14. RESPONSIVE — mobile stacks vertically */
+/* Hide Payload's built-in step 1/2 text or extra generic headers if they exist */
+.login__form .step {
+  display: none !important;
+}
+
+/* 13. RESPONSIVE — mobile stacks vertically */
 @media (max-width: 768px) {
-  .template-minimal__wrap::before,
-  .template-minimal__wrap::after {
+  section.login.template-minimal::before,
+  section.login.template-minimal::after {
     display: none !important;
   }
 
-  .login {
+  .template-minimal__wrap {
     width: 100% !important;
     min-width: 100% !important;
+    max-width: 100% !important;
   }
 
   .before-login-wrap,
@@ -745,6 +745,7 @@ a[href*="payloadcms.com"] {
     padding-right: 28px !important;
   }
 }
+
 
 
 
