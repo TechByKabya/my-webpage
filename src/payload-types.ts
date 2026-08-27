@@ -1547,6 +1547,10 @@ export interface HomepageSetting {
 export interface SiteSetting {
   id: number;
   logo?: (number | null) | Media;
+  /**
+   * Upload an icon (ICO, PNG, or SVG). Recommended size: 32x32 or 64x64 pixels.
+   */
+  favicon?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1638,6 +1642,7 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
  */
 export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
+  favicon?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

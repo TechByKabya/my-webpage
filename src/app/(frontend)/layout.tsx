@@ -25,6 +25,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   try {
     const payload = await getPayload({ config: configPromise })
     const siteSettings = await payload.findGlobal({ slug: 'site-settings', depth: 1 })
+    // @ts-ignore
     const favicon = siteSettings?.favicon
     if (favicon && typeof favicon === 'object' && 'url' in favicon && favicon.url) {
       faviconUrl = favicon.url as string
