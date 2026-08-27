@@ -8,6 +8,7 @@ import { FixedToolbarFeature, HeadingFeature, lexicalEditor } from '@payloadcms/
 
 import { Page } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
+import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const generateTitle: GenerateTitle<Page> = ({ doc }) => {
   return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
@@ -20,6 +21,13 @@ const generateURL: GenerateURL<Page> = ({ doc }) => {
 }
 
 export const plugins: Plugin[] = [
+  vercelBlobStorage({
+    enabled: true,
+    collections: {
+      media: true,
+    },
+    token: process.env.BLOB_READ_WRITE_TOKEN,
+  }),
   redirectsPlugin({
     collections: ['pages'],
     overrides: {
