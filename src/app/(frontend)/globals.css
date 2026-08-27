@@ -134,6 +134,21 @@ body {
     color: var(--black);
     text-decoration: none;
     letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background: none !important;
+}
+
+.logo video {
+    display: block;
+    border: none !important;
+    box-shadow: none !important;
+    outline: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
 }
 
 .logo span {

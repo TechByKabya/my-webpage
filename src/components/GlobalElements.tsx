@@ -31,7 +31,31 @@ export default async function GlobalElements() {
 
       <header id="main-nav">
           <div className="nav-container">
-              <a href="/" className="logo">Kabya<span>.Dev</span></a>
+              {/* Logo — video or text fallback */}
+              <a href="/" className="logo" style={{ display: 'flex', alignItems: 'center', padding: 0, background: 'none' }}>
+                {logoVideoUrl ? (
+                  <video
+                    src={logoVideoUrl}
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    style={{
+                      height: '52px',
+                      width: '52px',
+                      objectFit: 'contain',
+                      display: 'block',
+                      mixBlendMode: 'multiply',
+                      border: 'none',
+                      outline: 'none',
+                      boxShadow: 'none',
+                      background: 'transparent',
+                    }}
+                  />
+                ) : (
+                  <>Kabya<span>.Dev</span></>
+                )}
+              </a>
 
               <ul className="menu" id="nav-menu">
                   {(settings.menuItems && settings.menuItems.length > 0 ? settings.menuItems : [
