@@ -17,7 +17,7 @@ export const HeroSlides: CollectionConfig = {
   admin: {
     useAsTitle: 'caption',
     defaultColumns: ['image', 'caption', 'order'],
-    group: '🖼️ Media',
+    group: 'Home Page Setup',
   },
   fields: [
     {

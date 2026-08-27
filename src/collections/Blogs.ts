@@ -6,7 +6,7 @@ export const Blogs: CollectionConfig = {
   slug: 'blogs',
   admin: {
     useAsTitle: 'title',
-    group: 'Content',
+    group: 'Blog Posts',
   },
   access: {
     create: authenticated,

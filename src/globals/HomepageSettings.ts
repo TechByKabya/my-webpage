@@ -10,7 +10,7 @@ export const HomepageSettings: GlobalConfig = {
     update: authenticated,
   },
   admin: {
-    group: 'Site Settings',
+    group: 'Home Page Setup',
   },
   fields: [
     // ── NAVIGATION MENU ──────────────────────────────────

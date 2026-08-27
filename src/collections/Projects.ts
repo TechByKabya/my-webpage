@@ -6,7 +6,8 @@ export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
     useAsTitle: 'title',
-    group: 'Content',
+    defaultColumns: ['title', 'slug', 'updatedAt'],
+    group: 'Projects',
   },
   access: {
     create: authenticated,
