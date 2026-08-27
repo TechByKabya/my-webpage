@@ -1,5 +1,5 @@
+'use client'
 import React from 'react'
-import '../Admin/admin.css'
 
 const BeforeDashboard: React.FC = () => {
   return (

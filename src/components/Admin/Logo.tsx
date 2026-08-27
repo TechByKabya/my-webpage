@@ -1,5 +1,5 @@
+'use client'
 import React from 'react'
-import './admin.css' // Import custom global styling
 
 export const Logo: React.FC = () => {
   return (
