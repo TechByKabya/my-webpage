@@ -22,7 +22,7 @@ const dirname = path.dirname(filename)
 export default buildConfig({
   admin: {
     meta: {
-      titleSuffix: '- CMS Dashboard',
+      titleSuffix: '- Kabya Dev CMS',
       icons: [{ rel: 'icon', type: 'image/png', url: '/admin-favicon.png' }],
     },
     components: {
@@ -30,8 +30,8 @@ export default buildConfig({
         Logo: '@/components/Admin/Logo#Logo',
         Icon: '@/components/Admin/Icon#Icon',
       },
-      // Custom admin dashboard welcome screen
       beforeDashboard: ['@/components/BeforeDashboard'],
+      beforeLogin: ['@/components/BeforeLogin'],
     },
     importMap: {
       baseDir: path.resolve(dirname),

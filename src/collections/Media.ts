@@ -24,7 +24,7 @@ export const Media: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    group: '🖼️ Media',
+    group: 'Media',
   },
   fields: [
     {

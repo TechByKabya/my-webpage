@@ -5,34 +5,37 @@ import Script from 'next/script'
 import { ClientScripts } from './ClientScripts'
 import './globals.css' // We ensure the global CSS is loaded
 
+// Revalidate every 60 seconds so image updates show without full rebuild
+export const revalidate = 60
+
 export default async function PortfolioHome() {
   const payload = await getPayload({ config: configPromise })
 
   // ── Fetch Global Settings ──
   const settings = await payload.findGlobal({
     slug: 'homepage-settings',
-    depth: 1, 
+    depth: 2, // depth 2 ensures media objects are fully resolved with url
   })
 
   // ── Fetch Projects ──
   const { docs: projects } = await payload.find({
     collection: 'projects',
-    depth: 1,
+    depth: 2,
     limit: 4,
   })
 
   // ── Fetch Blogs ──
   const { docs: blogs } = await payload.find({
     collection: 'blogs',
-    depth: 1,
+    depth: 2,
     limit: 4,
   })
 
-  // Safely extract media URLs
+  // Safely extract media URLs — works for Vercel Blob (https://...) and local (/media/...)
   const getMediaUrl = (mediaObj: any, defaultUrl: string) => {
-    if (mediaObj && typeof mediaObj === 'object' && mediaObj.url) {
-      return mediaObj.url
-    }
+    if (!mediaObj) return defaultUrl
+    if (typeof mediaObj === 'object' && mediaObj.url) return mediaObj.url
+    if (typeof mediaObj === 'string') return mediaObj
     return defaultUrl
   }
 
@@ -40,6 +43,7 @@ export default async function PortfolioHome() {
 
   // Extract variables with defaults
   const heroTitle = settings.heroTitle || 'Design.\nBuild.\nLearn.'
+
 
   return (
     <>

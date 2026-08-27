@@ -1,64 +1,547 @@
-/* Custom Admin Styles overrides for Payload */
+/* ============================================================
+   KABYA DEV CMS — FULL ADMIN PANEL THEME
+   Premium dark design with glassmorphism and modern styling
+   ============================================================ */
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+/* ── ROOT VARIABLES ──────────────────────────────────────── */
+:root {
+  --brand-primary: #6366f1;
+  --brand-secondary: #8b5cf6;
+  --brand-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  --brand-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+
+  --bg-base: #0a0a0f;
+  --bg-surface: #111118;
+  --bg-card: #16161f;
+  --bg-card-hover: #1c1c28;
+  --bg-input: #1a1a24;
+  --bg-border: rgba(99, 102, 241, 0.15);
+  --bg-border-hover: rgba(99, 102, 241, 0.35);
+
+  --text-primary: #f0f0ff;
+  --text-secondary: #a0a0c0;
+  --text-muted: #606080;
+  --text-brand: #818cf8;
+
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+
+  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
+  --shadow-btn: 0 4px 16px rgba(99, 102, 241, 0.4);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ── GLOBAL BASE ─────────────────────────────────────────── */
+* {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  box-sizing: border-box;
+}
+
+body,
+html {
+  background-color: var(--bg-base) !important;
+  color: var(--text-primary) !important;
+}
+
+/* ── SIDEBAR ─────────────────────────────────────────────── */
+.nav,
+[class*="nav__"],
+nav[class*="Nav"],
+.template-default__nav {
+  background: var(--bg-surface) !important;
+  border-right: 1px solid var(--bg-border) !important;
+  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+}
+
+/* Sidebar nav links */
+.nav__link,
+.nav-group__toggle,
+[class*="NavGroup"] a,
+[class*="nav__link"] {
+  color: var(--text-secondary) !important;
+  border-radius: var(--radius-sm) !important;
+  transition: var(--transition) !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.01em !important;
+}
+
+.nav__link:hover,
+[class*="nav__link"]:hover,
+[class*="NavGroup"] a:hover {
+  color: var(--text-primary) !important;
+  background: rgba(99, 102, 241, 0.12) !important;
+}
+
+.nav__link--active,
+[class*="nav__link--active"] {
+  color: var(--text-primary) !important;
+  background: rgba(99, 102, 241, 0.2) !important;
+  border-left: 3px solid var(--brand-primary) !important;
+}
+
+/* ── MAIN CONTENT AREA ───────────────────────────────────── */
+.template-default__wrap,
+.collection-list__wrap,
+[class*="DefaultTemplate"] main,
+main[class*="template"] {
+  background: var(--bg-base) !important;
+}
+
+/* ── TOP HEADER / TOOLBAR ────────────────────────────────── */
+.render-title,
+.collection-list__header,
+[class*="ListHeader"],
+.doc-header {
+  background: transparent !important;
+  border-bottom: 1px solid var(--bg-border) !important;
+}
+
+/* ── CARDS & PANELS ──────────────────────────────────────── */
+.render-fields,
+[class*="FieldCard"],
+.doc-controls,
+[class*="Card__"],
+.field-type,
+.section-title,
+.form-submit {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--bg-border) !important;
+  border-radius: var(--radius-md) !important;
+}
+
+/* ── INPUT FIELDS ────────────────────────────────────────── */
+input[type="text"],
+input[type="email"],
+input[type="password"],
+input[type="search"],
+input[type="url"],
+input[type="number"],
+textarea,
+select,
+.rs__control {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--bg-border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+  transition: var(--transition) !important;
+}
+
+input:focus,
+textarea:focus,
+select:focus,
+.rs__control--is-focused {
+  border-color: var(--brand-primary) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  outline: none !important;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--text-muted) !important;
+}
+
+/* ── LABELS ──────────────────────────────────────────────── */
+label,
+.field-label,
+.field-label__label {
+  color: var(--text-secondary) !important;
+  font-weight: 500 !important;
+  font-size: 13px !important;
+  letter-spacing: 0.03em !important;
+  text-transform: uppercase !important;
+}
+
+/* ── BUTTONS ─────────────────────────────────────────────── */
+.btn,
+button[class*="btn"],
+[class*="Button"] {
+  border-radius: var(--radius-sm) !important;
+  font-weight: 600 !important;
+  transition: var(--transition) !important;
+}
+
+/* Primary save/confirm button */
+.btn--style-primary,
+button[class*="btn--style-primary"],
+[class*="Button--style-primary"] {
+  background: var(--brand-gradient) !important;
+  border: none !important;
+  color: white !important;
+  box-shadow: var(--shadow-btn) !important;
+}
+
+.btn--style-primary:hover {
+  transform: translateY(-1px) !important;
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5) !important;
+}
+
+/* Secondary buttons */
+.btn--style-secondary,
+[class*="btn--style-secondary"] {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--bg-border-hover) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Delete/danger button */
+.btn--style-error,
+[class*="btn--style-error"] {
+  background: rgba(239, 68, 68, 0.15) !important;
+  border: 1px solid rgba(239, 68, 68, 0.3) !important;
+  color: #f87171 !important;
+}
+
+/* ── TABLES / LIST VIEW ──────────────────────────────────── */
+.table,
+[class*="Table"],
+.collection-list table {
+  background: var(--bg-card) !important;
+  border-radius: var(--radius-md) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--bg-border) !important;
+}
+
+thead,
+[class*="TableHeader"],
+th {
+  background: rgba(99, 102, 241, 0.08) !important;
+  color: var(--text-secondary) !important;
+  font-size: 12px !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.05em !important;
+  font-weight: 600 !important;
+}
+
+tbody tr,
+[class*="TableRow"] {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  transition: var(--transition) !important;
+}
+
+tbody tr:hover,
+[class*="TableRow"]:hover {
+  background: rgba(99, 102, 241, 0.06) !important;
+}
+
+td,
+[class*="TableCell"] {
+  color: var(--text-primary) !important;
+}
+
+/* ── STATUS BADGES ───────────────────────────────────────── */
+.pill,
+[class*="Pill"],
+[class*="status"] {
+  border-radius: 999px !important;
+  font-size: 11px !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.04em !important;
+  padding: 3px 10px !important;
+}
+
+/* ── TABS ────────────────────────────────────────────────── */
+.tabs-header__tabs-container,
+[class*="TabsHeader"] {
+  border-bottom: 1px solid var(--bg-border) !important;
+  background: transparent !important;
+}
+
+.tabs-header__tab-button,
+[class*="TabButton"] {
+  color: var(--text-muted) !important;
+  font-weight: 500 !important;
+  transition: var(--transition) !important;
+}
+
+.tabs-header__tab-button--active,
+[class*="TabButton--active"] {
+  color: var(--brand-primary) !important;
+  border-bottom: 2px solid var(--brand-primary) !important;
+}
+
+/* ── RICH TEXT EDITOR ────────────────────────────────────── */
+.ContentEditable__root,
+[class*="editor"],
+.lexical-editor-wrap {
+  background: var(--bg-input) !important;
+  border: 1px solid var(--bg-border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--text-primary) !important;
+  min-height: 200px !important;
+}
+
+/* ── MODAL / DIALOG ──────────────────────────────────────── */
+.popup,
+[class*="Modal"],
+[class*="Drawer"] {
+  background: var(--bg-card) !important;
+  border: 1px solid var(--bg-border) !important;
+  border-radius: var(--radius-lg) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* ── PAYLOAD WATERMARK — REMOVE ──────────────────────────── */
+.payload-credit,
+a[href*="payloadcms.com"] {
+  display: none !important;
+}
+
+/* ── SCROLLBAR ───────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-surface);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(99, 102, 241, 0.3);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(99, 102, 241, 0.5);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   LOGIN PAGE — FULL SCREEN CUSTOM DESIGN
+   ═══════════════════════════════════════════════════════════ */
+
+/* Wrap the entire login page */
+.login__wrap,
+[class*="Login"],
+.template-minimal,
+.template-minimal__wrap {
+  background: var(--bg-base) !important;
+  min-height: 100vh !important;
+}
+
+/* The login form card */
+.login,
+[class*="login__form"],
+.template-minimal__wrap .form-submit,
+.template-minimal__wrap [class*="Form"] {
+  background: rgba(22, 22, 31, 0.85) !important;
+  backdrop-filter: blur(20px) !important;
+  -webkit-backdrop-filter: blur(20px) !important;
+  border: 1px solid rgba(99, 102, 241, 0.25) !important;
+  border-radius: var(--radius-xl) !important;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), var(--brand-glow) !important;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD CARDS (BeforeDashboard component)
+   ═══════════════════════════════════════════════════════════ */
+.dashboard-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-gradient);
+  opacity: 0;
+  transition: var(--transition);
+  border-radius: inherit;
+}
+
+.dashboard-card:hover {
+  border-color: var(--bg-border-hover);
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-card);
+}
+
+.dashboard-card:hover::before {
+  opacity: 0.06;
+}
+
+.dashboard-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(99, 102, 241, 0.15);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.dashboard-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  position: relative;
+}
+
+.dashboard-card__desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  position: relative;
+}
+
+.dashboard-card__arrow {
+  margin-top: auto;
+  color: var(--text-brand);
+  font-size: 13px;
+  font-weight: 500;
+  position: relative;
+}
+
+/* Welcome header in BeforeDashboard */
+.dashboard-welcome {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 40px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.dashboard-welcome::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: var(--brand-gradient);
+  opacity: 0.04;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.dashboard-welcome__title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin: 0 0 6px 0;
+}
+
+.dashboard-welcome__sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+.dashboard-welcome__badge {
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-brand);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* Login page before-login content */
+.before-login-wrap {
+  text-align: center;
+  margin-bottom: 28px;
+}
+
+.before-login-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.before-login-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  font-weight: 800;
+  color: white;
+  box-shadow: var(--shadow-btn);
+}
+
+.before-login-name {
+  font-size: 24px;
+  font-weight: 800;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.before-login-title {
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0 0 8px 0;
+  letter-spacing: -0.02em;
+}
+
+.before-login-sub {
+  font-size: 14px;
+  color: var(--text-muted);
+  margin: 0;
+}
+
+/* Custom admin logo */
 .custom-admin-logo {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 10px;
   padding: 4px 0;
 }
 
 .custom-admin-logo .logo-icon {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  width: 36px;
-  height: 36px;
+  width: 34px;
+  height: 34px;
   border-radius: 10px;
+  background: var(--brand-gradient);
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 20px;
-  box-shadow: 0 4px 10px rgba(118, 75, 162, 0.4);
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: var(--shadow-btn);
+  flex-shrink: 0;
 }
 
 .custom-admin-logo .logo-text {
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.5px;
-  color: var(--theme-elevation-1000);
-  background: -webkit-linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: var(--brand-gradient);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-}
-
-/* Hide Payload watermark / credit if present in sidebar or bottom */
-.payload-credit, a[href*="payloadcms.com"] {
-  display: none !important;
-}
-
-/* Adjust general theme slightly for a customized feel */
-html[data-theme='dark'] {
-  --theme-bg: #0F172A;
-  --theme-elevation-50: #1E293B;
-  --theme-elevation-100: #334155;
-  --theme-elevation-150: #475569;
-}
-
-/* BeforeDashboard Hover Cards */
-.dashboard-card {
-  background: rgba(255, 255, 255, 0.08);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
-  padding: 20px;
-  text-decoration: none;
-  color: white;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-  display: flex;
-  flex-direction: column;
-  height: 100%;
-}
-
-.dashboard-card:hover {
-  background: rgba(255, 255, 255, 0.15);
-  border-color: rgba(255, 255, 255, 0.2);
-  transform: translateY(-2px);
+  background-clip: text;
 }

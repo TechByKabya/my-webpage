@@ -2,19 +2,21 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
+export const revalidate = 60
+
 export default async function BlogsPage() {
   const payload = await getPayload({ config: configPromise })
 
   const { docs: blogs } = await payload.find({
     collection: 'blogs',
-    depth: 1,
+    depth: 2,
     limit: 100,
   })
 
   const getMediaUrl = (mediaObj: any, defaultUrl: string) => {
-    if (mediaObj && typeof mediaObj === 'object' && mediaObj.url) {
-      return mediaObj.url
-    }
+    if (!mediaObj) return defaultUrl
+    if (typeof mediaObj === 'object' && mediaObj.url) return mediaObj.url
+    if (typeof mediaObj === 'string') return mediaObj
     return defaultUrl
   }
 
