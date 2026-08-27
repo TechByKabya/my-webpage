@@ -1,37 +1,37 @@
 /* ============================================================
    KABYA DEV CMS — FULL ADMIN PANEL THEME
-   Premium dark design with glassmorphism and modern styling
+   Modern, Clean, White UI inspired by Tailwind & Indigo Accents
    ============================================================ */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
 /* ── ROOT VARIABLES ──────────────────────────────────────── */
 :root {
-  --brand-primary: #6366f1;
-  --brand-secondary: #8b5cf6;
-  --brand-gradient: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  --brand-glow: 0 0 20px rgba(99, 102, 241, 0.4);
+  --brand-primary: #4f46e5; /* Tailwind Indigo-600 */
+  --brand-secondary: #6366f1; /* Tailwind Indigo-500 */
+  --brand-gradient: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+  --brand-glow: 0 4px 14px rgba(79, 70, 229, 0.25);
 
-  --bg-base: #0a0a0f;
-  --bg-surface: #111118;
-  --bg-card: #16161f;
-  --bg-card-hover: #1c1c28;
-  --bg-input: #1a1a24;
-  --bg-border: rgba(99, 102, 241, 0.15);
-  --bg-border-hover: rgba(99, 102, 241, 0.35);
+  --bg-base: #f8fafc; /* Very light slate for main body */
+  --bg-surface: #ffffff; /* Pure white for sidebar/cards */
+  --bg-card: #ffffff;
+  --bg-card-hover: #f1f5f9;
+  --bg-input: #f8fafc;
+  --bg-border: #e2e8f0;
+  --bg-border-hover: #cbd5e1;
 
-  --text-primary: #f0f0ff;
-  --text-secondary: #a0a0c0;
-  --text-muted: #606080;
-  --text-brand: #818cf8;
+  --text-primary: #0f172a; /* Slate 900 */
+  --text-secondary: #475569; /* Slate 600 */
+  --text-muted: #94a3b8; /* Slate 400 */
+  --text-brand: #4f46e5;
 
   --radius-sm: 8px;
   --radius-md: 12px;
   --radius-lg: 16px;
   --radius-xl: 24px;
 
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.4);
-  --shadow-btn: 0 4px 16px rgba(99, 102, 241, 0.4);
+  --shadow-card: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-btn: 0 4px 12px rgba(79, 70, 229, 0.25);
   --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
@@ -54,7 +54,7 @@ nav[class*="Nav"],
 .template-default__nav {
   background: var(--bg-surface) !important;
   border-right: 1px solid var(--bg-border) !important;
-  box-shadow: 4px 0 24px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 1px 0 10px rgba(0, 0, 0, 0.02) !important;
 }
 
 /* Sidebar nav links */
@@ -73,13 +73,13 @@ nav[class*="Nav"],
 [class*="nav__link"]:hover,
 [class*="NavGroup"] a:hover {
   color: var(--text-primary) !important;
-  background: rgba(99, 102, 241, 0.12) !important;
+  background: rgba(79, 70, 229, 0.06) !important;
 }
 
 .nav__link--active,
 [class*="nav__link--active"] {
-  color: var(--text-primary) !important;
-  background: rgba(99, 102, 241, 0.2) !important;
+  color: var(--brand-primary) !important;
+  background: rgba(79, 70, 229, 0.1) !important;
   border-left: 3px solid var(--brand-primary) !important;
 }
 
@@ -96,7 +96,9 @@ main[class*="template"] {
 .collection-list__header,
 [class*="ListHeader"],
 .doc-header {
-  background: transparent !important;
+  background: rgba(255, 255, 255, 0.8) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
   border-bottom: 1px solid var(--bg-border) !important;
 }
 
@@ -111,6 +113,7 @@ main[class*="template"] {
   background: var(--bg-card) !important;
   border: 1px solid var(--bg-border) !important;
   border-radius: var(--radius-md) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 /* ── INPUT FIELDS ────────────────────────────────────────── */
@@ -135,7 +138,8 @@ textarea:focus,
 select:focus,
 .rs__control--is-focused {
   border-color: var(--brand-primary) !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  background: #ffffff !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
   outline: none !important;
 }
 
@@ -149,7 +153,7 @@ label,
 .field-label,
 .field-label__label {
   color: var(--text-secondary) !important;
-  font-weight: 500 !important;
+  font-weight: 600 !important;
   font-size: 13px !important;
   letter-spacing: 0.03em !important;
   text-transform: uppercase !important;
@@ -176,23 +180,26 @@ button[class*="btn--style-primary"],
 
 .btn--style-primary:hover {
   transform: translateY(-1px) !important;
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.5) !important;
+  box-shadow: 0 6px 16px rgba(79, 70, 229, 0.35) !important;
 }
 
 /* Secondary buttons */
 .btn--style-secondary,
 [class*="btn--style-secondary"] {
   background: var(--bg-card) !important;
-  border: 1px solid var(--bg-border-hover) !important;
+  border: 1px solid var(--bg-border) !important;
   color: var(--text-primary) !important;
+}
+.btn--style-secondary:hover {
+  background: var(--bg-input) !important;
 }
 
 /* Delete/danger button */
 .btn--style-error,
 [class*="btn--style-error"] {
-  background: rgba(239, 68, 68, 0.15) !important;
-  border: 1px solid rgba(239, 68, 68, 0.3) !important;
-  color: #f87171 !important;
+  background: rgba(239, 68, 68, 0.1) !important;
+  border: 1px solid rgba(239, 68, 68, 0.2) !important;
+  color: #ef4444 !important;
 }
 
 /* ── TABLES / LIST VIEW ──────────────────────────────────── */
@@ -203,28 +210,30 @@ button[class*="btn--style-primary"],
   border-radius: var(--radius-md) !important;
   overflow: hidden !important;
   border: 1px solid var(--bg-border) !important;
+  box-shadow: var(--shadow-card) !important;
 }
 
 thead,
 [class*="TableHeader"],
 th {
-  background: rgba(99, 102, 241, 0.08) !important;
+  background: var(--bg-input) !important;
   color: var(--text-secondary) !important;
   font-size: 12px !important;
   text-transform: uppercase !important;
   letter-spacing: 0.05em !important;
   font-weight: 600 !important;
+  border-bottom: 1px solid var(--bg-border) !important;
 }
 
 tbody tr,
 [class*="TableRow"] {
-  border-bottom: 1px solid rgba(255, 255, 255, 0.04) !important;
+  border-bottom: 1px solid var(--bg-border) !important;
   transition: var(--transition) !important;
 }
 
 tbody tr:hover,
 [class*="TableRow"]:hover {
-  background: rgba(99, 102, 241, 0.06) !important;
+  background: var(--bg-input) !important;
 }
 
 td,
@@ -240,7 +249,7 @@ td,
   font-size: 11px !important;
   font-weight: 600 !important;
   letter-spacing: 0.04em !important;
-  padding: 3px 10px !important;
+  padding: 4px 12px !important;
 }
 
 /* ── TABS ────────────────────────────────────────────────── */
@@ -281,7 +290,7 @@ td,
   background: var(--bg-card) !important;
   border: 1px solid var(--bg-border) !important;
   border-radius: var(--radius-lg) !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6) !important;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ── PAYLOAD WATERMARK — REMOVE ──────────────────────────── */
@@ -296,218 +305,26 @@ a[href*="payloadcms.com"] {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: var(--bg-surface);
+  background: var(--bg-base);
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(99, 102, 241, 0.3);
+  background: #cbd5e1;
   border-radius: 999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(99, 102, 241, 0.5);
-}
-
-/* ═══════════════════════════════════════════════════════════
-   LOGIN PAGE — FULL SCREEN CUSTOM DESIGN
-   ═══════════════════════════════════════════════════════════ */
-
-/* Wrap the entire login page */
-.login__wrap,
-[class*="Login"],
-.template-minimal,
-.template-minimal__wrap {
-  background: var(--bg-base) !important;
-  min-height: 100vh !important;
-}
-
-/* The login form card */
-.login,
-[class*="login__form"],
-.template-minimal__wrap .form-submit,
-.template-minimal__wrap [class*="Form"] {
-  background: rgba(22, 22, 31, 0.85) !important;
-  backdrop-filter: blur(20px) !important;
-  -webkit-backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(99, 102, 241, 0.25) !important;
-  border-radius: var(--radius-xl) !important;
-  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.6), var(--brand-glow) !important;
-}
-
-/* ═══════════════════════════════════════════════════════════
-   DASHBOARD CARDS (BeforeDashboard component)
-   ═══════════════════════════════════════════════════════════ */
-.dashboard-card {
-  background: var(--bg-card);
-  border: 1px solid var(--bg-border);
-  border-radius: var(--radius-md);
-  padding: 24px;
-  text-decoration: none;
-  color: var(--text-primary);
-  transition: var(--transition);
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  position: relative;
-  overflow: hidden;
-}
-
-.dashboard-card::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: var(--brand-gradient);
-  opacity: 0;
-  transition: var(--transition);
-  border-radius: inherit;
-}
-
-.dashboard-card:hover {
-  border-color: var(--bg-border-hover);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card);
-}
-
-.dashboard-card:hover::before {
-  opacity: 0.06;
-}
-
-.dashboard-card__icon {
-  width: 44px;
-  height: 44px;
-  border-radius: var(--radius-sm);
-  background: rgba(99, 102, 241, 0.15);
-  border: 1px solid rgba(99, 102, 241, 0.25);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 8px;
-}
-
-.dashboard-card__title {
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--text-primary);
-  position: relative;
-}
-
-.dashboard-card__desc {
-  font-size: 13px;
-  color: var(--text-muted);
-  line-height: 1.5;
-  position: relative;
-}
-
-.dashboard-card__arrow {
-  margin-top: auto;
-  color: var(--text-brand);
-  font-size: 13px;
-  font-weight: 500;
-  position: relative;
-}
-
-/* Welcome header in BeforeDashboard */
-.dashboard-welcome {
-  background: var(--bg-card);
-  border: 1px solid var(--bg-border);
-  border-radius: var(--radius-lg);
-  padding: 32px 40px;
-  margin-bottom: 28px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  position: relative;
-  overflow: hidden;
-}
-
-.dashboard-welcome::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  right: -100px;
-  width: 400px;
-  height: 400px;
-  background: var(--brand-gradient);
-  opacity: 0.04;
-  border-radius: 50%;
-  pointer-events: none;
-}
-
-.dashboard-welcome__title {
-  font-size: 26px;
-  font-weight: 800;
-  color: var(--text-primary);
-  letter-spacing: -0.03em;
-  margin: 0 0 6px 0;
-}
-
-.dashboard-welcome__sub {
-  font-size: 14px;
-  color: var(--text-muted);
-  margin: 0;
-}
-
-.dashboard-welcome__badge {
-  background: rgba(99, 102, 241, 0.12);
-  border: 1px solid rgba(99, 102, 241, 0.25);
-  border-radius: 999px;
-  padding: 6px 16px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text-brand);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-}
-
-.dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 16px;
-}
-
-/* ─── Custom Admin Logo (Sidebar) ───────────────────────── */
-.custom-admin-logo {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 4px 0;
-}
-
-.custom-admin-logo .logo-icon {
-  width: 34px;
-  height: 34px;
-  border-radius: 10px;
-  background: var(--brand-gradient);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 16px;
-  font-weight: 800;
-  box-shadow: var(--shadow-btn);
-  flex-shrink: 0;
-}
-
-.custom-admin-logo .logo-text {
-  font-size: 17px;
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  background: var(--brand-gradient);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  background: #94a3b8;
 }
 
 /* ═══════════════════════════════════════════════════════════
    LOGIN PAGE — SPLIT SCREEN DESIGN (FIXED DOM STRUCTURE)
-   In Payload 3, the outermost element is <section class="login template-minimal">
-   Inside it is <div class="template-minimal__wrap"> containing the form
    ═══════════════════════════════════════════════════════════ */
 
-/* 1. OUTER PAGE WRAPPER — dark left background */
+/* 1. OUTER PAGE WRAPPER — Indigo left background */
 section.login.template-minimal {
   width: 100% !important;
   max-width: 100% !important;
   min-height: 100vh !important;
-  background: linear-gradient(145deg, #0d0720 0%, #160b35 50%, #0a0f2e 100%) !important;
+  background: linear-gradient(145deg, #4f46e5 0%, #3730a3 50%, #312e81 100%) !important;
   padding: 0 !important;
   margin: 0 !important;
   position: relative !important;
@@ -515,10 +332,10 @@ section.login.template-minimal {
   display: flex !important;
   flex-direction: row !important;
   align-items: stretch !important;
-  justify-content: flex-end !important; /* pushes inner wrap to right */
+  justify-content: flex-end !important;
 }
 
-/* 2. GLOW ORB on the dark left side */
+/* 2. GLOW ORB on the Indigo left side */
 section.login.template-minimal::before {
   content: '' !important;
   position: absolute !important;
@@ -527,13 +344,13 @@ section.login.template-minimal::before {
   transform: translate(-50%, -50%) !important;
   width: 480px !important;
   height: 480px !important;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(99, 102, 241, 0.15) 50%, transparent 70%) !important;
+  background: radial-gradient(circle, rgba(167, 139, 250, 0.4) 0%, rgba(139, 92, 246, 0.15) 50%, transparent 70%) !important;
   border-radius: 50% !important;
   pointer-events: none !important;
   z-index: 0 !important;
 }
 
-/* 3. "Design. Build. Learn." text on the dark left */
+/* 3. Text on the left */
 section.login.template-minimal::after {
   content: 'Design.\A Build.\A Learn.' !important;
   white-space: pre !important;
@@ -549,7 +366,6 @@ section.login.template-minimal::after {
   letter-spacing: -0.04em !important;
   z-index: 1 !important;
   pointer-events: none !important;
-  text-shadow: 0 0 80px rgba(139, 92, 246, 0.6) !important;
 }
 
 /* 4. THE LOGIN CONTAINER (Right white panel) */
@@ -560,7 +376,7 @@ section.login.template-minimal::after {
   min-height: 100vh !important;
   background: #ffffff !important;
   border-radius: 0 !important;
-  box-shadow: -30px 0 80px rgba(0, 0, 0, 0.5) !important;
+  box-shadow: -20px 0 60px rgba(0, 0, 0, 0.15) !important;
   padding: 0 !important;
   margin: 0 !important;
   display: flex !important;
@@ -570,12 +386,12 @@ section.login.template-minimal::after {
   z-index: 10 !important;
 }
 
-/* 5. LOGO AREA (Hide Payload's Default Logo) */
+/* 5. LOGO AREA */
 .login__brand {
   display: none !important;
 }
 
-/* 6. THE FORM — padding and layout */
+/* 6. THE FORM */
 .login__form,
 .login form,
 .payload-form,
@@ -602,46 +418,45 @@ section.login.template-minimal::after {
   margin-bottom: 20px !important;
 }
 
-/* 8. ALL INPUT FIELDS — pill shaped, clean */
+/* 8. ALL INPUT FIELDS */
 .login__form input,
 .login__form .field-type input {
-  background: #f5f5f7 !important;
-  border: 1.5px solid #e2e2e8 !important;
-  border-radius: 50px !important;
-  color: #111 !important;
+  background: #f8fafc !important;
+  border: 1.5px solid #e2e8f0 !important;
+  border-radius: 12px !important;
+  color: #0f172a !important;
   font-size: 15px !important;
   height: 52px !important;
-  padding: 0 22px !important;
-  width: 100% !important;
+  padding: 0 20px !important;
   font-family: 'Inter', sans-serif !important;
   transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
 .login__form input:focus {
-  border-color: #6366f1 !important;
+  border-color: #4f46e5 !important;
   background: #ffffff !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15) !important;
   outline: none !important;
 }
 
 .login__form input::placeholder {
-  color: #aaa !important;
+  color: #94a3b8 !important;
 }
 
 /* 9. FIELD LABELS */
 .login__form label,
 .login__form .field-label {
-  color: #555 !important;
+  color: #475569 !important;
   font-size: 13px !important;
   font-weight: 600 !important;
-  text-transform: none !important;
-  letter-spacing: 0 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.02em !important;
   margin-bottom: 8px !important;
 }
 
 /* 10. FORGOT PASSWORD LINK */
 .login__form a {
-  color: #6366f1 !important;
+  color: #4f46e5 !important;
   font-size: 13.5px !important;
   font-weight: 600 !important;
   text-decoration: none !important;
@@ -650,17 +465,17 @@ section.login.template-minimal::after {
 }
 
 .login__form a:hover {
-  color: #8b5cf6 !important;
+  color: #6366f1 !important;
   text-decoration: underline !important;
 }
 
-/* 11. SUBMIT BUTTON — bold gradient pill */
+/* 11. SUBMIT BUTTON */
 .login__form .form-submit button,
 .login__form button[type="submit"],
 .login__form .btn {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%) !important;
   border: none !important;
-  border-radius: 50px !important;
+  border-radius: 12px !important;
   color: #ffffff !important;
   font-family: 'Inter', sans-serif !important;
   font-size: 16px !important;
@@ -668,7 +483,7 @@ section.login.template-minimal::after {
   height: 54px !important;
   width: 100% !important;
   cursor: pointer !important;
-  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.35) !important;
+  box-shadow: 0 6px 20px rgba(79, 70, 229, 0.25) !important;
   transition: transform 0.2s, box-shadow 0.2s !important;
   letter-spacing: 0.01em !important;
 }
@@ -676,7 +491,7 @@ section.login.template-minimal::after {
 .login__form .form-submit button:hover,
 .login__form button[type="submit"]:hover {
   transform: translateY(-2px) !important;
-  box-shadow: 0 12px 32px rgba(99, 102, 241, 0.5) !important;
+  box-shadow: 0 8px 24px rgba(79, 70, 229, 0.35) !important;
 }
 
 /* 12. The BeforeLogin branding component */
@@ -697,55 +512,51 @@ section.login.template-minimal::after {
   width: 48px;
   height: 48px;
   border-radius: 12px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 22px;
   font-weight: 800;
   color: white;
-  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.3);
+  box-shadow: 0 4px 14px rgba(79, 70, 229, 0.3);
 }
 
 .before-login-name {
   font-size: 24px;
   font-weight: 800;
-  color: #0f0e17;
+  color: #0f172a;
   letter-spacing: -0.04em;
 }
 
 .before-login-title {
   font-size: 32px;
   font-weight: 800;
-  color: #0f0e17;
+  color: #0f172a;
   margin: 16px 0 6px;
   letter-spacing: -0.03em;
 }
 
 .before-login-sub {
   font-size: 15px;
-  color: #666;
+  color: #64748b;
   margin: 0;
 }
 
-/* Hide Payload's built-in step 1/2 text or extra generic headers if they exist */
 .login__form .step {
   display: none !important;
 }
 
-/* 13. RESPONSIVE — mobile stacks vertically */
 @media (max-width: 768px) {
   section.login.template-minimal::before,
   section.login.template-minimal::after {
     display: none !important;
   }
-
   .template-minimal__wrap {
     width: 100% !important;
     min-width: 100% !important;
     max-width: 100% !important;
   }
-
   .before-login-wrap,
   .login__brand,
   .login__form {
@@ -754,8 +565,169 @@ section.login.template-minimal::after {
   }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   DASHBOARD CARDS (BeforeDashboard component)
+   ═══════════════════════════════════════════════════════════ */
+.dashboard-card {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-md);
+  padding: 24px;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: var(--transition);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
 
+.dashboard-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: var(--brand-gradient);
+  opacity: 0;
+  transition: var(--transition);
+  border-radius: inherit;
+}
 
+.dashboard-card:hover {
+  border-color: var(--bg-border-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+}
 
+.dashboard-card:hover::before {
+  opacity: 0.03;
+}
 
+.dashboard-card__icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-sm);
+  background: rgba(79, 70, 229, 0.1);
+  border: 1px solid rgba(79, 70, 229, 0.15);
+  color: var(--brand-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
 
+.dashboard-card__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text-primary);
+  position: relative;
+}
+
+.dashboard-card__desc {
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+  position: relative;
+}
+
+.dashboard-card__arrow {
+  margin-top: auto;
+  color: var(--brand-primary);
+  font-size: 13px;
+  font-weight: 600;
+  position: relative;
+}
+
+/* Welcome header in BeforeDashboard */
+.dashboard-welcome {
+  background: var(--bg-card);
+  border: 1px solid var(--bg-border);
+  border-radius: var(--radius-lg);
+  padding: 32px 40px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+}
+
+.dashboard-welcome::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -100px;
+  width: 400px;
+  height: 400px;
+  background: var(--brand-gradient);
+  opacity: 0.05;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.dashboard-welcome__title {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  margin: 0 0 6px 0;
+}
+
+.dashboard-welcome__sub {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.dashboard-welcome__badge {
+  background: rgba(79, 70, 229, 0.1);
+  border: 1px solid rgba(79, 70, 229, 0.2);
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--brand-primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+/* ─── Custom Admin Logo (Sidebar) ───────────────────────── */
+.custom-admin-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 0;
+}
+
+.custom-admin-logo .logo-icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  background: var(--brand-gradient);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 16px;
+  font-weight: 800;
+  box-shadow: var(--shadow-btn);
+  flex-shrink: 0;
+}
+
+.custom-admin-logo .logo-text {
+  font-size: 17px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  background: var(--brand-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
