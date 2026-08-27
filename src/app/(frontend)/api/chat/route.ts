@@ -1,5 +1,5 @@
 import { google } from '@ai-sdk/google';
-import { streamText, convertToCoreMessages } from 'ai';
+import { streamText } from 'ai';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 
@@ -25,10 +25,13 @@ export async function POST(req: Request) {
     const result = await streamText({
       model: google('gemini-1.5-flash-latest'),
       system: systemPrompt,
-      messages: convertToCoreMessages(messages),
+      messages: messages.map((m: any) => ({
+        role: m.role,
+        content: m.content,
+      })),
     });
 
-    return result.toDataStreamResponse();
+    return result.toTextStreamResponse();
   } catch (error) {
     console.error('Chat API Error:', error);
     return new Response('An error occurred during chat.', { status: 500 });
