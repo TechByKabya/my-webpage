@@ -63,6 +63,12 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
           )
         }
       }
+
+      if (!botText.trim()) {
+        setMessages(prev =>
+          prev.map(m => m.id === botId ? { ...m, content: 'Sorry, the AI is currently unavailable (API Key missing or invalid).' } : m)
+        )
+      }
     } catch {
       setMessages(prev => [
         ...prev,

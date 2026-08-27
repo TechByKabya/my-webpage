@@ -40,6 +40,11 @@ export default async function GlobalElements() {
                     muted
                     loop
                     playsInline
+                    onLoadedData={(e) => {
+                      if (e.currentTarget.currentTime < 1) {
+                        e.currentTarget.currentTime = 1
+                      }
+                    }}
                     style={{
                       height: '52px',
                       width: '52px',

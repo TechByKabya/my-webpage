@@ -84,6 +84,11 @@ export const SplashScreen = ({ logoVideoUrl }: SplashScreenProps) => {
           muted
           loop
           playsInline
+          onLoadedData={(e) => {
+            if (e.currentTarget.currentTime < 1) {
+              e.currentTarget.currentTime = 1
+            }
+          }}
           style={{
             width: '180px',
             height: '180px',
