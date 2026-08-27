@@ -32,7 +32,7 @@ export const plugins: Plugin[] = [
     collections: ['pages'],
     overrides: {
       admin: {
-        group: 'System',
+        hidden: () => true,
       },
       // @ts-expect-error - This is a valid override, mapped fields don't resolve to the same type
       fields: ({ defaultFields }) => {
@@ -63,7 +63,7 @@ export const plugins: Plugin[] = [
     },
     formOverrides: {
       admin: {
-        group: 'System',
+        hidden: () => true,
       },
       fields: ({ defaultFields }) => {
         return defaultFields.map((field) => {
@@ -87,7 +87,7 @@ export const plugins: Plugin[] = [
     },
     formSubmissionOverrides: {
       admin: {
-        group: 'System',
+        hidden: () => true,
       },
     },
   }),
