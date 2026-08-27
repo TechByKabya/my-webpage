@@ -570,15 +570,23 @@ section.login.template-minimal::after {
   z-index: 10 !important;
 }
 
-/* 5. LOGO AREA inside the white panel */
+/* 5. LOGO AREA (Hide Payload's Default Logo) */
 .login__brand {
-  display: flex !important;
-  justify-content: center !important;
-  margin-bottom: 24px !important;
-  padding: 0 52px !important;
+  display: none !important;
 }
 
 /* 6. THE FORM — padding and layout */
+.login__form,
+.login form,
+.payload-form,
+.payload-form-wrapper,
+.login__form__inputWrap,
+.login__form div:not(.login__brand) {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
 .login__form {
   padding: 0 60px 60px !important;
   display: flex !important;
