@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useRef } from 'react'
-import { motion, useInView } from 'framer-motion'
+import { motion, useInView, Variants } from 'framer-motion'
 
 export type SkillItem = {
   id?: string
@@ -63,12 +63,12 @@ const DEFAULT_SKILLS: SkillItem[] = [
   { name: 'AIoT / Edge AI', description: 'TensorFlow Lite, ONNX, CV', icon: 'ai', color: 'purple' },
 ]
 
-const container = {
+const container: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.1 } },
 }
 
-const cardVariant = {
+const cardVariant: Variants = {
   hidden: { opacity: 0, y: 40 },
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
 }
