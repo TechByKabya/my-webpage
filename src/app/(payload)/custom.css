@@ -463,55 +463,7 @@ a[href*="payloadcms.com"] {
   gap: 16px;
 }
 
-/* Login page before-login content — right panel branding */
-.before-login-wrap {
-  text-align: center;
-  margin-bottom: 32px;
-}
-
-.before-login-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
-}
-
-.before-login-icon {
-  width: 46px;
-  height: 46px;
-  border-radius: 13px;
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 20px;
-  font-weight: 800;
-  color: white;
-  box-shadow: 0 4px 16px rgba(99, 102, 241, 0.45);
-}
-
-.before-login-name {
-  font-size: 20px;
-  font-weight: 800;
-  color: #0f0e17;
-  letter-spacing: -0.03em;
-}
-
-.before-login-title {
-  font-size: 30px;
-  font-weight: 800;
-  color: #0f0e17;
-  margin: 0 0 8px 0;
-  letter-spacing: -0.03em;
-}
-
-.before-login-sub {
-  font-size: 15px;
-  color: #888;
-  margin: 0;
-}
-
-/* Custom admin logo (sidebar) */
+/* ─── Custom Admin Logo (Sidebar) ───────────────────────── */
 .custom-admin-logo {
   display: flex;
   align-items: center;
@@ -545,190 +497,256 @@ a[href*="payloadcms.com"] {
 }
 
 /* ═══════════════════════════════════════════════════════════
-   LOGIN PAGE — FULL SPLIT SCREEN LAYOUT (Payoneer Style)
+   LOGIN PAGE — SPLIT SCREEN DESIGN
+   Exact class names taken from Payload source code
    Left: Dark branded panel | Right: White clean form
    ═══════════════════════════════════════════════════════════ */
 
-/* Full-page dark background — this is the LEFT panel */
-.template-minimal,
-[class*="template-minimal"]:not([class*="__"]) {
+/* 1. OUTER PAGE WRAPPER — dark left background */
+.template-minimal {
   min-height: 100vh !important;
   background: linear-gradient(145deg, #0d0720 0%, #160b35 50%, #0a0f2e 100%) !important;
   padding: 0 !important;
   margin: 0 !important;
   position: relative !important;
   overflow: hidden !important;
-  display: flex !important;
-  align-items: stretch !important;
 }
 
-/* Left panel glow orb */
-.template-minimal::before {
+/* 2. INNER WRAP — flex row, pushes login card to the right */
+.template-minimal__wrap {
+  min-height: 100vh !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: stretch !important;
+  justify-content: flex-end !important;
+}
+
+/* 3. GLOW ORB on the dark left side */
+.template-minimal__wrap::before {
   content: '' !important;
   position: absolute !important;
-  left: 18% !important;
+  left: 20% !important;
   top: 50% !important;
   transform: translate(-50%, -50%) !important;
-  width: 560px !important;
-  height: 560px !important;
-  background: radial-gradient(circle, rgba(139, 92, 246, 0.35) 0%, rgba(99, 102, 241, 0.15) 45%, transparent 70%) !important;
+  width: 480px !important;
+  height: 480px !important;
+  background: radial-gradient(circle, rgba(139, 92, 246, 0.4) 0%, rgba(99, 102, 241, 0.15) 50%, transparent 70%) !important;
   border-radius: 50% !important;
   pointer-events: none !important;
   z-index: 0 !important;
 }
 
-/* Left panel text: "Design. Build. Learn." */
-.template-minimal::after {
-  content: 'Design.\AaBuild.\AaLearn.' !important;
+/* 4. "Design. Build. Learn." text on the dark left */
+.template-minimal__wrap::after {
+  content: 'Design.\A Build.\A Learn.' !important;
   white-space: pre !important;
   position: absolute !important;
   left: 5% !important;
-  bottom: 10% !important;
+  top: 50% !important;
+  transform: translateY(-50%) !important;
   font-family: 'Inter', sans-serif !important;
-  font-size: clamp(36px, 5vw, 64px) !important;
+  font-size: clamp(40px, 4.5vw, 68px) !important;
   font-weight: 900 !important;
   line-height: 1.05 !important;
-  color: white !important;
-  letter-spacing: -0.03em !important;
-  z-index: 2 !important;
+  color: #ffffff !important;
+  letter-spacing: -0.04em !important;
+  z-index: 1 !important;
   pointer-events: none !important;
-  max-width: 40% !important;
-  text-shadow: 0 0 60px rgba(139, 92, 246, 0.5) !important;
+  text-shadow: 0 0 80px rgba(139, 92, 246, 0.6) !important;
 }
 
-/* The wrap — stretches full width */
-.template-minimal__wrap,
-[class*="template-minimal__wrap"] {
-  width: 100% !important;
-  max-width: 100% !important;
+/* 5. THE LOGIN CONTAINER — right white panel */
+.login {
+  width: 500px !important;
+  min-width: 500px !important;
   min-height: 100vh !important;
-  margin: 0 !important;
+  background: #ffffff !important;
+  border-radius: 0 !important;
+  box-shadow: -30px 0 80px rgba(0, 0, 0, 0.5) !important;
   padding: 0 !important;
+  margin: 0 !important;
   display: flex !important;
-  align-items: stretch !important;
-  justify-content: flex-end !important;
+  flex-direction: column !important;
+  justify-content: center !important;
   position: relative !important;
   z-index: 10 !important;
 }
 
-/* RIGHT PANEL — The login card, anchored to the right */
-.login,
-[class*="login"]:not([class*="__"]):not(button):not(a):not(input):not(label) {
-  width: 480px !important;
-  max-width: 480px !important;
-  min-height: 100vh !important;
-  background: #ffffff !important;
-  border-radius: 0 !important;
-  box-shadow: -24px 0 80px rgba(0, 0, 0, 0.5) !important;
-  padding: 60px 52px !important;
+/* 6. LOGO AREA inside the white panel */
+.login__brand {
+  display: flex !important;
+  justify-content: center !important;
+  margin-bottom: 36px !important;
+  padding: 0 52px !important;
+}
+
+/* 7. THE FORM — padding and layout */
+.login__form {
+  padding: 0 52px 52px !important;
   display: flex !important;
   flex-direction: column !important;
-  justify-content: center !important;
-  margin: 0 !important;
-  border: none !important;
-  position: relative !important;
-  z-index: 20 !important;
-  backdrop-filter: none !important;
+  gap: 0 !important;
 }
 
-/* Override inputs for the white right panel */
-.login input[type="email"],
-.login input[type="password"],
-.login input[type="text"],
-[class*="login"] input {
+/* 8. INPUTS WRAPPER */
+.login__form__inputWrap {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
+  margin-bottom: 16px !important;
+}
+
+/* 9. ALL INPUT FIELDS — pill shaped, clean */
+.login__form input,
+.login__form .field-type input {
   background: #f5f5f7 !important;
-  border: 1.5px solid #e5e5ea !important;
+  border: 1.5px solid #e2e2e8 !important;
   border-radius: 50px !important;
-  color: #0f0e17 !important;
-  padding: 14px 22px !important;
+  color: #111 !important;
   font-size: 15px !important;
-  transition: all 0.2s ease !important;
   height: 52px !important;
+  padding: 0 22px !important;
+  width: 100% !important;
+  font-family: 'Inter', sans-serif !important;
+  transition: border-color 0.2s, box-shadow 0.2s !important;
 }
 
-.login input:focus,
-[class*="login"] input:focus {
+.login__form input:focus {
   border-color: #6366f1 !important;
   background: #ffffff !important;
-  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.12) !important;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15) !important;
   outline: none !important;
 }
 
-.login input::placeholder,
-[class*="login"] input::placeholder {
+.login__form input::placeholder {
   color: #aaa !important;
 }
 
-/* Labels in login form */
-.login label,
-[class*="login"] label {
-  color: #444 !important;
+/* 10. FIELD LABELS */
+.login__form label,
+.login__form .field-label {
+  color: #555 !important;
   font-size: 13px !important;
   font-weight: 600 !important;
   text-transform: none !important;
   letter-spacing: 0 !important;
+  margin-bottom: 6px !important;
 }
 
-/* The submit / Sign In button */
-.login button[type="submit"],
-[class*="login"] .btn--style-primary,
-[class*="login"] button[class*="btn--style-primary"] {
-  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
-  border: none !important;
-  border-radius: 50px !important;
-  color: white !important;
-  font-size: 16px !important;
-  font-weight: 700 !important;
-  height: 54px !important;
-  width: 100% !important;
-  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45) !important;
-  cursor: pointer !important;
-  transition: all 0.2s ease !important;
-  letter-spacing: 0.01em !important;
-}
-
-.login button[type="submit"]:hover,
-[class*="login"] .btn--style-primary:hover {
-  transform: translateY(-2px) !important;
-  box-shadow: 0 12px 36px rgba(99, 102, 241, 0.55) !important;
-}
-
-/* Links inside login (forgot password etc.) */
-.login a,
-[class*="login"] a:not([class*="nav"]) {
+/* 11. FORGOT PASSWORD LINK */
+.login__form a {
   color: #6366f1 !important;
+  font-size: 13px !important;
   font-weight: 500 !important;
   text-decoration: none !important;
+  margin: 8px 0 20px !important;
+  display: inline-block !important;
 }
 
-.login a:hover,
-[class*="login"] a:hover {
+.login__form a:hover {
   color: #8b5cf6 !important;
   text-decoration: underline !important;
 }
 
-/* Error messages in the login form */
-.login [class*="error"],
-[class*="login"] [class*="error"] {
-  color: #ef4444 !important;
-  font-size: 13px !important;
+/* 12. SUBMIT BUTTON — bold gradient pill */
+.login__form .form-submit button,
+.login__form button[type="submit"],
+.login__form .btn {
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%) !important;
+  border: none !important;
+  border-radius: 50px !important;
+  color: #ffffff !important;
+  font-family: 'Inter', sans-serif !important;
+  font-size: 16px !important;
+  font-weight: 700 !important;
+  height: 54px !important;
+  width: 100% !important;
+  cursor: pointer !important;
+  box-shadow: 0 8px 28px rgba(99, 102, 241, 0.45) !important;
+  transition: transform 0.2s, box-shadow 0.2s !important;
+  letter-spacing: 0.01em !important;
 }
 
-/* ── RESPONSIVE: on small screens, stack vertically ── */
+.login__form .form-submit button:hover,
+.login__form button[type="submit"]:hover {
+  transform: translateY(-2px) !important;
+  box-shadow: 0 12px 36px rgba(99, 102, 241, 0.55) !important;
+}
+
+/* 13. The BeforeLogin branding component */
+.before-login-wrap {
+  text-align: center;
+  padding: 52px 52px 0;
+  margin-bottom: 0;
+}
+
+.before-login-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.before-login-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #6366f1 0%, #8b5cf6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  font-weight: 800;
+  color: white;
+  box-shadow: 0 4px 14px rgba(99, 102, 241, 0.4);
+}
+
+.before-login-name {
+  font-size: 20px;
+  font-weight: 800;
+  color: #0f0e17;
+  letter-spacing: -0.03em;
+}
+
+.before-login-title {
+  font-size: 28px;
+  font-weight: 800;
+  color: #0f0e17;
+  margin: 16px 0 6px;
+  letter-spacing: -0.03em;
+}
+
+.before-login-sub {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 28px;
+}
+
+/* 14. RESPONSIVE — mobile stacks vertically */
 @media (max-width: 768px) {
-  .template-minimal::after {
+  .template-minimal__wrap::before,
+  .template-minimal__wrap::after {
     display: none !important;
   }
-  .template-minimal::before {
-    display: none !important;
-  }
-  .login,
-  [class*="login"]:not([class*="__"]):not(button):not(a):not(input):not(label) {
+
+  .login {
     width: 100% !important;
-    max-width: 100% !important;
-    padding: 40px 28px !important;
-    border-radius: 0 !important;
+    min-width: 100% !important;
+  }
+
+  .before-login-wrap,
+  .login__brand,
+  .login__form {
+    padding-left: 28px !important;
+    padding-right: 28px !important;
   }
 }
+
+
+
 
 
