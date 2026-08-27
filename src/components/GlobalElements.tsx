@@ -4,6 +4,7 @@ import configPromise from '@payload-config'
 import Script from 'next/script'
 import { ClientScripts } from '@/app/(frontend)/ClientScripts'
 import { Chatbot } from '@/components/Frontend/Chatbot'
+import { SplashScreen } from '@/components/Frontend/SplashScreen'
 
 export default async function GlobalElements() {
   const payload = await getPayload({ config: configPromise })
@@ -14,10 +15,19 @@ export default async function GlobalElements() {
 
   const botWelcome = settings.botWelcomeMessage || 'Hello — ask me about projects, skills, or how to get in touch.'
 
+  // Get the logo animation video URL (same one used in footer)
+  const footerVideoBg = settings.footerVideoBg
+  const logoVideoUrl = footerVideoBg && typeof footerVideoBg === 'object' && 'url' in footerVideoBg
+    ? (footerVideoBg as any).url as string
+    : typeof footerVideoBg === 'string' ? footerVideoBg : undefined
+
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
       <canvas id="particle-canvas"></canvas>
+
+      {/* SPLASH SCREEN */}
+      <SplashScreen logoVideoUrl={logoVideoUrl} />
 
       <header id="main-nav">
           <div className="nav-container">
@@ -58,3 +68,4 @@ export default async function GlobalElements() {
     </>
   )
 }
+

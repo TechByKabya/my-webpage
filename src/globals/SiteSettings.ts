@@ -19,6 +19,18 @@ export const SiteSettings: GlobalConfig = {
       type: 'upload',
       relationTo: 'media',
       required: false,
+      label: 'Site Logo',
+    },
+    {
+      name: 'favicon',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Favicon',
+      admin: {
+        description: 'Upload an icon (ICO, PNG, or SVG). Recommended size: 32x32 or 64x64 pixels.',
+      },
     },
   ],
 }
+
