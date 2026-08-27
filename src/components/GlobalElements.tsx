@@ -12,7 +12,6 @@ export default async function GlobalElements() {
   })
 
   const botWelcome = settings.botWelcomeMessage || 'Hello — ask me about projects, skills, or how to get in touch.'
-  const filesPassword = settings.filesPassword || 'techkabya'
 
   return (
     <>
