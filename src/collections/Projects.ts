@@ -1,15 +1,12 @@
 import type { CollectionConfig } from 'payload'
-
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
-
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'updatedAt'],
-    group: '🚀 Portfolio',
+    group: 'Content',
   },
   access: {
     create: authenticated,
@@ -26,14 +23,21 @@ export const Projects: CollectionConfig = {
     {
       name: 'slug',
       type: 'text',
+      required: true,
+      unique: true,
+      admin: {
+        position: 'sidebar',
+      },
+    },
+    {
+      name: 'tag',
+      type: 'text',
+      required: true,
+      label: 'Tag (e.g. Robotics, Award)',
     },
     {
       name: 'description',
       type: 'textarea',
-      required: true,
-      admin: {
-        description: 'A short summary of the project.',
-      },
     },
     {
       name: 'coverImage',
@@ -42,36 +46,36 @@ export const Projects: CollectionConfig = {
       required: true,
     },
     {
-      name: 'liveUrl',
+      name: 'linkUrl',
       type: 'text',
-      label: 'Live Demo URL',
-      admin: {
-        description: 'URL to the live project (optional).',
-      },
+      label: 'External Link URL (Optional)',
     },
     {
-      name: 'githubUrl',
-      type: 'text',
-      label: 'GitHub URL',
-      admin: {
-        description: 'URL to the source code (optional).',
-      },
-    },
-    {
-      name: 'technologies',
-      type: 'array',
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-        },
+      name: 'gridSpan',
+      type: 'select',
+      defaultValue: 'span-1',
+      options: [
+        { label: 'Span 1 Column', value: 'span-1' },
+        { label: 'Span 2 Columns', value: 'span-2' },
       ],
+      required: true,
+    },
+    {
+      name: 'isGithubCard',
+      type: 'checkbox',
+      label: 'Is this the GitHub/More Projects Card?',
+      defaultValue: false,
+      admin: {
+        description: 'If checked, this card will be styled as the dark GitHub link card.',
+      }
     },
     {
       name: 'content',
       type: 'richText',
-      label: 'Project Details',
-    },
+      label: 'Project Post Content',
+      admin: {
+        description: 'Write the full article or details about your project here.',
+      },
+    }
   ],
 }

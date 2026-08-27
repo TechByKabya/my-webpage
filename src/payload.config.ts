@@ -4,12 +4,10 @@ import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
 import { fileURLToPath } from 'url'
 
-import { Categories } from './collections/Categories'
+import { Blogs } from './collections/Blogs'
 import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
-import { Posts } from './collections/Posts'
 import { Projects } from './collections/Projects'
-import { HeroSlides } from './collections/HeroSlides'
 import { Users } from './collections/Users'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
@@ -23,7 +21,15 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   admin: {
+    meta: {
+      titleSuffix: '- CMS Dashboard',
+      icons: [{ rel: 'icon', type: 'image/png', url: '/admin-favicon.png' }],
+    },
     components: {
+      graphics: {
+        Logo: '@/components/Admin/Logo#Logo',
+        Icon: '@/components/Admin/Icon#Icon',
+      },
       // Custom admin dashboard welcome screen
       beforeDashboard: ['@/components/BeforeDashboard'],
     },
@@ -62,27 +68,10 @@ export default buildConfig({
     },
   }),
   collections: [
-    {
-      slug: 'folders',
-      folders: true,
-      admin: {
-        useAsTitle: 'name',
-      },
-      fields: [
-        {
-          name: 'name',
-          type: 'text',
-          required: true,
-          label: 'Folder Name',
-        },
-      ],
-    },
     Pages,
-    Posts,
+    Blogs,
     Projects,
-    HeroSlides,
     Media,
-    Categories,
     Users,
   ],
   cors: [getServerSideURL()].filter(Boolean),

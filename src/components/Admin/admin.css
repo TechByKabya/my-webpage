@@ -1,0 +1,64 @@
+/* Custom Admin Styles overrides for Payload */
+
+.custom-admin-logo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 4px 0;
+}
+
+.custom-admin-logo .logo-icon {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 20px;
+  box-shadow: 0 4px 10px rgba(118, 75, 162, 0.4);
+}
+
+.custom-admin-logo .logo-text {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
+  color: var(--theme-elevation-1000);
+  background: -webkit-linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Hide Payload watermark / credit if present in sidebar or bottom */
+.payload-credit, a[href*="payloadcms.com"] {
+  display: none !important;
+}
+
+/* Adjust general theme slightly for a customized feel */
+html[data-theme='dark'] {
+  --theme-bg: #0F172A;
+  --theme-elevation-50: #1E293B;
+  --theme-elevation-100: #334155;
+  --theme-elevation-150: #475569;
+}
+
+/* BeforeDashboard Hover Cards */
+.dashboard-card {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 20px;
+  text-decoration: none;
+  color: white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.dashboard-card:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}

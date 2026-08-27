@@ -33,11 +33,6 @@ export const Media: CollectionConfig = {
       //required: true,
     },
     {
-      name: 'folder',
-      type: 'relationship',
-      relationTo: 'folders',
-    },
-    {
       name: 'caption',
       type: 'richText',
       editor: lexicalEditor({

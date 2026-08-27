@@ -4,7 +4,7 @@ import { anyone } from '../access/anyone'
 
 export const HomepageSettings: GlobalConfig = {
   slug: 'homepage-settings',
-  label: 'Homepage Settings',
+  label: 'Home Page Setup',
   access: {
     read: anyone,
     update: authenticated,
@@ -13,160 +13,133 @@ export const HomepageSettings: GlobalConfig = {
     group: 'Site Settings',
   },
   fields: [
-    // ── HERO SECTION ──────────────────────────────────────
+    // ── NAVIGATION MENU ──────────────────────────────────
     {
       type: 'collapsible',
-      label: '🎯 Hero Section (Top of the page)',
+      label: 'Navigation Menu',
       fields: [
         {
-          name: 'heroBadgeText',
-          type: 'text',
-          label: 'Badge Text (the small pill at the top)',
-          defaultValue: 'Open to opportunities',
-        },
-        {
-          name: 'heroTitle',
-          type: 'text',
-          label: 'Your Name / Main Title',
-          defaultValue: 'Hi, I\'m a Full-Stack Developer',
-          required: true,
-        },
-        {
-          name: 'heroSubtitle',
-          type: 'textarea',
-          label: 'Subtitle / Description',
-          defaultValue: 'I build beautiful, fast, and scalable web applications.',
-        },
-        {
-          name: 'heroPhoto',
-          type: 'upload',
-          relationTo: 'media',
-          label: 'Profile Photo (shows as circular avatar)',
-        },
-        {
-          name: 'heroPrimaryButtonText',
-          type: 'text',
-          label: 'Primary Button Text',
-          defaultValue: 'View My Work',
-        },
-        {
-          name: 'heroSecondaryButtonText',
-          type: 'text',
-          label: 'Secondary Button Text',
-          defaultValue: 'Get In Touch',
-        },
-      ],
-    },
-
-    // ── SKILLS SECTION ───────────────────────────────────
-    {
-      type: 'collapsible',
-      label: '💡 Skills Section',
-      fields: [
-        {
-          name: 'skillsSectionTitle',
-          type: 'text',
-          label: 'Section Title',
-          defaultValue: 'My Skills',
-        },
-        {
-          name: 'skills',
+          name: 'menuItems',
           type: 'array',
-          label: 'Skills (add as many as you want)',
+          label: 'Menu Links',
+          admin: {
+            description: 'Manage the links shown in the top navigation bar.',
+          },
           fields: [
             {
-              name: 'name',
+              name: 'label',
               type: 'text',
-              label: 'Skill Name (e.g. React, Python, Figma)',
               required: true,
             },
             {
-              name: 'icon',
+              name: 'link',
               type: 'text',
-              label: 'Emoji Icon (e.g. ⚛️ 🐍 🎨)',
+              required: true,
+              admin: {
+                description: 'URL or anchor link (e.g., #hero, #projects)',
+              },
+            },
+            {
+              name: 'isButton',
+              type: 'checkbox',
+              defaultValue: false,
+              admin: {
+                description: 'Render this item as a highlighted button (like Connect)',
+              },
             },
           ],
         },
       ],
     },
 
-    // ── PROJECTS SECTION ─────────────────────────────────
+    // ── HERO SECTION ──────────────────────────────────────
     {
       type: 'collapsible',
-      label: '🚀 Projects Section',
+      label: 'Hero Section (Top of the page)',
       fields: [
         {
-          name: 'projectsSectionTitle',
+          name: 'heroBadgeText',
           type: 'text',
-          label: 'Section Title',
-          defaultValue: 'Featured Projects',
+          label: 'Badge Text',
+          defaultValue: 'Based in Bangladesh',
         },
         {
-          name: 'projectsSectionSubtitle',
+          name: 'heroTitle',
+          type: 'textarea',
+          label: 'Hero Title (Use newline for breaks)',
+          defaultValue: 'Design.\nBuild.\nLearn.',
+          required: true,
+        },
+        {
+          name: 'heroBio',
+          type: 'textarea',
+          label: 'Bio / Description',
+          defaultValue: 'I work where hardware and software meet — building practical projects, helping teams, and learning along the way.',
+        },
+        {
+          name: 'heroPhoto',
+          type: 'upload',
+          relationTo: 'media',
+          label: 'Profile Photo',
+        },
+        {
+          name: 'heroFloatCard1Icon',
           type: 'text',
-          label: 'Section Subtitle',
-          defaultValue: 'A selection of my best work.',
+          label: 'Float Card 1 Icon Class (FontAwesome)',
+          defaultValue: 'fas fa-bolt',
+        },
+        {
+          name: 'heroFloatCard1Text',
+          type: 'text',
+          label: 'Float Card 1 Text',
+          defaultValue: 'Reliable',
+        },
+        {
+          name: 'heroFloatCard2Icon',
+          type: 'text',
+          label: 'Float Card 2 Icon Class (FontAwesome)',
+          defaultValue: 'fas fa-brain',
+        },
+        {
+          name: 'heroFloatCard2Text',
+          type: 'text',
+          label: 'Float Card 2 Text',
+          defaultValue: 'AI experiments',
         },
       ],
     },
 
-    // ── BLOG SECTION ─────────────────────────────────────
-    {
-      type: 'collapsible',
-      label: '📝 Blog Section',
-      fields: [
-        {
-          name: 'blogSectionTitle',
-          type: 'text',
-          label: 'Section Title',
-          defaultValue: 'Latest Thoughts',
-        },
-        {
-          name: 'blogSectionSubtitle',
-          type: 'text',
-          label: 'Section Subtitle',
-          defaultValue: 'Insights and articles on development, design, and tech.',
-        },
-      ],
-    },
+
 
     // ── CONTACT SECTION ──────────────────────────────────
     {
       type: 'collapsible',
-      label: '📬 Contact Section',
+      label: 'Contact Section',
       fields: [
         {
           name: 'contactTitle',
           type: 'text',
-          label: 'Contact Section Title',
-          defaultValue: "Let's Work Together",
+          label: 'Title',
+          defaultValue: 'Interested in collaborating?',
         },
         {
           name: 'contactSubtitle',
           type: 'textarea',
-          label: 'Contact Section Description',
-          defaultValue: "Have a project in mind? I'd love to hear about it.",
+          label: 'Description',
+          defaultValue: 'Open to practical collaborations, small R&D efforts, and project work.',
         },
         {
           name: 'contactEmail',
-          type: 'email',
-          label: 'Your Email Address (for the contact button)',
-          required: true,
+          type: 'text',
+          label: 'Email',
+          defaultValue: 'kabyaghosh4@gmail.com',
         },
         {
-          name: 'contactButtonText',
+          name: 'contactPhone',
           type: 'text',
-          label: 'Contact Button Text',
-          defaultValue: 'Say Hello 👋',
+          label: 'Phone Number',
+          defaultValue: '+880 1950-440296',
         },
-      ],
-    },
-
-    // ── SOCIAL LINKS ─────────────────────────────────────
-    {
-      type: 'collapsible',
-      label: '🔗 Social Links',
-      fields: [
         {
           name: 'githubUrl',
           type: 'text',
@@ -175,12 +148,32 @@ export const HomepageSettings: GlobalConfig = {
         {
           name: 'linkedinUrl',
           type: 'text',
-          label: 'LinkedIn URL',
+          label: 'LinkedIn URL (Optional)',
         },
         {
-          name: 'twitterUrl',
+          name: 'facebookUrl',
           type: 'text',
-          label: 'Twitter / X URL',
+          label: 'Facebook URL',
+        },
+        {
+          name: 'youtubeUrl',
+          type: 'text',
+          label: 'YouTube URL',
+        },
+      ],
+    },
+
+
+
+    // ── CHATBOT ──────────────────────────────────────────
+    {
+      type: 'collapsible',
+      label: 'Chatbot',
+      fields: [
+        {
+          name: 'botWelcomeMessage',
+          type: 'textarea',
+          defaultValue: 'Hello — ask me about projects, skills, or how to get in touch.',
         },
       ],
     },
