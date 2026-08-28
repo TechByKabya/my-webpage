@@ -1,16 +1,25 @@
 'use client'
 
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { motion } from 'framer-motion'
-import { useConfig, useAuth } from '@payloadcms/ui'
+import { useConfig, useAuth, useNav } from '@payloadcms/ui'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, LogOut, Settings, FileText, Database, Folder, Image as ImageIcon, Briefcase, Key } from 'lucide-react'
+import { LayoutDashboard, LogOut, Settings, FileText, Database, Folder, Image as ImageIcon, Briefcase, Key, X } from 'lucide-react'
 
 export const CustomNav: React.FC = () => {
   const { config } = useConfig()
   const { user } = useAuth()
   const pathname = usePathname()
+  
+  // Safe useNav extraction (in case it's used outside provider during build)
+  let navContext = { navOpen: false, setNavOpen: (v: boolean) => {} }
+  try {
+    navContext = useNav()
+  } catch (e) {
+    // ignore
+  }
+  const { navOpen, setNavOpen } = navContext
 
   // We only want to render visible collections/globals
   // Functions in config aren't serialized to Client Components, so we explicitly filter by slug
@@ -60,17 +69,114 @@ export const CustomNav: React.FC = () => {
   navItems.sort((a, b) => a.label.localeCompare(b.label))
 
   return (
-    <div style={{
-      width: '280px',
-      height: '100vh',
-      position: 'sticky',
-      top: 0,
-      padding: '24px 16px',
-      background: 'transparent',
-      display: 'flex',
-      flexDirection: 'column',
-      zIndex: 50
-    }}>
+    <>
+      <style>{`
+        .custom-nav-wrapper {
+          width: 280px;
+          height: 100vh;
+          position: sticky;
+          top: 0;
+          padding: 24px 16px;
+          background: transparent;
+          display: flex;
+          flex-direction: column;
+          z-index: 50;
+          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .custom-nav-backdrop {
+          display: none;
+        }
+        
+        .mobile-close-btn {
+          display: none;
+        }
+
+        @media (max-width: 1024px) {
+          /* Override Payload's default grid layout that reserves space for the Nav */
+          :global(.template-default) {
+            display: block !important;
+          }
+          :global(.template-default__nav-wrapper) {
+            position: absolute !important;
+            width: 0 !important;
+            height: 0 !important;
+            overflow: visible !important;
+          }
+          :global(.template-default__wrap) {
+            margin-left: 0 !important;
+            padding-left: 0 !important;
+            width: 100% !important;
+          }
+          /* Alternatively, without :global if Payload doesn't use CSS modules for template */
+          .template-default {
+            display: block !important;
+          }
+          .template-default__nav-wrapper {
+            position: absolute !important;
+            width: 0 !important;
+            height: 0 !important;
+            overflow: visible !important;
+          }
+          .template-default__wrap {
+            margin-left: 0 !important;
+            padding-left: 0 !important;
+            width: 100% !important;
+          }
+
+          .custom-nav-wrapper {
+            position: fixed;
+            left: 0;
+            top: 0;
+            z-index: 9999;
+            transform: translateX(-100%);
+            padding: 16px;
+          }
+          
+          .custom-nav-wrapper.nav-open {
+            transform: translateX(0);
+          }
+          
+          .custom-nav-backdrop.nav-open {
+            display: block;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(15, 23, 42, 0.4);
+            z-index: 9998;
+            backdrop-filter: blur(4px);
+            opacity: 1;
+            animation: fadeIn 0.3s ease-out forwards;
+          }
+          
+          .mobile-close-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.2);
+            border: none;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            cursor: pointer;
+            color: #0f172a;
+          }
+        }
+        
+        @keyframes fadeIn {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+      `}</style>
+      
+      <div 
+        className={`custom-nav-backdrop ${navOpen ? 'nav-open' : ''}`} 
+        onClick={() => setNavOpen(false)} 
+      />
+      
+      <div className={`custom-nav-wrapper ${navOpen ? 'nav-open' : ''}`}>
       {/* Glassmorphic Card */}
       <motion.div
         initial={{ opacity: 0, x: -20, scale: 0.95 }}
@@ -90,7 +196,7 @@ export const CustomNav: React.FC = () => {
         }}
       >
         {/* Header */}
-        <div style={{ padding: '32px 24px 20px' }}>
+        <div style={{ padding: '32px 24px 20px', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
           <h2 style={{ 
             fontSize: '1.25rem', 
             fontWeight: 800, 
@@ -112,6 +218,13 @@ export const CustomNav: React.FC = () => {
             </div>
             CMS Admin
           </h2>
+          <button 
+            className="mobile-close-btn"
+            onClick={() => setNavOpen(false)}
+            aria-label="Close menu"
+          >
+            <X size={20} />
+          </button>
         </div>
 
         {/* Navigation Links */}
@@ -127,7 +240,12 @@ export const CustomNav: React.FC = () => {
             const isActive = pathname.startsWith(item.href)
             
             return (
-              <Link href={item.href} key={item.href} style={{ textDecoration: 'none' }}>
+              <Link 
+                href={item.href} 
+                key={item.href} 
+                style={{ textDecoration: 'none' }}
+                onClick={() => setNavOpen(false)}
+              >
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -256,6 +374,7 @@ export const CustomNav: React.FC = () => {
           </button>
         </div>
       </motion.div>
-    </div>
+      </div>
+    </>
   )
 }
