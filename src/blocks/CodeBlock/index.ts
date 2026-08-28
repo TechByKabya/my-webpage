@@ -19,6 +19,7 @@ export const CodeBlock: Block = {
         { label: 'JSON', value: 'json' },
         { label: 'Bash', value: 'bash' },
         { label: 'Python', value: 'python' },
+        { label: 'C++', value: 'cpp' },
         { label: 'Markdown', value: 'markdown' },
       ],
       required: true,

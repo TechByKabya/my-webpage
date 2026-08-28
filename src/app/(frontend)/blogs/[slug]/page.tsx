@@ -56,7 +56,7 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
   return (
     <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div className="container" style={{ 
-        maxWidth: '850px', 
+        maxWidth: '1050px', 
         width: '92%', 
         backgroundColor: '#ffffff',
         padding: 'clamp(24px, 5vw, 48px)',
