@@ -4,6 +4,8 @@ import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
 
+import { TextToSpeech } from '@/components/Frontend/TextToSpeech'
+
 export default async function ProjectSinglePage({ params }: { params: Promise<{ slug: string }> }) {
   const payload = await getPayload({ config: configPromise })
   const { slug } = await params
@@ -49,11 +51,12 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
         <div style={{ marginBottom: '40px' }}>
             <span className="badge" style={{ marginBottom: '15px', display: 'inline-block' }}>{project.tag}</span>
             <h1 style={{ fontSize: '3rem', color: 'var(--text-main)', marginBottom: '10px' }}>{project.title}</h1>
-            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', lineHeight: 1.6 }}>{project.description}</p>
+            <TextToSpeech targetId="post-content" />
+            <p style={{ color: 'var(--text-muted)', fontSize: '1.2rem', lineHeight: 1.6, marginTop: '20px' }}>{project.description}</p>
         </div>
 
         {project.content && (
-          <div className="project-content" style={{ color: 'var(--text-main)', fontSize: '1.1rem', lineHeight: 1.8 }}>
+          <div id="post-content" className="project-content" style={{ color: 'var(--text-main)', fontSize: '1.1rem', lineHeight: 1.8 }}>
             <RichText data={project.content} enableGutter={false} />
           </div>
         )}
