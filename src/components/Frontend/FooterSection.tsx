@@ -162,6 +162,14 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             </div>
           </div>
 
+          {/* Clever SEO Text Block */}
+          <div style={{ marginTop: '40px', paddingTop: '20px', borderTop: '1px solid rgba(0,0,0,0.04)', textAlign: 'center' }}>
+            <p style={{ color: '#9ca3af', fontSize: '0.7rem', lineHeight: 1.6, maxWidth: '900px', margin: '0 auto' }}>
+              Kabya Ghosh is an embedded system IoT engineer at Daffodil International University and an embedded system IoT expert in BD. 
+              We also provide a low cost 3D printing service in Dhaka, offering premium precision prints delivered fast, serving all local areas including near Daffodil.
+            </p>
+          </div>
+
         </div>
       </div>
     </footer>
