@@ -1,7 +1,7 @@
 import type { CollectionConfig } from 'payload'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_build')
+const resend = new Resend(process.env.RESEND_API_KEY)
 
 export const PrintingRequests: CollectionConfig = {
   slug: 'printing-requests',
@@ -26,7 +26,7 @@ export const PrintingRequests: CollectionConfig = {
           // Send email to admin about new order
           try {
             await resend.emails.send({
-              from: 'onboarding@resend.dev',
+              from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
               to: 'kabyaghosh4@gmail.com',
               subject: 'New 3D Printing Order Received!',
               html: `
@@ -54,7 +54,7 @@ export const PrintingRequests: CollectionConfig = {
           ) {
             try {
               await resend.emails.send({
-                from: 'onboarding@resend.dev',
+                from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
                 to: doc.email, // Send to applicant
                 subject: 'Your 3D Printing Order is Approved!',
                 html: `
@@ -87,7 +87,7 @@ export const PrintingRequests: CollectionConfig = {
           ) {
             try {
               await resend.emails.send({
-                from: 'onboarding@resend.dev',
+                from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
                 to: doc.email, // Send to applicant
                 subject: 'Update on your 3D Printing Order',
                 html: `
