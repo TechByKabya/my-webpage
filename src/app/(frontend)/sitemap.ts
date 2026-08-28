@@ -6,7 +6,7 @@ import { getServerSideURL } from '@/utilities/getURL'
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config: configPromise })
   
-  const siteUrl = getServerSideURL()
+  const siteUrl = 'https://www.kabyac.tech'
 
   const [pages, blogs, projects] = await Promise.all([
     payload.find({ collection: 'pages', limit: 1000 }),

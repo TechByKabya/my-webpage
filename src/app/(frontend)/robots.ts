@@ -8,6 +8,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/kabya-52005/'],
     },
-    sitemap: `${getServerSideURL()}/sitemap.xml`,
+    sitemap: 'https://www.kabyac.tech/sitemap.xml',
   }
 }
