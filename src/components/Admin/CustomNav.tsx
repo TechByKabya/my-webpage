@@ -256,7 +256,11 @@ export const CustomNav: React.FC = () => {
                 href={item.href} 
                 key={item.href} 
                 style={{ textDecoration: 'none' }}
-                onClick={() => setNavOpen(false)}
+                onClick={() => {
+                  if (typeof window !== 'undefined' && window.innerWidth <= 1024) {
+                    setNavOpen(false)
+                  }
+                }}
               >
                 <motion.div
                   initial={{ opacity: 0, y: 15 }}
