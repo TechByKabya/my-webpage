@@ -9,7 +9,7 @@ export const Footer: GlobalConfig = {
     read: () => true,
   },
   admin: {
-    group: 'Home Page Setup',
+    hidden: true,
   },
   fields: [
     {

@@ -9,6 +9,7 @@ export const ContactSubmissions: CollectionConfig = {
     plural: 'Contact Submissions',
   },
   admin: {
+    hidden: () => true,
     group: '\u200B\u200BContact',
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'subject', 'createdAt'],

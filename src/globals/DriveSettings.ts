@@ -3,6 +3,9 @@ import type { GlobalConfig } from 'payload'
 export const DriveSettings: GlobalConfig = {
   slug: 'drive-settings',
   label: 'Drive Auth Settings',
+  admin: {
+    group: ' ',
+  },
   access: {
     read: () => true,
   },

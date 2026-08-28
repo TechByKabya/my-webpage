@@ -31,6 +31,7 @@ export default buildConfig({
       icons: [{ rel: 'icon', type: 'image/png', url: '/admin-favicon.png' }],
     },
     components: {
+      Nav: '@/components/Admin/CustomNav#CustomNav',
       graphics: {
         Logo: '@/components/Admin/Logo#Logo',
         Icon: '@/components/Admin/Icon#Icon',

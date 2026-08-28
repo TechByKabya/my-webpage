@@ -40,6 +40,7 @@ export const Pages: CollectionConfig = {
   admin: {
     defaultColumns: ['title', 'slug', 'updatedAt'],
     useAsTitle: 'title',
+    hidden: () => true,
     group: '\u200B\u200B\u200B\u200BOther',
   },
   fields: [

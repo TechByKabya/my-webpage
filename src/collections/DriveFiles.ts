@@ -2,9 +2,14 @@ import type { CollectionConfig } from 'payload'
 
 export const DriveFiles: CollectionConfig = {
   slug: 'drive-files',
+  labels: {
+    plural: 'Drive Files',
+    singular: 'Drive File',
+  },
   admin: {
     useAsTitle: 'name',
     defaultColumns: ['name', 'fileType', 'createdAt'],
+    group: ' ',
   },
   access: {
     read: () => true,

@@ -11,7 +11,7 @@ export const SiteSettings: GlobalConfig = {
     },
   },
   admin: {
-    group: '\u200BSettings',
+    group: ' ',
   },
   fields: [
     {

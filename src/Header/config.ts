@@ -9,7 +9,7 @@ export const Header: GlobalConfig = {
     read: () => true,
   },
   admin: {
-    group: 'Home Page Setup',
+    hidden: true,
   },
   fields: [
     {

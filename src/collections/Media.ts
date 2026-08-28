@@ -17,6 +17,10 @@ const dirname = path.dirname(filename)
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    plural: 'Media',
+    singular: 'Media',
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -24,7 +28,7 @@ export const Media: CollectionConfig = {
     update: authenticated,
   },
   admin: {
-    group: '\u200B\u200B\u200B\u200BOther',
+    group: ' ',
   },
   fields: [
     {

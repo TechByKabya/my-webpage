@@ -600,9 +600,13 @@ export interface Form {
  */
 export interface Blog {
   id: number;
-  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
   slug: string;
   coverImage: number | Media;
+  title: string;
   excerpt?: string | null;
   content: {
     root: {
@@ -628,17 +632,15 @@ export interface Blog {
  */
 export interface Project {
   id: number;
-  title: string;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
   slug: string;
+  coverImage: number | Media;
+  title: string;
   tag: string;
   description?: string | null;
-  coverImage: number | Media;
-  linkUrl?: string | null;
-  gridSpan: 'span-1' | 'span-2';
-  /**
-   * If checked, this card will be styled as the dark GitHub link card.
-   */
-  isGithubCard?: boolean | null;
   /**
    * Write the full article or details about your project here.
    */
@@ -657,6 +659,12 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  linkUrl?: string | null;
+  gridSpan: 'span-1' | 'span-2';
+  /**
+   * If checked, this card will be styled as the dark GitHub link card.
+   */
+  isGithubCard?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -1077,9 +1085,10 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "blogs_select".
  */
 export interface BlogsSelect<T extends boolean = true> {
-  title?: T;
+  generateSlug?: T;
   slug?: T;
   coverImage?: T;
+  title?: T;
   excerpt?: T;
   content?: T;
   updatedAt?: T;
@@ -1090,15 +1099,16 @@ export interface BlogsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
-  title?: T;
+  generateSlug?: T;
   slug?: T;
+  coverImage?: T;
+  title?: T;
   tag?: T;
   description?: T;
-  coverImage?: T;
+  content?: T;
   linkUrl?: T;
   gridSpan?: T;
   isGithubCard?: T;
-  content?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1533,8 +1543,13 @@ export interface Footer {
 export interface HomepageSetting {
   id: number;
   /**
-   * Manage the links shown in the top navigation bar.
+   * Displayed at the top of the homepage next to your bio.
    */
+  heroPhoto?: (number | null) | Media;
+  /**
+   * Optional looping video behind the contact section.
+   */
+  footerVideoBg?: (number | null) | Media;
   menuItems?:
     | {
         label: string;
@@ -1543,7 +1558,7 @@ export interface HomepageSetting {
          */
         link: string;
         /**
-         * Render this item as a highlighted button (like Connect)
+         * Render as a highlighted button
          */
         isButton?: boolean | null;
         id?: string | null;
@@ -1552,7 +1567,6 @@ export interface HomepageSetting {
   heroBadgeText?: string | null;
   heroTitle: string;
   heroBio?: string | null;
-  heroPhoto?: (number | null) | Media;
   heroFloatCard1Icon?: string | null;
   heroFloatCard1Text?: string | null;
   heroFloatCard2Icon?: string | null;
@@ -1565,14 +1579,13 @@ export interface HomepageSetting {
   skills?:
     | {
         name: string;
-        description?: string | null;
         icon?:
           ('microchip' | 'iot' | '3d' | 'code' | 'cad' | 'ai' | 'hardware' | 'electronics' | 'cv' | 'python') | null;
         color?: ('indigo' | 'blue' | 'green' | 'amber' | 'red' | 'purple' | 'teal' | 'pink') | null;
+        description?: string | null;
         id?: string | null;
       }[]
     | null;
-  footerVideoBg?: (number | null) | Media;
   contactTitle?: string | null;
   contactSubtitle?: string | null;
   contactEmail?: string | null;
@@ -1673,6 +1686,8 @@ export interface FooterSelect<T extends boolean = true> {
  * via the `definition` "homepage-settings_select".
  */
 export interface HomepageSettingsSelect<T extends boolean = true> {
+  heroPhoto?: T;
+  footerVideoBg?: T;
   menuItems?:
     | T
     | {
@@ -1684,7 +1699,6 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
   heroBadgeText?: T;
   heroTitle?: T;
   heroBio?: T;
-  heroPhoto?: T;
   heroFloatCard1Icon?: T;
   heroFloatCard1Text?: T;
   heroFloatCard2Icon?: T;
@@ -1695,12 +1709,11 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
     | T
     | {
         name?: T;
-        description?: T;
         icon?: T;
         color?: T;
+        description?: T;
         id?: T;
       };
-  footerVideoBg?: T;
   contactTitle?: T;
   contactSubtitle?: T;
   contactEmail?: T;
