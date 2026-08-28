@@ -35,7 +35,7 @@ export const PrintingRequests: CollectionConfig = {
         if (operation === 'create') {
           // Send email to admin about new order
           try {
-            await resend.emails.send({
+            const { data, error } = await resend.emails.send({
               from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
               to: 'kabyaghosh4@gmail.com',
               subject: 'New 3D Printing Order Received!',
@@ -45,13 +45,18 @@ export const PrintingRequests: CollectionConfig = {
                   <p><strong>Email:</strong> ${doc.email}</p>
                   <p><strong>Material:</strong> ${doc.material}</p>
                   <p><strong>Color:</strong> ${doc.color}</p>
-                  <p>Please check the admin panel to review the model and approve with a price.</p>
+                  <p><strong>Expected Price:</strong> ${doc.price} BDT</p>
+                  <p>Log in to the admin panel to review the model and approve the price.</p>
                 </div>
               `
             })
-            console.log(`Successfully sent new order email to admin for order ${doc.id}`)
-          } catch (error) {
-            console.error('Failed to send email:', error)
+            if (error) {
+              console.error('Failed to send new order email to admin:', error)
+            } else {
+              console.log(`Successfully sent new order email to admin for order ${doc.id}`, data)
+            }
+          } catch (catchError) {
+            console.error('Failed to execute email send:', catchError)
           }
         }
 
@@ -63,7 +68,7 @@ export const PrintingRequests: CollectionConfig = {
             doc.price > 0
           ) {
             try {
-              await resend.emails.send({
+              const { data, error } = await resend.emails.send({
                 from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
                 to: doc.email, // Send to applicant
                 subject: 'Your 3D Printing Order is Approved!',
@@ -84,9 +89,13 @@ export const PrintingRequests: CollectionConfig = {
                   </div>
                 `
               })
-              console.log(`Successfully sent approval email to ${doc.email} for order ${doc.id}`)
-            } catch (error) {
-              console.error('Failed to send email:', error)
+              if (error) {
+                console.error('Failed to send approval email:', error)
+              } else {
+                console.log(`Successfully sent approval email to ${doc.email} for order ${doc.id}`, data)
+              }
+            } catch (catchError) {
+              console.error('Failed to execute email send:', catchError)
             }
           }
 
@@ -96,23 +105,27 @@ export const PrintingRequests: CollectionConfig = {
             previousDoc.status !== 'Rejected'
           ) {
             try {
-              await resend.emails.send({
+              const { data, error } = await resend.emails.send({
                 from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
                 to: doc.email, // Send to applicant
-                subject: 'Update on your 3D Printing Order',
+                subject: 'Update on Your 3D Printing Order',
                 html: `
                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Hello ${doc.name},</h2>
-                    <p>We have reviewed your 3D printing request, but unfortunately, we are unable to fulfill it at this time.</p>
-                    ${doc.adminNotes ? `<p><strong>Reason:</strong> ${doc.adminNotes}</p>` : ''}
+                    <h2>Hello, ${doc.name}</h2>
+                    <p>Unfortunately, we cannot process your 3D printing request at this time.</p>
+                    <p>This may be due to a non-printable geometry, an extremely large file, or material constraints. Please contact our support team on WhatsApp if you would like to discuss modifications to your model to make it printable.</p>
                     <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
-                    <p style="color: #666; font-size: 14px;">If you have any questions, feel free to reach out to us.</p>
+                    <p style="color: #666; font-size: 14px;">Thank you for choosing Kabya Ghosh 3D Printing Service!</p>
                   </div>
                 `
               })
-              console.log(`Successfully sent rejection email to ${doc.email} for order ${doc.id}`)
-            } catch (error) {
-              console.error('Failed to send email:', error)
+              if (error) {
+                console.error('Failed to send rejection email:', error)
+              } else {
+                console.log(`Successfully sent rejection email to ${doc.email} for order ${doc.id}`, data)
+              }
+            } catch (catchError) {
+              console.error('Failed to execute email send:', catchError)
             }
           }
         }
