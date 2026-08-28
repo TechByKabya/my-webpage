@@ -142,6 +142,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, s
                   borderRadius: '16px',
                   padding: '16px 20px',
                   border: '1px solid rgba(0,0,0,0.03)',
+                  boxShadow: '0 8px 24px rgba(0,0,0,0.04), 0 2px 6px rgba(0,0,0,0.02)',
                   display: 'flex',
                   alignItems: 'center',
                   gap: '16px',

@@ -527,16 +527,16 @@ section {
     border-radius: 24px;
     overflow: hidden;
     cursor: pointer;
-    background: #e0e0e0;
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.1s ease-out, box-shadow 0.3s;
+    background: #ffffff;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.06), 0 2px 6px rgba(0,0,0,0.04);
+    transition: transform 0.2s ease-out, box-shadow 0.3s;
     /* Faster transform for tilt */
     transform-style: preserve-3d;
 }
 
 .project-card:hover {
     z-index: 10;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 24px 48px rgba(0,0,0,0.12), 0 8px 16px rgba(0,0,0,0.06);
 }
 
 /* Spans */
