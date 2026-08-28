@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useConfig, useAuth, useNav } from '@payloadcms/ui'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, LogOut, Settings, FileText, Database, Folder, Image as ImageIcon, Briefcase, Key, X } from 'lucide-react'
+import { LayoutDashboard, LogOut, Settings, FileText, Database, Folder, Image as ImageIcon, Briefcase, Key, X, Printer } from 'lucide-react'
 
 export const CustomNav: React.FC = () => {
   const { config } = useConfig()
@@ -23,8 +23,8 @@ export const CustomNav: React.FC = () => {
 
   // We only want to render visible collections/globals
   // Functions in config aren't serialized to Client Components, so we explicitly filter by slug
-  const allowedCollections = ['projects', 'blogs', 'drive-files', 'media']
-  const allowedGlobals = ['homepage-settings', 'site-settings', 'drive-settings']
+  const allowedCollections = ['projects', 'blogs', 'drive-files', 'media', 'printing-requests']
+  const allowedGlobals = ['homepage-settings', 'site-settings', 'drive-settings', 'printing-settings']
 
   const visibleCollections = config.collections.filter(c => allowedCollections.includes(c.slug))
   const visibleGlobals = config.globals.filter(g => allowedGlobals.includes(g.slug))
@@ -48,6 +48,8 @@ export const CustomNav: React.FC = () => {
       case 'media': return <ImageIcon size={18} />
       case 'homepage-settings': return <LayoutDashboard size={18} />
       case 'site-settings': return <Settings size={18} />
+      case 'printing-requests': return <Printer size={18} />
+      case 'printing-settings': return <Printer size={18} />
       default: return <Database size={18} />
     }
   }
@@ -98,6 +100,11 @@ export const CustomNav: React.FC = () => {
 
         .custom-nav-backdrop {
           display: none;
+        }
+        
+        /* Hide the Create button for Printing Requests as they are only received from the frontend */
+        a[href$="/collections/printing-requests/create"] {
+          display: none !important;
         }
         
         .mobile-close-btn {

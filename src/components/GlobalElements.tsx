@@ -76,6 +76,7 @@ export default async function GlobalElements() {
                       { label: 'Home', link: '/', isButton: false },
                       { label: 'Blogs', link: '/blogs', isButton: false },
                       { label: 'Projects', link: '/projects', isButton: false },
+                      { label: '3D Printing', link: '/3d-printing', isButton: false },
                       { label: 'Contact', link: '/contact', isButton: true },
                   ]).map((item, i) => (
                       <li key={i}>

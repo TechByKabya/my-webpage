@@ -10,11 +10,13 @@ import { Media } from './collections/Media'
 import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
+import { PrintingRequests } from './collections/PrintingRequests'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { HomepageSettings } from './globals/HomepageSettings'
 import { SiteSettings } from './globals/SiteSettings'
 import { DriveSettings } from './globals/DriveSettings'
+import { PrintingSettings } from './globals/PrintingSettings'
 import { DriveFiles } from './collections/DriveFiles'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
@@ -84,9 +86,10 @@ export default buildConfig({
     Media,
     Users,
     ContactSubmissions,
+    PrintingRequests,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, HomepageSettings, SiteSettings, DriveSettings],
+  globals: [Header, Footer, HomepageSettings, SiteSettings, DriveSettings, PrintingSettings],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,

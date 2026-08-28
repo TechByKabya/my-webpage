@@ -74,6 +74,7 @@ export interface Config {
     media: Media;
     users: User;
     'contact-submissions': ContactSubmission;
+    'printing-requests': PrintingRequest;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -92,6 +93,7 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
+    'printing-requests': PrintingRequestsSelect<false> | PrintingRequestsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -111,6 +113,7 @@ export interface Config {
     'homepage-settings': HomepageSetting;
     'site-settings': SiteSetting;
     'drive-settings': DriveSetting;
+    'printing-settings': PrintingSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
@@ -118,6 +121,7 @@ export interface Config {
     'homepage-settings': HomepageSettingsSelect<false> | HomepageSettingsSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
     'drive-settings': DriveSettingsSelect<false> | DriveSettingsSelect<true>;
+    'printing-settings': PrintingSettingsSelect<false> | PrintingSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -731,6 +735,34 @@ export interface ContactSubmission {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "printing-requests".
+ */
+export interface PrintingRequest {
+  id: number;
+  name: string;
+  email: string;
+  phone?: string | null;
+  address: string;
+  /**
+   * Link to the 3D model (Google Drive, WeTransfer, Dropbox)
+   */
+  fileLink: string;
+  material: 'PLA' | 'PETG' | 'ABS' | 'Resin' | 'TPU (Flexible)' | 'Carbon Fiber';
+  color: string;
+  infill: '10%' | '20%' | '50%' | '100% (Solid)';
+  layerHeight: '0.12mm (High Detail)' | '0.20mm (Standard)' | '0.28mm (Draft/Fast)';
+  notes?: string | null;
+  status?: ('Pending' | 'Approved' | 'Rejected' | 'Completed') | null;
+  /**
+   * Set a price to notify the user upon approval.
+   */
+  price?: number | null;
+  adminNotes?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -910,6 +942,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'contact-submissions';
         value: number | ContactSubmission;
+      } | null)
+    | ({
+        relationTo: 'printing-requests';
+        value: number | PrintingRequest;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1264,6 +1300,27 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   subject?: T;
   message?: T;
   status?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "printing-requests_select".
+ */
+export interface PrintingRequestsSelect<T extends boolean = true> {
+  name?: T;
+  email?: T;
+  phone?: T;
+  address?: T;
+  fileLink?: T;
+  material?: T;
+  color?: T;
+  infill?: T;
+  layerHeight?: T;
+  notes?: T;
+  status?: T;
+  price?: T;
+  adminNotes?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1652,6 +1709,33 @@ export interface DriveSetting {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "printing-settings".
+ */
+export interface PrintingSetting {
+  id: number;
+  /**
+   * Add materials that customers can select (e.g. PLA, PETG).
+   */
+  materials?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Add colors that customers can select.
+   */
+  colors?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
@@ -1763,6 +1847,27 @@ export interface SiteSettingsSelect<T extends boolean = true> {
 export interface DriveSettingsSelect<T extends boolean = true> {
   driveUsername?: T;
   drivePassword?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "printing-settings_select".
+ */
+export interface PrintingSettingsSelect<T extends boolean = true> {
+  materials?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
+  colors?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

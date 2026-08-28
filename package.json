@@ -24,6 +24,7 @@
   "dependencies": {
     "@ai-sdk/google": "^4.0.55",
     "@ai-sdk/react": "^4.0.86",
+    "@dotlottie/react-player": "^1.6.19",
     "@payloadcms/admin-bar": "latest",
     "@payloadcms/db-postgres": "^3.88.0",
     "@payloadcms/db-sqlite": "latest",
