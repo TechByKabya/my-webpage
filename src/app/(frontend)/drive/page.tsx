@@ -27,7 +27,7 @@ export default async function DrivePage() {
   })
 
   const files: DriveFile[] = result.docs.map((doc) => ({
-    id: doc.id,
+    id: String(doc.id),
     name: doc.name,
     fileType: doc.fileType as any,
     createdAt: doc.createdAt,
