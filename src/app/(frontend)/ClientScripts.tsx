@@ -9,8 +9,8 @@ export function ClientScripts() {
 
     if (heroSection && tiltCard && window.innerWidth > 768) {
         heroSection.addEventListener('mousemove', (e) => {
-            const xAxis = (window.innerWidth / 2 - e.pageX) / 20;
-            const yAxis = (window.innerHeight / 2 - e.pageY) / 20;
+            const xAxis = (window.innerWidth / 2 - e.pageX) / 50;
+            const yAxis = (window.innerHeight / 2 - e.pageY) / 50;
 
             // Subtle 3D effect - Limit rotation
             tiltCard.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
@@ -29,7 +29,7 @@ export function ClientScripts() {
     }
 
     // --- 3. Universal 3D Tilt ---
-    const tiltElements = document.querySelectorAll('.project-card, .studio-card, .file-card');
+    const tiltElements = document.querySelectorAll('.studio-card, .file-card');
 
     tiltElements.forEach(el => {
         const htmlEl = el as HTMLElement;
@@ -46,10 +46,10 @@ export function ClientScripts() {
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
 
-            const rotateX = ((y - centerY) / centerY) * -10; // Max 10deg
-            const rotateY = ((x - centerX) / centerX) * 10;
+            const rotateX = ((y - centerY) / centerY) * -4; // Max 4deg
+            const rotateY = ((x - centerX) / centerX) * 4;
 
-            htmlEl.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+            htmlEl.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.01)`;
         });
 
         htmlEl.addEventListener('mouseleave', () => {
