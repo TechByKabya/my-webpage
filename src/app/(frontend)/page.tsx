@@ -72,9 +72,16 @@ export default async function PortfolioHome() {
           heroFloatCard2Text={'Embedded & IoT'}
         />
 
+        <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0) 100%)', margin: '0 auto', width: '100%', maxWidth: '1000px' }} />
+
         <BlogGrid blogs={blogs} />
+
+        <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0) 100%)', margin: '0 auto', width: '100%', maxWidth: '1000px' }} />
+
         <ProjectGrid projects={projects} />
         
+        <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0) 100%)', margin: '0 auto', width: '100%', maxWidth: '1000px' }} />
+
         <SkillsSection 
           title={settings.skillsSectionTitle || undefined}
           subtitle={settings.skillsSectionSubtitle || undefined}
