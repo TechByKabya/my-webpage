@@ -74,8 +74,8 @@ export default async function GlobalElements() {
               <ul className="menu" id="nav-menu">
                   {(settings.menuItems && settings.menuItems.length > 0 ? settings.menuItems : [
                       { label: 'Home', link: '/', isButton: false },
-                      { label: 'Projects', link: '/projects', isButton: false },
                       { label: 'Blogs', link: '/blogs', isButton: false },
+                      { label: 'Projects', link: '/projects', isButton: false },
                       { label: 'Contact', link: '/contact', isButton: true },
                   ]).map((item, i) => (
                       <li key={i}>

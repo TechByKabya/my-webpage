@@ -44,7 +44,10 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
         border: '1px solid rgba(0,0,0,0.04)',
         position: 'relative'
       }}>
-        <a href="/projects" className="btn-secondary" style={{ display: 'inline-block', marginBottom: '30px', marginTop: '10px' }}>&larr; Back to Projects</a>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', marginTop: '10px' }}>
+          <a href="/" className="btn-secondary" style={{ display: 'inline-block' }}><i className="fas fa-home" style={{ marginRight: '6px' }}></i> Home</a>
+          <a href="/projects" className="btn-secondary" style={{ display: 'inline-block' }}>&larr; Back to Projects</a>
+        </div>
         
         <img src={coverUrl} alt={project.title} style={{ width: '100%', borderRadius: '15px', marginBottom: '40px' }} />
         

@@ -44,7 +44,10 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
         border: '1px solid rgba(0,0,0,0.04)',
         position: 'relative'
       }}>
-        <a href="/blogs" className="btn-secondary" style={{ display: 'inline-block', marginBottom: '30px', marginTop: '10px' }}>&larr; Back to Blogs</a>
+        <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', marginTop: '10px' }}>
+          <a href="/" className="btn-secondary" style={{ display: 'inline-block' }}><i className="fas fa-home" style={{ marginRight: '6px' }}></i> Home</a>
+          <a href="/blogs" className="btn-secondary" style={{ display: 'inline-block' }}>&larr; Back to Blogs</a>
+        </div>
         
         <img src={coverUrl} alt={blog.title} style={{ width: '100%', borderRadius: '15px', marginBottom: '40px' }} />
         

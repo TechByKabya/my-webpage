@@ -504,7 +504,11 @@ const BeforeLogin: React.FC = () => {
         zIndex: -1,
       }}>
         <div className="login-brand-inner">
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px', position: 'relative' }}>
+            <a href="/" style={{ position: 'absolute', left: 0, top: 0, padding: '10px 16px', background: 'rgba(0,0,0,0.04)', borderRadius: '12px', textDecoration: 'none', color: '#374151', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', border: '1px solid rgba(0,0,0,0.05)' }} onMouseEnter={e => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.04)'; e.currentTarget.style.boxShadow = 'none'; }}>
+              <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+              Home
+            </a>
             <div style={{
               width: '120px', height: '120px', borderRadius: '24px', overflow: 'hidden', flexShrink: 0,
               boxShadow: '0 8px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)',

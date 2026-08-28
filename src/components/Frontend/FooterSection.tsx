@@ -141,9 +141,24 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               ))}
             </div>
             
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-              <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.8rem', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>K.</div>
-              <p style={{ color: '#6b7280', fontSize: '0.8rem', fontWeight: 500 }}>&copy; {new Date().getFullYear()} Kabya Ghosh.</p>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+              <button 
+                onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                style={{
+                  width: '40px', height: '40px', borderRadius: '50%', background: '#6366f1', color: 'white',
+                  border: 'none', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  boxShadow: '0 4px 12px rgba(99,102,241,0.3)', transition: 'transform 0.2s, box-shadow 0.2s'
+                }}
+                onMouseEnter={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 6px 16px rgba(99,102,241,0.4)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(99,102,241,0.3)'; }}
+                title="Scroll to top"
+              >
+                <i className="fas fa-arrow-up" />
+              </button>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.8rem', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>K.</div>
+                <p style={{ color: '#6b7280', fontSize: '0.8rem', fontWeight: 500 }}>&copy; {new Date().getFullYear()} Kabya Ghosh.</p>
+              </div>
             </div>
           </div>
 
