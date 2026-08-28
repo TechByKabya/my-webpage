@@ -5,8 +5,17 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
 export const metadata: Metadata = {
-  title: '3D Printing Service | Kabya Ghosh',
-  description: 'Request a custom 3D printing service from Kabya Ghosh. Premium, high-quality prints shipped to you.',
+  title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
+  description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil International University and all of Bangladesh.',
+  keywords: ['3D printing service in bd', 'low cost printing service in dhaka', '3d printing service near daffodil', '3D print BD', 'Rapid Prototyping Bangladesh', 'Kabya Ghosh'],
+  openGraph: {
+    title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
+    description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil and all of Bangladesh.',
+    url: 'https://www.kabyac.tech/3d-printing',
+    siteName: 'Kabya Ghosh',
+    locale: 'en_US',
+    type: 'website',
+  }
 }
 
 export default async function PrintingServicePage() {
@@ -28,8 +37,43 @@ export default async function PrintingServicePage() {
   const availableMaterials = materials.map((m: any) => m.name || m)
   const availableColors = colors.map((c: any) => c.name || c)
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'ProfessionalService',
+    name: 'Kabya Ghosh 3D Printing Service',
+    image: 'https://www.kabyac.tech/kabya.jpeg',
+    description: 'Low cost 3D printing service in Dhaka, BD. Fast delivery and precision prints near Daffodil.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Dhaka',
+      addressRegion: 'Dhaka',
+      addressCountry: 'BD'
+    },
+    areaServed: [
+      {
+        '@type': 'City',
+        name: 'Dhaka'
+      },
+      {
+        '@type': 'Country',
+        name: 'Bangladesh'
+      },
+      {
+        '@type': 'Place',
+        name: 'Daffodil International University (DIU)'
+      }
+    ],
+    url: 'https://www.kabyac.tech/3d-printing',
+    priceRange: '৳৳',
+    telephone: '+880' // Add an actual phone if needed, keeping schema valid
+  }
+
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <style>{`
         header#main-nav { display: none !important; }
         body { overflow: hidden !important; }

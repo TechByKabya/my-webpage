@@ -164,11 +164,11 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
         <div style={{ position: 'relative', zIndex: 1, textAlign: 'center', maxWidth: '500px', width: '100%' }}>
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
             <h1 style={{ color: '#fff', fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.04em', lineHeight: 1.1, marginBottom: '16px' }}>
-              Precision in every <span style={{ color: '#818cf8' }}>layer.</span>
+              3D Printing Service <span style={{ color: '#818cf8' }}>in BD.</span>
             </h1>
-            <p style={{ color: '#cbd5e1', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '20px' }}>
-              
-            </p>
+            <h2 style={{ color: '#cbd5e1', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '20px', fontWeight: 400 }}>
+              Low cost 3D printing service in Dhaka. Premium precision prints delivered fast, serving all local areas including near Daffodil.
+            </h2>
           </motion.div>
 
           <motion.div 
@@ -200,7 +200,7 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
             <form onSubmit={handleSubmit} style={{ background: '#fff', padding: '30px', borderRadius: '20px', boxShadow: '0 10px 30px rgba(0,0,0,0.02), 0 1px 3px rgba(0,0,0,0.03)', border: '1px solid rgba(0,0,0,0.05)', position: 'relative' }}>
               
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '8px' }}>
-                <h2 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: 0 }}>Configure Order</h2>
+                <h3 style={{ fontSize: '1.5rem', fontWeight: 800, color: '#0f172a', letterSpacing: '-0.02em', margin: 0 }}>Configure Order</h3>
                 <div style={{ fontSize: '0.85rem', fontWeight: 600, color: '#94a3b8', background: '#f1f5f9', padding: '4px 12px', borderRadius: '20px' }}>Step {step} of 3</div>
               </div>
               <p style={{ color: '#64748b', fontSize: '0.9rem', marginBottom: '24px' }}>Please provide your details and technical specifications.</p>
