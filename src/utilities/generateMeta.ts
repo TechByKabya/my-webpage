@@ -27,13 +27,17 @@ export const generateMeta = async (args: {
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Kabya Dev'
-    : 'Kabya Dev'
+    ? doc?.meta?.title + ' | Kabya Ghosh'
+    : 'Kabya Ghosh - Personal Portfolio & Tech Blog'
+
+  const description = doc?.meta?.description || 'Personal portfolio, projects, and technical blog of Kabya Ghosh. Explore software engineering, web development, and more.'
 
   return {
-    description: doc?.meta?.description,
+    description,
+    keywords: ['Kabya Ghosh', 'Kabya', 'Ghosh', 'Software Engineer', 'Web Developer', 'Tech Blog', 'Portfolio', 'Developer', 'Bangladesh', 'TechByKabya'],
+    authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
+      description,
       images: ogImage
         ? [
             {

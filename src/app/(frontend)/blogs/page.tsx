@@ -21,8 +21,8 @@ export default async function BlogsPage() {
   }
 
   return (
-    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', backgroundColor: '#ffffff' }}>
-      <section id="blogs" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+    <main style={{ paddingTop: '120px', paddingBottom: '60px', minHeight: '100vh', backgroundColor: '#ffffff' }}>
+      <section id="blogs" style={{ paddingTop: '0px', width: '100%', display: 'flex', justifyContent: 'center' }}>
           <div className="container" style={{ maxWidth: '1200px', width: '92%' }}>
               <div className="section-header center-text" style={{ paddingBottom: '40px', borderBottom: '1px solid rgba(0,0,0,0.06)', marginBottom: '40px' }}>
                   <h2 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.02em', color: '#1D1D1F' }}>Blog</h2>

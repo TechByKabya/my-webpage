@@ -85,7 +85,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               </div>
               <div>
                 <div style={{ fontSize: '1.2rem', fontWeight: 800, letterSpacing: '-0.03em', color: '#1d1d1f' }}>
-                  Kabya<span style={{ color: '#6366f1' }}>.Dev</span>
+                  Kabya<span style={{ color: '#6366f1' }}> Ghosh</span>
                 </div>
                 <p style={{ color: '#6b7280', fontSize: '0.8rem', marginTop: '4px' }}>Building with curiosity.</p>
               </div>

@@ -12,9 +12,9 @@ import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
 const generateTitle: GenerateTitle<any> = ({ doc, collectionSlug }) => {
   if (doc?.title) {
-    return `${doc.title} | Kabya Dev`
+    return `${doc.title} | Kabya Ghosh`
   }
-  return 'Kabya Dev'
+  return 'Kabya Ghosh'
 }
 
 const generateDescription: any = ({ doc, collectionSlug }: any) => {

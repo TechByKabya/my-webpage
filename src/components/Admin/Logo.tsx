@@ -21,7 +21,7 @@ export const Logo = async () => {
           alt={siteSettings.logo.alt || 'Admin Logo'} 
           style={{ height: '34px', objectFit: 'contain' }} 
         />
-        <span className="logo-text">Kabya Dev</span>
+        <span className="logo-text">Kabya Ghosh</span>
       </div>
     )
   }
@@ -30,7 +30,7 @@ export const Logo = async () => {
   return (
     <div className="custom-admin-logo">
       <div className="logo-icon">K</div>
-      <span className="logo-text">Kabya Dev</span>
+      <span className="logo-text">Kabya Ghosh</span>
     </div>
   )
 }

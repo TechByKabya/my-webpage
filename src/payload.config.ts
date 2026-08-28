@@ -27,7 +27,7 @@ export default buildConfig({
   admin: {
     theme: 'light',
     meta: {
-      titleSuffix: '- Kabya Dev CMS',
+      titleSuffix: '- Kabya Ghosh CMS',
       icons: [{ rel: 'icon', type: 'image/png', url: '/admin-favicon.png' }],
     },
     components: {

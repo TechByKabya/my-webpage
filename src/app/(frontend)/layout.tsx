@@ -67,7 +67,9 @@ export const metadata: Metadata = {
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',
-    creator: '@payloadcms',
+    creator: '@kabya_ghosh',
   },
+  keywords: ['Kabya Ghosh', 'Kabya', 'Ghosh', 'Software Engineer', 'Web Developer', 'Tech Blog', 'Portfolio', 'Developer', 'Bangladesh', 'TechByKabya'],
+  authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
 }
 

@@ -201,10 +201,6 @@ export interface Page {
   layout: (CallToActionBlock | ContentBlock | MediaBlock | FormBlock)[];
   meta?: {
     title?: string | null;
-    /**
-     * Maximum upload file size: 12MB. Recommended file size for images is <500KB.
-     */
-    image?: (number | null) | Media;
     description?: string | null;
   };
   publishedAt?: string | null;
@@ -623,6 +619,10 @@ export interface Blog {
     };
     [k: string]: unknown;
   };
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -665,6 +665,10 @@ export interface Project {
    * If checked, this card will be styled as the dark GitHub link card.
    */
   isGithubCard?: boolean | null;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -1001,7 +1005,6 @@ export interface PagesSelect<T extends boolean = true> {
     | T
     | {
         title?: T;
-        image?: T;
         description?: T;
       };
   publishedAt?: T;
@@ -1091,6 +1094,12 @@ export interface BlogsSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   content?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1109,6 +1118,12 @@ export interface ProjectsSelect<T extends boolean = true> {
   linkUrl?: T;
   gridSpan?: T;
   isGithubCard?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
