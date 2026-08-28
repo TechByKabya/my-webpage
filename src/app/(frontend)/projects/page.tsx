@@ -22,21 +22,12 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', backgroundColor: '#ffffff' }}>
       <section id="projects" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
-          <div className="container" style={{ 
-            maxWidth: '1200px', 
-            width: '92%', 
-            backgroundColor: '#ffffff',
-            padding: 'clamp(24px, 5vw, 48px)',
-            borderRadius: '24px',
-            boxShadow: '0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)',
-            border: '1px solid rgba(0,0,0,0.04)',
-            position: 'relative'
-          }}>
-              <div className="section-header center-text">
-                  <h2>All Projects</h2>
-                  <p className="sub-head">A comprehensive list of my work, experiments, and case studies.</p>
+          <div className="container" style={{ maxWidth: '1200px', width: '92%' }}>
+              <div className="section-header center-text" style={{ paddingBottom: '40px', borderBottom: '1px solid rgba(0,0,0,0.06)', marginBottom: '40px' }}>
+                  <h2 style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-0.02em', color: '#1D1D1F' }}>All Projects</h2>
+                  <p className="sub-head" style={{ fontSize: '1.1rem', color: '#6b7280' }}>A comprehensive list of my work, experiments, and case studies.</p>
               </div>
 
               <div className="bento-grid">
