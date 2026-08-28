@@ -49,9 +49,9 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
         disableInnerContainer={true}
       />
     ),
-    code: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
-    codeBlock: ({ node }) => <CodeBlock className="col-start-2" {...node.fields} />,
-    cta: ({ node }) => <CallToActionBlock {...node.fields} />,
+    code: ({ node }: { node: any }) => <CodeBlock className="col-start-2" {...node.fields} />,
+    codeBlock: ({ node }: { node: any }) => <CodeBlock className="col-start-2" {...node.fields} />,
+    cta: ({ node }: { node: any }) => <CallToActionBlock {...node.fields} />,
   },
 })
 
