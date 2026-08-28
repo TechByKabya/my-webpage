@@ -751,16 +751,22 @@ export interface PrintingRequest {
   email: string;
   phone?: string | null;
   address: string;
+  orderType: 'CAD Model Provided' | 'Idea / Need CAD Design';
   /**
-   * Link to the 3D model (Google Drive, WeTransfer, Dropbox)
+   * Link to the 3D model (if CAD Model Provided)
    */
-  fileLink: string;
+  fileLink?: string | null;
+  /**
+   * Idea and dimensions (if Need CAD Design)
+   */
+  ideaDescription?: string | null;
   material: string;
   color: string;
   infill: '10%' | '20%' | '50%' | '100% (Solid)';
   layerHeight: '0.12mm (High Detail)' | '0.20mm (Standard)' | '0.28mm (Draft/Fast)';
   notes?: string | null;
-  status?: ('Pending' | 'Approved' | 'Rejected' | 'Completed' | 'Delivered') | null;
+  status?:
+    ('Pending' | 'Approved' | 'Payment Requested' | 'Rejected' | 'Suggestion Given' | 'Completed' | 'Delivered') | null;
   /**
    * Set a price to notify the user upon approval.
    */
@@ -1322,7 +1328,9 @@ export interface PrintingRequestsSelect<T extends boolean = true> {
   email?: T;
   phone?: T;
   address?: T;
+  orderType?: T;
   fileLink?: T;
+  ideaDescription?: T;
   material?: T;
   color?: T;
   infill?: T;

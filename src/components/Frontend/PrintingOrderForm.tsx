@@ -17,13 +17,17 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
     email: '',
     phone: '',
     address: '',
+    orderType: 'CAD Model Provided',
     fileLink: '',
+    ideaDescription: '',
     material: availableMaterials.length > 0 ? availableMaterials[0] : 'PLA',
     color: availableColors.length > 0 ? availableColors[0] : 'Black',
     infill: '20%',
     layerHeight: '0.20mm (Standard)',
     notes: '',
   })
+  
+  const [agreedToTerms, setAgreedToTerms] = useState(false)
   
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
   const [step, setStep] = useState(1)
@@ -42,9 +46,12 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
       if (res.ok) {
         setStatus('success')
         setForm({
-          name: '', email: '', phone: '', address: '', fileLink: '',
-          material: 'PLA', color: '', infill: '20%', layerHeight: '0.20mm (Standard)', notes: ''
+          name: '', email: '', phone: '', address: '', fileLink: '', orderType: 'CAD Model Provided', ideaDescription: '',
+          material: availableMaterials.length > 0 ? availableMaterials[0] : 'PLA', 
+          color: availableColors.length > 0 ? availableColors[0] : 'Black', 
+          infill: '20%', layerHeight: '0.20mm (Standard)', notes: ''
         })
+        setAgreedToTerms(false)
         setStep(1)
       } else {
         setStatus('error')
@@ -220,9 +227,34 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
                         </div>
                       </div>
                       <div>
-                        <label style={labelStyle}>3D Model Link (Drive, Dropbox)</label>
-                        <input required type="url" placeholder="https://..." value={form.fileLink} onChange={e => setForm({...form, fileLink: e.target.value})} style={inputStyle} />
+                        <label style={labelStyle}>Phone Number (For SMS Updates)</label>
+                        <input required type="tel" placeholder="01XXXXXXXXX" value={form.phone} onChange={e => setForm({...form, phone: e.target.value})} style={inputStyle} />
                       </div>
+                      <div>
+                        <label style={labelStyle}>What do you have?</label>
+                        <div style={{ display: 'flex', gap: '16px', marginTop: '8px' }}>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: '#4b5563', cursor: 'pointer' }}>
+                            <input type="radio" name="orderType" value="CAD Model Provided" checked={form.orderType === 'CAD Model Provided'} onChange={e => setForm({...form, orderType: e.target.value})} />
+                            I have a 3D Model (Link)
+                          </label>
+                          <label style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', color: '#4b5563', cursor: 'pointer' }}>
+                            <input type="radio" name="orderType" value="Idea / Need CAD Design" checked={form.orderType === 'Idea / Need CAD Design'} onChange={e => setForm({...form, orderType: e.target.value})} />
+                            I have an idea / Provide Dimensions
+                          </label>
+                        </div>
+                      </div>
+                      
+                      {form.orderType === 'CAD Model Provided' ? (
+                        <div>
+                          <label style={labelStyle}>3D Model Link (Drive, Dropbox)</label>
+                          <input required type="url" placeholder="https://..." value={form.fileLink} onChange={e => setForm({...form, fileLink: e.target.value})} style={inputStyle} />
+                        </div>
+                      ) : (
+                        <div>
+                          <label style={labelStyle}>Idea & Dimensions</label>
+                          <textarea required rows={4} placeholder="Describe your idea in detail and provide rough dimensions..." value={form.ideaDescription} onChange={e => setForm({...form, ideaDescription: e.target.value})} style={{...inputStyle, resize: 'vertical'}} />
+                        </div>
+                      )}
                     </motion.div>
                   )}
 
@@ -273,6 +305,12 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
                       <div>
                         <label style={labelStyle}>Project Notes</label>
                         <textarea rows={3} placeholder="Any specific requirements for orientation, supports, etc." value={form.notes} onChange={e => setForm({...form, notes: e.target.value})} style={{...inputStyle, resize: 'none'}} />
+                      </div>
+                      <div style={{ marginTop: '12px', background: '#fef2f2', padding: '12px', borderRadius: '8px', border: '1px solid #fee2e2' }}>
+                        <label style={{ display: 'flex', alignItems: 'flex-start', gap: '10px', fontSize: '0.85rem', color: '#7f1d1d', cursor: 'pointer', lineHeight: 1.4 }}>
+                          <input type="checkbox" required checked={agreedToTerms} onChange={e => setAgreedToTerms(e.target.checked)} style={{ marginTop: '2px' }} />
+                          <span>I understand that payments are <strong>non-refundable</strong> once printing begins. Sending money to the wrong number is not the responsibility of Kabya 3D Printing.</span>
+                        </label>
                       </div>
                     </motion.div>
                   )}
