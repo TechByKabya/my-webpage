@@ -72,21 +72,30 @@ export default async function PortfolioHome() {
           heroFloatCard2Text={'Embedded & IoT'}
         />
 
-        <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0) 100%)', margin: '0 auto', width: '100%', maxWidth: '1000px' }} />
+        <div style={{ 
+          background: '#ffffff', 
+          borderTop: '1px solid rgba(0,0,0,0.04)', 
+          borderBottom: '1px solid rgba(0,0,0,0.04)',
+          boxShadow: '0 4px 30px rgba(0,0,0,0.02)' 
+        }}>
+          <BlogGrid blogs={blogs} />
+        </div>
 
-        <BlogGrid blogs={blogs} />
-
-        <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0) 100%)', margin: '0 auto', width: '100%', maxWidth: '1000px' }} />
-
-        <ProjectGrid projects={projects} />
+        <div style={{ background: '#f8fafc' }}>
+          <ProjectGrid projects={projects} />
+        </div>
         
-        <div style={{ height: '1px', background: 'linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0) 100%)', margin: '0 auto', width: '100%', maxWidth: '1000px' }} />
-
-        <SkillsSection 
-          title={settings.skillsSectionTitle || undefined}
-          subtitle={settings.skillsSectionSubtitle || undefined}
-          skills={(settings as any).skills || undefined}
-        />
+        <div style={{ 
+          background: '#ffffff',
+          borderTop: '1px solid rgba(0,0,0,0.04)',
+          boxShadow: '0 -4px 30px rgba(0,0,0,0.02)'
+        }}>
+          <SkillsSection 
+            title={settings.skillsSectionTitle || undefined}
+            subtitle={settings.skillsSectionSubtitle || undefined}
+            skills={(settings as any).skills || undefined}
+          />
+        </div>
       </main>
 
       {/* Footer is OUTSIDE main so it always sits flush at the page bottom */}
