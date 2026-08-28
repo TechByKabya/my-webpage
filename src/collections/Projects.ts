@@ -3,6 +3,7 @@ import { slugField } from 'payload'
 import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { documentationEditor } from '../fields/DocumentationContent'
+import { revalidatePath } from 'next/cache'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -20,6 +21,13 @@ export const Projects: CollectionConfig = {
     delete: authenticated,
     read: anyone,
     update: authenticated,
+  },
+  hooks: {
+    afterChange: [
+      ({ req: { payload } }) => {
+        revalidatePath('/', 'layout')
+      },
+    ],
   },
   fields: [
     // ── SIDEBAR ─────────────────────────────────────
