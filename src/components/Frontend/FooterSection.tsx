@@ -95,8 +95,8 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             <div>
               <p style={{ color: '#9ca3af', fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', marginBottom: '16px' }}>Contact Info</p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <a href={`mailto:${contactEmail}`} style={{ color: '#374151', fontSize: '0.9rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 500 }}>
-                  <i className="fas fa-envelope" style={{ color: '#6366f1', width: '16px' }} /> {contactEmail || 'kabyaghosh4@gmail.com'}
+                <a href={`mailto:${contactEmail || 'kabya.connect24@gmail.com'}`} style={{ color: '#374151', fontSize: '0.9rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 500 }}>
+                  <i className="fas fa-envelope" style={{ color: '#6366f1', width: '16px' }} /> {contactEmail || 'kabya.connect24@gmail.com'}
                 </a>
                 <span style={{ color: '#374151', fontSize: '0.9rem', display: 'flex', alignItems: 'center', gap: '10px', fontWeight: 500 }}>
                   <i className="fas fa-phone" style={{ color: '#6366f1', width: '16px' }} /> {contactPhone || '+880 1950-440296'}
