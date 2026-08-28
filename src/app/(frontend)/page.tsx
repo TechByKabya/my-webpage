@@ -37,6 +37,7 @@ export default async function PortfolioHome() {
 
   // ── Fetch Projects ──
   let projects: any[] = []
+  let totalProjects = 0
   try {
     const projRes = await payload.find({
       collection: 'projects',
@@ -44,12 +45,14 @@ export default async function PortfolioHome() {
       limit: 4,
     })
     projects = projRes.docs || []
+    totalProjects = projRes.totalDocs || 0
   } catch (err) {
     console.error('Error fetching projects:', err)
   }
 
   // ── Fetch Blogs ──
   let blogs: any[] = []
+  let totalBlogs = 0
   try {
     const blogRes = await payload.find({
       collection: 'blogs',
@@ -57,6 +60,7 @@ export default async function PortfolioHome() {
       limit: 4,
     })
     blogs = blogRes.docs || []
+    totalBlogs = blogRes.totalDocs || 0
   } catch (err) {
     console.error('Error fetching blogs:', err)
   }
@@ -113,11 +117,11 @@ export default async function PortfolioHome() {
           borderBottom: '1px solid rgba(0,0,0,0.04)',
           boxShadow: '0 4px 30px rgba(0,0,0,0.02)' 
         }}>
-          <BlogGrid blogs={blogs} />
+          <BlogGrid blogs={blogs} totalCount={totalBlogs} />
         </div>
 
         <div style={{ background: '#f8fafc' }}>
-          <ProjectGrid projects={projects} />
+          <ProjectGrid projects={projects} totalCount={totalProjects} />
         </div>
         
         <div style={{ 

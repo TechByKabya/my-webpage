@@ -1794,3 +1794,8 @@ body {
   height: auto;
   margin: 2rem 0;
 }
+
+.hover-unblur:hover {
+  backdrop-filter: blur(4px) !important;
+  background-color: rgba(0,0,0,0.3) !important;
+}

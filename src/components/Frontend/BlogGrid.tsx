@@ -15,6 +15,7 @@ interface Blog {
 
 interface BlogGridProps {
   blogs: Blog[]
+  totalCount?: number
 }
 
 const getMediaUrl = (mediaObj: any, defaultUrl: string) => {
@@ -37,7 +38,11 @@ const cardVariants = {
   })
 }
 
-export const BlogGrid: React.FC<BlogGridProps> = ({ blogs }) => {
+export const BlogGrid: React.FC<BlogGridProps> = ({ blogs, totalCount = 0 }) => {
+  const displayBlogs = blogs.slice(0, 4);
+  const remainingCount = Math.max(0, totalCount - 3);
+  const hasMore = totalCount > 4;
+
   return (
     <section id="blogs">
       <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', padding: '0 20px' }}>
@@ -53,11 +58,12 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ blogs }) => {
         </motion.div>
 
         <div className="bento-grid">
-          {blogs.length === 0 ? (
+          {displayBlogs.length === 0 ? (
             <p style={{ textAlign: 'center', width: '100%', gridColumn: '1 / -1' }}>No blog posts yet. Check back soon!</p>
           ) : (
-            blogs.map((blog, i) => {
+            displayBlogs.map((blog, i) => {
               const coverUrl = getMediaUrl(blog.coverImage, '/mission_bot.jpeg')
+              const isLastWithMore = hasMore && i === 3;
               
               return (
                 <motion.div 
@@ -68,30 +74,27 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ blogs }) => {
                   variants={cardVariants}
                   className="project-card span-1" 
                   key={i}
+                  style={{ position: 'relative', overflow: 'hidden' }}
                 >
-                  <a href={`/blogs/${blog.slug || '#'}`} className="full-link">
+                  <a href={isLastWithMore ? "/blogs" : `/blogs/${blog.slug || '#'}`} className="full-link">
                     <Image src={coverUrl} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="p-bg" style={{ objectFit: 'cover' }} />
                     <div className="p-content">
                       <span className="p-tag">Blog Post</span>
                       <h3>{blog.title}</h3>
                       <p>{blog.excerpt}</p>
                     </div>
+                    {isLastWithMore && (
+                      <div style={{ position: 'absolute', inset: 0, backgroundColor: 'rgba(0,0,0,0.4)', backdropFilter: 'blur(6px)', zIndex: 10, display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', color: '#fff', transition: 'all 0.3s ease' }} className="hover-unblur">
+                        <span style={{ fontSize: '3.5rem', fontWeight: '800', lineHeight: 1 }}>+{remainingCount}</span>
+                        <span style={{ fontSize: '1.2rem', fontWeight: '600', letterSpacing: '0.5px' }}>More Articles</span>
+                      </div>
+                    )}
                   </a>
                 </motion.div>
               )
             })
           )}
         </div>
-        
-        <motion.div 
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4, duration: 0.8 }}
-          style={{ textAlign: 'center', marginTop: '40px' }}
-        >
-          <a href="/blogs" className="btn-primary">View All Articles</a>
-        </motion.div>
       </div>
     </section>
   )
