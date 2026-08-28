@@ -1,7 +1,6 @@
 import type { CollectionConfig } from 'payload'
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY || 're_dummy_key_for_build')
 
 export const PrintingRequests: CollectionConfig = {
   slug: 'printing-requests',
@@ -22,6 +21,7 @@ export const PrintingRequests: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, previousDoc, operation }) => {
+        const resend = new Resend(process.env.RESEND_API_KEY as string)
         if (operation === 'create') {
           // Send email to admin about new order
           try {
