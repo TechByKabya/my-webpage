@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
+import Image from 'next/image'
 
 interface HeroSectionProps {
   heroTitle: string
@@ -160,7 +161,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 style={{ objectFit: 'cover' }}
               />
             ) : (
-              <img src={heroPhotoUrl} alt="Kabya Ghosh - Embedded System IoT Engineer at Daffodil International University" className="profile-photo" />
+              <Image src={heroPhotoUrl} alt="Kabya Ghosh - Embedded System IoT Engineer at Daffodil International University" width={500} height={500} priority={true} className="profile-photo" style={{ objectFit: 'cover' }} />
             )}
           </motion.div>
         </motion.div>

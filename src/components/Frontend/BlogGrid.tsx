@@ -4,6 +4,7 @@
 
 import React from 'react'
 import { motion } from 'framer-motion'
+import Image from 'next/image'
 
 interface Blog {
   title: string
@@ -69,7 +70,7 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ blogs }) => {
                   key={i}
                 >
                   <a href={`/blogs/${blog.slug || '#'}`} className="full-link">
-                    <img src={coverUrl} alt={blog.title} className="p-bg" />
+                    <Image src={coverUrl} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="p-bg" style={{ objectFit: 'cover' }} />
                     <div className="p-content">
                       <span className="p-tag">Blog Post</span>
                       <h3>{blog.title}</h3>

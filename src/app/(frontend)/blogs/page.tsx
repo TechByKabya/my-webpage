@@ -8,7 +8,7 @@ export const metadata: Metadata = {
   description: 'Read the latest thoughts, tutorials, and life updates on embedded systems, IoT engineering, and 3D printing by Kabya Ghosh, an expert in BD.',
 }
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export default async function BlogsPage() {
   const payload = await getPayload({ config: configPromise })

@@ -598,6 +598,7 @@ section {
 }
 
 .full-link {
+    position: relative;
     text-decoration: none;
     color: white;
     width: 100%;

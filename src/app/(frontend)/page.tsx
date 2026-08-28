@@ -16,7 +16,7 @@ import { BlogGrid } from '@/components/Frontend/BlogGrid'
 import { FooterSection } from '@/components/Frontend/FooterSection'
 import { SkillsSection } from '@/components/Frontend/SkillsSection'
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export default async function PortfolioHome() {
   const payload = await getPayload({ config: configPromise })

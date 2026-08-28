@@ -9,7 +9,7 @@ export const metadata: Metadata = {
   description: 'Explore Kabya Ghosh\'s portfolio of embedded systems, IoT engineering projects, and custom 3D printed CAD models in Bangladesh.',
 }
 
-export const revalidate = 60
+export const revalidate = 3600
 
 export default async function ProjectsPage() {
   const payload = await getPayload({ config: configPromise })

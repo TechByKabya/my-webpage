@@ -3,6 +3,7 @@
 'use client'
 
 import React from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 
 interface Project {
@@ -92,7 +93,7 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects }) => {
                 key={i}
               >
                 <a href={`/projects/${proj.slug || '#'}`} className="full-link">
-                  <img src={coverUrl} alt={proj.title} className="p-bg" />
+                  <Image src={coverUrl} alt={proj.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="p-bg" style={{ objectFit: 'cover' }} />
                   <div className="p-content">
                     <span className="p-tag">{proj.tag}</span>
                     <h3>{proj.title}</h3>
