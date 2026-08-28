@@ -65,6 +65,12 @@ export const PrintingRequests: CollectionConfig = {
           if (doc.phone) {
             await sendSMS(doc.phone, `Hi ${doc.name}, we received your 3D printing request. We will review it and get back to you shortly. - Kabya 3D Printing`)
           }
+
+          // Send SMS to Admin
+          const adminPhone = process.env.ADMIN_PHONE_NUMBER
+          if (adminPhone) {
+            await sendSMS(adminPhone, `New 3D Print Order from ${doc.name}! Type: ${doc.orderType}, Material: ${doc.material}`)
+          }
         }
 
         if (operation === 'update') {
@@ -165,6 +171,35 @@ export const PrintingRequests: CollectionConfig = {
 
             if (doc.phone) {
               await sendSMS(doc.phone, `Hi ${doc.name}, we left a suggestion for your order. Please check your email and reply on WhatsApp: https://wa.me/qr/7RBXRALWHAPNA1`)
+            }
+          }
+
+          // If status changes to Delivered
+          if (
+            doc.status === 'Delivered' &&
+            previousDoc.status !== 'Delivered'
+          ) {
+            try {
+              const { data, error } = await resend.emails.send({
+                from: 'Kabya 3D Printing <noreply@orders.kabyac.tech>',
+                to: doc.email, // Send to applicant
+                subject: 'Your 3D Printing Order is Delivered!',
+                html: `
+                  <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
+                    <h2>Great news, ${doc.name}!</h2>
+                    <p>Your 3D printing order has been successfully delivered.</p>
+                    <p>We hope you are satisfied with the result. If you have any feedback or need further assistance, please contact our support team on WhatsApp.</p>
+                    <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
+                    <p style="color: #666; font-size: 14px;">Thank you for choosing Kabya Ghosh 3D Printing Service!</p>
+                  </div>
+                `
+              })
+            } catch (catchError) {
+              console.error('Failed to execute email send:', catchError)
+            }
+
+            if (doc.phone) {
+              await sendSMS(doc.phone, `Hi ${doc.name}, your 3D print order has been delivered! Thank you for choosing us.`)
             }
           }
         }
