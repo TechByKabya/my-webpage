@@ -92,7 +92,7 @@ export const HomepageSettings: GlobalConfig = {
           name: 'heroFloatCard1Text',
           type: 'text',
           label: 'Float Card 1 Text',
-          defaultValue: 'Reliable',
+          defaultValue: ' & IoT',
         },
         {
           name: 'heroFloatCard2Icon',
@@ -104,7 +104,7 @@ export const HomepageSettings: GlobalConfig = {
           name: 'heroFloatCard2Text',
           type: 'text',
           label: 'Float Card 2 Text',
-          defaultValue: 'AI experiments',
+          defaultValue: 'AIOT',
         },
       ],
     },

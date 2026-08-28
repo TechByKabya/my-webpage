@@ -31,6 +31,28 @@ export const SiteSettings: GlobalConfig = {
         description: 'Upload an icon (ICO, PNG, or SVG). Recommended size: 32x32 or 64x64 pixels.',
       },
     },
+    {
+      name: 'loadingAnimation',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Loading Screen Animation',
+      admin: {
+        description:
+          'Upload a short video or GIF shown while the page loads (keep it small/low-res for fast display, e.g. MOV, MP4, WebM under 500 KB).',
+      },
+    },
+    {
+      name: 'adminLoginAvatar',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Admin Login — Avatar Photo',
+      admin: {
+        description:
+          'Your profile photo shown on the left panel of the admin login page. Use a square PNG, minimum 400×400 px.',
+      },
+    },
   ],
 }
 

@@ -70,6 +70,7 @@ export interface Config {
     pages: Page;
     blogs: Blog;
     projects: Project;
+    'drive-files': DriveFile;
     media: Media;
     users: User;
     'contact-submissions': ContactSubmission;
@@ -87,6 +88,7 @@ export interface Config {
     pages: PagesSelect<false> | PagesSelect<true>;
     blogs: BlogsSelect<false> | BlogsSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
+    'drive-files': DriveFilesSelect<false> | DriveFilesSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
@@ -108,12 +110,14 @@ export interface Config {
     footer: Footer;
     'homepage-settings': HomepageSetting;
     'site-settings': SiteSetting;
+    'drive-settings': DriveSetting;
   };
   globalsSelect: {
     header: HeaderSelect<false> | HeaderSelect<true>;
     footer: FooterSelect<false> | FooterSelect<true>;
     'homepage-settings': HomepageSettingsSelect<false> | HomepageSettingsSelect<true>;
     'site-settings': SiteSettingsSelect<false> | SiteSettingsSelect<true>;
+    'drive-settings': DriveSettingsSelect<false> | DriveSettingsSelect<true>;
   };
   locale: null;
   widgets: {
@@ -658,6 +662,21 @@ export interface Project {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "drive-files".
+ */
+export interface DriveFile {
+  id: number;
+  name: string;
+  fileType: 'pdf' | 'pptx' | 'code' | 'txt' | 'other';
+  /**
+   * Paste the Google Drive share link here (e.g., https://drive.google.com/file/d/.../view)
+   */
+  gDriveLink: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface User {
@@ -863,6 +882,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'projects';
         value: number | Project;
+      } | null)
+    | ({
+        relationTo: 'drive-files';
+        value: number | DriveFile;
       } | null)
     | ({
         relationTo: 'media';
@@ -1076,6 +1099,17 @@ export interface ProjectsSelect<T extends boolean = true> {
   gridSpan?: T;
   isGithubCard?: T;
   content?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "drive-files_select".
+ */
+export interface DriveFilesSelect<T extends boolean = true> {
+  name?: T;
+  fileType?: T;
+  gDriveLink?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1566,6 +1600,25 @@ export interface SiteSetting {
    * Upload an icon (ICO, PNG, or SVG). Recommended size: 32x32 or 64x64 pixels.
    */
   favicon?: (number | null) | Media;
+  /**
+   * Upload a short video or GIF shown while the page loads (keep it small/low-res for fast display, e.g. MOV, MP4, WebM under 500 KB).
+   */
+  loadingAnimation?: (number | null) | Media;
+  /**
+   * Your profile photo shown on the left panel of the admin login page. Use a square PNG, minimum 400×400 px.
+   */
+  adminLoginAvatar?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "drive-settings".
+ */
+export interface DriveSetting {
+  id: number;
+  driveUsername: string;
+  drivePassword: string;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1669,6 +1722,19 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
 export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
   favicon?: T;
+  loadingAnimation?: T;
+  adminLoginAvatar?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "drive-settings_select".
+ */
+export interface DriveSettingsSelect<T extends boolean = true> {
+  driveUsername?: T;
+  drivePassword?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

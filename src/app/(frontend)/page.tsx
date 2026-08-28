@@ -67,9 +67,9 @@ export default async function PortfolioHome() {
           heroBadgeText={settings.heroBadgeText || 'Based in Bangladesh'}
           heroPhotoUrl={heroPhotoUrl}
           heroFloatCard1Icon={settings.heroFloatCard1Icon || 'fas fa-bolt'}
-          heroFloatCard1Text={settings.heroFloatCard1Text || 'Reliable'}
+          heroFloatCard1Text={'AIOT'}
           heroFloatCard2Icon={settings.heroFloatCard2Icon || 'fas fa-brain'}
-          heroFloatCard2Text={settings.heroFloatCard2Text || 'AI experiments'}
+          heroFloatCard2Text={'Embedded & IoT'}
         />
 
         <SkillsSection 

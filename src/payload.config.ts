@@ -14,6 +14,8 @@ import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { HomepageSettings } from './globals/HomepageSettings'
 import { SiteSettings } from './globals/SiteSettings'
+import { DriveSettings } from './globals/DriveSettings'
+import { DriveFiles } from './collections/DriveFiles'
 import { plugins } from './plugins'
 import { defaultLexical } from '@/fields/defaultLexical'
 import { getServerSideURL } from './utilities/getURL'
@@ -77,12 +79,13 @@ export default buildConfig({
     Pages,
     Blogs,
     Projects,
+    DriveFiles,
     Media,
     Users,
     ContactSubmissions,
   ],
   cors: [getServerSideURL()].filter(Boolean),
-  globals: [Header, Footer, HomepageSettings, SiteSettings],
+  globals: [Header, Footer, HomepageSettings, SiteSettings, DriveSettings],
   plugins,
   secret: process.env.PAYLOAD_SECRET,
   sharp,
