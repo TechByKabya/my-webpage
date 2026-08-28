@@ -45,7 +45,7 @@ export const PrintingRequests: CollectionConfig = {
                   </div>
                 `
               })
-              console.log(\`Successfully sent approval email for order \${doc.id}\`)
+              console.log(`Successfully sent approval email for order ${doc.id}`)
             } catch (error) {
               console.error('Failed to send email:', error)
             }
