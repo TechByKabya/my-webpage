@@ -139,8 +139,7 @@ export const PrintingRequests: CollectionConfig = {
     },
     {
       name: 'material',
-      type: 'select',
-      options: ['PLA', 'PETG', 'ABS', 'Resin', 'TPU (Flexible)', 'Carbon Fiber'],
+      type: 'text',
       required: true,
     },
     {
