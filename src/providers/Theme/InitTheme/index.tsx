@@ -5,8 +5,10 @@ import { defaultTheme, themeLocalStorageKey } from '../ThemeSelector/types'
 
 export const InitTheme: React.FC = () => {
   return (
-    <script
-      suppressHydrationWarning
+    {/* eslint-disable-next-line @next/next/no-before-interactive-script-outside-document */}
+    <Script
+      id="theme-script"
+      strategy="beforeInteractive"
       dangerouslySetInnerHTML={{
         __html: `
   (function () {
