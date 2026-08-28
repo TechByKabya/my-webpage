@@ -1,5 +1,7 @@
 import type { GlobalConfig } from 'payload'
 
+import { authenticated } from '../access/authenticated'
+
 export const DriveSettings: GlobalConfig = {
   slug: 'drive-settings',
   label: 'Drive Auth Settings',
@@ -7,7 +9,7 @@ export const DriveSettings: GlobalConfig = {
     group: ' ',
   },
   access: {
-    read: () => true,
+    read: authenticated,
   },
   fields: [
     {
