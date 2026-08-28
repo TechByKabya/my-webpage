@@ -5,6 +5,19 @@ import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
 
 import { TextToSpeech } from '@/components/Frontend/TextToSpeech'
+import type { Metadata } from 'next'
+import { generateMeta } from '@/utilities/generateMeta'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const payload = await getPayload({ config: configPromise })
+  const { docs: blogs } = await payload.find({
+    collection: 'blogs',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  })
+  return generateMeta({ doc: blogs?.[0] || null })
+}
 
 export default async function BlogSinglePage({ params }: { params: Promise<{ slug: string }> }) {
   const payload = await getPayload({ config: configPromise })

@@ -10,13 +10,33 @@ import { Page } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
-const generateTitle: GenerateTitle<Page> = ({ doc }) => {
-  return doc?.title ? `${doc.title} | Payload Website Template` : 'Payload Website Template'
+const generateTitle: GenerateTitle<any> = ({ doc, collectionSlug }) => {
+  if (doc?.title) {
+    return `${doc.title} | Kabya Dev`
+  }
+  return 'Kabya Dev'
 }
 
-const generateURL: GenerateURL<Page> = ({ doc }) => {
+const generateDescription: any = ({ doc, collectionSlug }: any) => {
+  if (collectionSlug === 'blogs' || collectionSlug === 'projects') {
+    return doc?.excerpt || doc?.description || ''
+  }
+  return ''
+}
+
+const generateImage: any = ({ doc, collectionSlug }: any) => {
+  if ((collectionSlug === 'blogs' || collectionSlug === 'projects') && doc?.coverImage) {
+    return doc.coverImage
+  }
+  return null
+}
+
+const generateURL: GenerateURL<any> = ({ doc, collectionSlug }) => {
   const url = getServerSideURL()
 
+  if (collectionSlug === 'blogs' && doc?.slug) return `${url}/blogs/${doc.slug}`
+  if (collectionSlug === 'projects' && doc?.slug) return `${url}/projects/${doc.slug}`
+  
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
 
@@ -54,7 +74,10 @@ export const plugins: Plugin[] = [
     },
   }),
   seoPlugin({
+    collections: ['pages', 'blogs', 'projects'],
     generateTitle,
+    generateDescription,
+    generateImage,
     generateURL,
   }),
   formBuilderPlugin({

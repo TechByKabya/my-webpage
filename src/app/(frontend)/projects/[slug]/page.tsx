@@ -3,6 +3,19 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
 import RichText from '@/components/RichText'
+import type { Metadata } from 'next'
+import { generateMeta } from '@/utilities/generateMeta'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const payload = await getPayload({ config: configPromise })
+  const { docs: projects } = await payload.find({
+    collection: 'projects',
+    where: { slug: { equals: slug } },
+    limit: 1,
+  })
+  return generateMeta({ doc: projects?.[0] || null })
+}
 
 import { TextToSpeech } from '@/components/Frontend/TextToSpeech'
 
