@@ -157,7 +157,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               </button>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '0.8rem', color: '#1d1d1f', border: '1px solid rgba(0,0,0,0.1)', boxShadow: '0 2px 8px rgba(0,0,0,0.04)' }}>K.</div>
-                <p style={{ color: '#6b7280', fontSize: '0.8rem', fontWeight: 500 }}>&copy; {new Date().getFullYear()} Kabya Ghosh.</p>
+                <p style={{ color: '#6b7280', fontSize: '0.8rem', fontWeight: 500 }}>&copy; {new Date().getFullYear()} Kabya Ghosh. | <a href="/faq" style={{ color: 'inherit', textDecoration: 'none' }}>FAQ</a></p>
               </div>
             </div>
           </div>

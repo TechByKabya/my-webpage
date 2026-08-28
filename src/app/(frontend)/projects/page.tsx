@@ -2,6 +2,12 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import Link from 'next/link'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Hardware & IoT Engineering Projects | Kabya Ghosh',
+  description: 'Explore Kabya Ghosh\'s portfolio of embedded systems, IoT engineering projects, and custom 3D printed CAD models in Bangladesh.',
+}
 
 export const revalidate = 60
 

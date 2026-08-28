@@ -160,7 +160,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 style={{ objectFit: 'cover' }}
               />
             ) : (
-              <img src={heroPhotoUrl} alt="Profile" className="profile-photo" />
+              <img src={heroPhotoUrl} alt="Kabya Ghosh - Embedded System IoT Engineer at Daffodil International University" className="profile-photo" />
             )}
           </motion.div>
         </motion.div>

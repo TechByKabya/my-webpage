@@ -69,7 +69,15 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     creator: '@kabya_ghosh',
   },
-  keywords: ['Kabya Ghosh', 'Kabya', 'Ghosh', 'Software Engineer', 'Web Developer', 'Tech Blog', 'Portfolio', 'Developer', 'Bangladesh', 'TechByKabya'],
+  keywords: [
+    'Embedded System IoT Engineer BD',
+    'Embedded System IoT Expert in BD',
+    'Daffodil International University',
+    'Low Cost 3D Printing Dhaka',
+    'CAD Model Design Bangladesh',
+    'Kabya Ghosh',
+    'TechByKabya'
+  ],
   authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
 }
 

@@ -1,7 +1,13 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
 import './globals.css'
+
+export const metadata: Metadata = {
+  title: 'Kabya Ghosh | Embedded System IoT Engineer BD',
+  description: 'Kabya Ghosh is an Embedded System IoT Expert in BD and student at Daffodil International University. Offering IoT solutions, low cost 3D printing and CAD design in Dhaka.',
+}
 
 // Import new Client Components
 import { HeroSection } from '@/components/Frontend/HeroSection'
@@ -58,8 +64,37 @@ export default async function PortfolioHome() {
   const heroPhotoUrl = getMediaUrl(settings.heroPhoto, '/kabya.jpeg')
   const heroTitle = settings.heroTitle || 'Design.\nBuild.\nLearn.'
 
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Person',
+    name: 'Kabya Ghosh',
+    jobTitle: 'Embedded System IoT Engineer',
+    alumniOf: {
+      '@type': 'CollegeOrUniversity',
+      name: 'Daffodil International University'
+    },
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: 'Dhaka',
+      addressRegion: 'Dhaka',
+      addressCountry: 'BD'
+    },
+    url: 'https://www.kabyac.tech',
+    sameAs: [
+      settings.githubUrl || 'https://github.com/TechByKabya',
+      settings.linkedinUrl || '',
+      settings.youtubeUrl || '',
+      settings.facebookUrl || '',
+    ].filter(Boolean),
+    description: 'Embedded System IoT Expert in BD, CAD model designer, and provider of low cost 3D printing services in Dhaka.'
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
       <main className="bg-[#f8fafc] text-[#1D1D1F]" style={{ flex: 1 }}>
         <HeroSection 
           heroTitle={heroTitle}

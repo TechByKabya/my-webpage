@@ -1,6 +1,12 @@
 import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+import type { Metadata } from 'next'
+
+export const metadata: Metadata = {
+  title: 'Embedded IoT & Tech Blog | Kabya Ghosh',
+  description: 'Read the latest thoughts, tutorials, and life updates on embedded systems, IoT engineering, and 3D printing by Kabya Ghosh, an expert in BD.',
+}
 
 export const revalidate = 60
 
