@@ -22,9 +22,18 @@ export default async function ProjectsPage() {
   }
 
   return (
-    <main style={{ paddingTop: '100px' }}>
-      <section id="projects">
-          <div className="container">
+    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <section id="projects" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div className="container" style={{ 
+            maxWidth: '1200px', 
+            width: '92%', 
+            backgroundColor: '#ffffff',
+            padding: 'clamp(24px, 5vw, 48px)',
+            borderRadius: '24px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)',
+            border: '1px solid rgba(0,0,0,0.04)',
+            position: 'relative'
+          }}>
               <div className="section-header center-text">
                   <h2>All Projects</h2>
                   <p className="sub-head">A comprehensive list of my work, experiments, and case studies.</p>

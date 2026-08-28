@@ -21,9 +21,18 @@ export default async function BlogsPage() {
   }
 
   return (
-    <main style={{ paddingTop: '100px' }}>
-      <section id="blogs">
-          <div className="container">
+    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <section id="blogs" style={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+          <div className="container" style={{ 
+            maxWidth: '1200px', 
+            width: '92%', 
+            backgroundColor: '#ffffff',
+            padding: 'clamp(24px, 5vw, 48px)',
+            borderRadius: '24px',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)',
+            border: '1px solid rgba(0,0,0,0.04)',
+            position: 'relative'
+          }}>
               <div className="section-header center-text">
                   <h2>Blog</h2>
                   <p className="sub-head">Thoughts, tutorials, and life updates.</p>
