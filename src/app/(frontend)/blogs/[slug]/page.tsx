@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     where: { slug: { equals: slug } },
     limit: 1,
   })
-  return generateMeta({ doc: blogs?.[0] || null })
+  return generateMeta({ doc: blogs?.[0] || null, url: `/blogs/${slug}` })
 }
 
 export default async function BlogSinglePage({ params }: { params: Promise<{ slug: string }> }) {

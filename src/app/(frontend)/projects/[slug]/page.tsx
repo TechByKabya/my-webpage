@@ -14,7 +14,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     where: { slug: { equals: slug } },
     limit: 1,
   })
-  return generateMeta({ doc: projects?.[0] || null })
+  return generateMeta({ doc: projects?.[0] || null, url: `/projects/${slug}` })
 }
 
 import { TextToSpeech } from '@/components/Frontend/TextToSpeech'
