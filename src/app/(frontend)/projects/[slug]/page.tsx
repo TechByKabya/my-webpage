@@ -48,7 +48,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
   return (
     <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div className="container" style={{ 
-        maxWidth: '800px', 
+        maxWidth: '1050px', 
         width: '92%', 
         backgroundColor: '#ffffff',
         padding: 'clamp(24px, 5vw, 48px)',
@@ -62,7 +62,9 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
           <a href="/projects" className="btn-secondary" style={{ display: 'inline-block' }}>&larr; Back to Projects</a>
         </div>
         
-        <img src={coverUrl} alt={project.title} style={{ width: '100%', borderRadius: '15px', marginBottom: '40px' }} />
+        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
+          <img src={coverUrl} alt={project.title} style={{ width: '100%', maxWidth: '850px', maxHeight: '500px', objectFit: 'cover', borderRadius: '15px' }} />
+        </div>
         
         <div>
             <span className="badge" style={{ marginBottom: '15px', display: 'inline-block', backgroundColor: '#f3f4f6', color: '#374151', padding: '6px 12px', borderRadius: '999px', fontSize: '0.85rem', fontWeight: 600 }}>{project.tag}</span>
