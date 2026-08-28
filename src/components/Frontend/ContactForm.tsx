@@ -47,15 +47,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ title, subtitle }) => 
         <h2 style={{ fontSize: '2.2rem', fontWeight: 800, color: '#1d1d1f', marginBottom: '12px', letterSpacing: '-0.03em' }}>{title || 'Send a Message'}</h2>
         <p style={{ color: '#6b7280', fontSize: '1.05rem' }}>{subtitle || 'I\'ll get back to you within 24 hours.'}</p>
         
-        <div style={{ display: 'inline-flex', flexWrap: 'wrap', justifyContent: 'center', gap: '20px', alignItems: 'center', background: '#f8fafc', padding: '14px 28px', borderRadius: '100px', marginTop: '24px', border: '1px solid #e5e7eb', boxShadow: '0 4px 12px rgba(0,0,0,0.02)' }}>
-           <div style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#374151', fontSize: '0.95rem', fontWeight: 600 }}>
-             <i className="fas fa-user-circle" style={{ color: '#6366f1', fontSize: '1.1rem' }}></i> Kabya Ghosh
-           </div>
-           <div style={{ width: '4px', height: '4px', borderRadius: '50%', background: '#d1d5db' }}></div>
-           <a href="mailto:kabya.connect24@gmail.com" style={{ display: 'flex', alignItems: 'center', gap: '8px', color: '#374151', fontSize: '0.95rem', fontWeight: 600, textDecoration: 'none', transition: 'color 0.2s' }} onMouseEnter={e => e.currentTarget.style.color = '#6366f1'} onMouseLeave={e => e.currentTarget.style.color = '#374151'}>
-             <i className="fas fa-envelope" style={{ color: '#6366f1', fontSize: '1.1rem' }}></i> kabya.connect24@gmail.com
-           </a>
-        </div>
+
       </div>
 
       {status === 'success' ? (
@@ -70,7 +62,7 @@ export const ContactForm: React.FC<ContactFormProps> = ({ title, subtitle }) => 
             <div>
               <label style={{ display: 'block', color: '#374151', fontSize: '0.85rem', fontWeight: 600, marginBottom: '8px' }}>Full Name *</label>
               <input
-                type="text" required placeholder="Kabya Ghosh"
+                type="text" required placeholder="Your Name"
                 value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))}
                 style={inputStyle}
                 onFocus={e => { e.target.style.borderColor = '#6366f1'; e.target.style.boxShadow = '0 0 0 3px rgba(99,102,241,0.1)' }}

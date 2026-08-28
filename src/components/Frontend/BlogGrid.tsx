@@ -39,13 +39,13 @@ const cardVariants = {
 export const BlogGrid: React.FC<BlogGridProps> = ({ blogs }) => {
   return (
     <section id="blogs">
-      <div className="container">
+      <div style={{ maxWidth: '1200px', margin: '0 auto', width: '100%', padding: '0 20px' }}>
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.8 }}
-          className="section-header center-text"
+          className="section-header center-text text-center max-w-[1200px] mx-auto"
         >
           <h2>Latest Articles</h2>
           <p className="sub-head">Thoughts and tutorials.</p>

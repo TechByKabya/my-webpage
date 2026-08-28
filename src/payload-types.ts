@@ -729,7 +729,15 @@ export interface ContactSubmission {
   email: string;
   subject?: string | null;
   message: string;
+  /**
+   * Type your message here. Check the box in the sidebar and save to email this reply to the user.
+   */
+  adminReply?: string | null;
   status?: ('new' | 'read' | 'replied' | 'archived') | null;
+  /**
+   * Check this box and click Save to instantly send the reply to the user.
+   */
+  sendReplyEmail?: boolean | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -747,12 +755,12 @@ export interface PrintingRequest {
    * Link to the 3D model (Google Drive, WeTransfer, Dropbox)
    */
   fileLink: string;
-  material: 'PLA' | 'PETG' | 'ABS' | 'Resin' | 'TPU (Flexible)' | 'Carbon Fiber';
+  material: string;
   color: string;
   infill: '10%' | '20%' | '50%' | '100% (Solid)';
   layerHeight: '0.12mm (High Detail)' | '0.20mm (Standard)' | '0.28mm (Draft/Fast)';
   notes?: string | null;
-  status?: ('Pending' | 'Approved' | 'Rejected' | 'Completed') | null;
+  status?: ('Pending' | 'Approved' | 'Rejected' | 'Completed' | 'Delivered') | null;
   /**
    * Set a price to notify the user upon approval.
    */
@@ -1299,7 +1307,9 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   email?: T;
   subject?: T;
   message?: T;
+  adminReply?: T;
   status?: T;
+  sendReplyEmail?: T;
   updatedAt?: T;
   createdAt?: T;
 }

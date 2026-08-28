@@ -115,9 +115,7 @@ body {
     top: 0;
     width: 100%;
     z-index: 9999;
-    background: rgba(255, 255, 255, 0.8);
-    backdrop-filter: blur(20px);
-    -webkit-backdrop-filter: blur(20px);
+    background: #ffffff;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
@@ -499,6 +497,11 @@ section {
 .center-text {
     text-align: center;
     margin-bottom: 60px;
+}
+
+.section-header {
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .section-header h2 {

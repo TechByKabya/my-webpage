@@ -73,9 +73,20 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
         <img src={coverUrl} alt={blog.title} style={{ width: '100%', borderRadius: '15px', marginBottom: '40px' }} />
         
         <div>
-            <h1 style={{ fontSize: '3rem', color: '#1D1D1F', marginBottom: '10px', fontWeight: 800, letterSpacing: '-0.02em' }}>{blog.title}</h1>
+            <h1 style={{ fontSize: '3rem', color: '#1D1D1F', marginBottom: '16px', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2 }}>{blog.title}</h1>
+            
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
+              <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
+                <img src="/kabya.jpeg" alt="Kabya Ghosh" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              </div>
+              <div>
+                <p style={{ margin: 0, fontWeight: 700, color: '#1d1d1f', fontSize: '1.05rem' }}>Kabya Ghosh</p>
+                <p style={{ margin: 0, color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Author</p>
+              </div>
+            </div>
+
             <TextToSpeech targetId="post-content" />
-            <p style={{ color: '#6b7280', fontSize: '1.2rem', lineHeight: 1.6, marginTop: '20px' }}>{blog.excerpt}</p>
+            <p style={{ color: '#6b7280', fontSize: '1.2rem', lineHeight: 1.6, marginTop: '24px' }}>{blog.excerpt}</p>
         </div>
 
         <hr style={{ border: 'none', borderBottom: '1px solid rgba(0,0,0,0.08)', margin: '40px 0' }} />

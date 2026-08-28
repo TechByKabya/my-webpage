@@ -33,8 +33,11 @@ export default async function PrintingServicePage() {
       <style>{`
         header#main-nav { display: none !important; }
         body { overflow: hidden !important; }
+        @media (max-width: 768px) {
+          body { overflow: auto !important; }
+        }
       `}</style>
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100vh', background: '#f8fafc' }}>
+      <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh', background: '#f8fafc' }}>
         <main style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
           <PrintingOrderForm 
             availableMaterials={availableMaterials}

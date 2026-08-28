@@ -10,8 +10,12 @@ export const PrintingRequests: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'name',
-    defaultColumns: ['name', 'email', 'status', 'createdAt'],
+    defaultColumns: ['name', 'email', 'createdAt', 'quickActions'],
+    pagination: {
+      defaultLimit: 10,
+    },
   },
+  defaultSort: '-createdAt',
   access: {
     create: () => true,
     read: ({ req: { user } }) => Boolean(user),
@@ -21,7 +25,13 @@ export const PrintingRequests: CollectionConfig = {
   hooks: {
     afterChange: [
       async ({ doc, previousDoc, operation }) => {
-        const resend = new Resend(process.env.RESEND_API_KEY as string)
+        const apiKey = process.env.RESEND_API_KEY
+        if (!apiKey) {
+          console.warn('RESEND_API_KEY is missing. Skipping email notifications.')
+          return
+        }
+        const resend = new Resend(apiKey)
+
         if (operation === 'create') {
           // Send email to admin about new order
           try {
@@ -167,7 +177,7 @@ export const PrintingRequests: CollectionConfig = {
     {
       name: 'status',
       type: 'select',
-      options: ['Pending', 'Approved', 'Rejected', 'Completed'],
+      options: ['Pending', 'Approved', 'Rejected', 'Completed', 'Delivered'],
       defaultValue: 'Pending',
       admin: {
         position: 'sidebar',
@@ -186,6 +196,15 @@ export const PrintingRequests: CollectionConfig = {
       type: 'textarea',
       admin: {
         position: 'sidebar',
+      },
+    },
+    {
+      name: 'quickActions',
+      type: 'ui',
+      admin: {
+        components: {
+          Cell: '@/components/Admin/QuickActionsCell#QuickActionsCell',
+        },
       },
     },
   ],

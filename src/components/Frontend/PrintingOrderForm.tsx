@@ -81,17 +81,79 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
   }
 
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(400px, 1fr))', height: '100vh', overflow: 'hidden', background: '#fff', flex: 1 }}>
-      
-      {/* LEFT SIDE - VISUALS & BRANDING */}
-      <div style={{ 
-        background: 'linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%)', 
-        padding: '40px', 
-        display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center',
-        position: 'relative', overflow: 'hidden', height: '100%'
-      }}>
+    <>
+      <style>{`
+        .printing-container {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          height: 100vh;
+          overflow: hidden;
+          background: #fff;
+          flex: 1;
+        }
+        .printing-left {
+          background: linear-gradient(145deg, #0f172a 0%, #1e1b4b 100%);
+          padding: 40px;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+          height: 100%;
+        }
+        .printing-right {
+          padding: 30px 40px;
+          background: #f8fafc;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%;
+          overflow: hidden;
+        }
+        .form-grid-2 {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+        }
+        .home-btn {
+          position: absolute;
+          top: 30px;
+          left: 30px;
+          z-index: 10;
+        }
+        @media (max-width: 768px) {
+          .printing-container {
+            display: flex;
+            flex-direction: column;
+            height: auto;
+            overflow: visible;
+          }
+          .printing-left {
+            height: auto;
+            min-height: 400px;
+            padding: 80px 20px 40px 20px;
+          }
+          .printing-right {
+            height: auto;
+            padding: 40px 20px;
+            overflow: visible;
+          }
+          .form-grid-2 {
+            grid-template-columns: 1fr;
+          }
+          .home-btn {
+            top: 20px;
+            left: 20px;
+          }
+        }
+      `}</style>
+      <div className="printing-container">
+        
+        {/* LEFT SIDE - VISUALS & BRANDING */}
+        <div className="printing-left">
         {/* Home Button */}
-        <div style={{ position: 'absolute', top: '30px', left: '30px', zIndex: 10 }}>
+        <div className="home-btn">
           <Link href="/" style={{ color: '#cbd5e1', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.9rem', fontWeight: 600, transition: 'color 0.2s', letterSpacing: '0.02em' }} onMouseEnter={(e) => e.currentTarget.style.color = '#fff'} onMouseLeave={(e) => e.currentTarget.style.color = '#cbd5e1'}>
              <i className="fas fa-arrow-left"></i> Back to Home
           </Link>
@@ -105,7 +167,7 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
               Precision in every <span style={{ color: '#818cf8' }}>layer.</span>
             </h1>
             <p style={{ color: '#cbd5e1', fontSize: '1.05rem', lineHeight: 1.5, marginBottom: '20px' }}>
-              Upload your designs and bring them to life with ultra-high quality FDM & Resin 3D printing.
+              
             </p>
           </motion.div>
 
@@ -125,7 +187,7 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
       </div>
 
       {/* RIGHT SIDE - SEAMLESS FORM */}
-      <div style={{ padding: '30px 40px', background: '#f8fafc', display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%', overflow: 'hidden' }}>
+      <div className="printing-right">
         <div style={{ maxWidth: '600px', width: '100%' }}>
           {status === 'success' ? (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: 'center', padding: '60px 20px' }}>
@@ -147,14 +209,14 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
                 <AnimatePresence mode="wait">
                   {step === 1 && (
                     <motion.div key="step1" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.2 }} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px' }}>
+                      <div className="form-grid-2">
                         <div>
                           <label style={labelStyle}>Full Name</label>
-                          <input required type="text" placeholder="John Doe" value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={inputStyle} />
+                          <input required type="text" placeholder="Your Full Name" value={form.name} onChange={e => setForm({...form, name: e.target.value})} style={inputStyle} />
                         </div>
                         <div>
                           <label style={labelStyle}>Email Address</label>
-                          <input required type="email" placeholder="john@example.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} style={inputStyle} />
+                          <input required type="email" placeholder="your@email.com" value={form.email} onChange={e => setForm({...form, email: e.target.value})} style={inputStyle} />
                         </div>
                       </div>
                       <div>
@@ -165,7 +227,7 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
                   )}
 
                   {step === 2 && (
-                    <motion.div key="step2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.2 }} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '16px', background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
+                    <motion.div key="step2" initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: 10 }} transition={{ duration: 0.2 }} className="form-grid-2" style={{ background: '#f8fafc', padding: '16px', borderRadius: '12px', border: '1px solid #f1f5f9' }}>
                       <div>
                         <label style={labelStyle}>Material</label>
                         <select required value={form.material} onChange={e => setForm({...form, material: e.target.value})} style={inputStyle}>
@@ -272,5 +334,6 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
         </div>
       </div>
     </div>
+    </>
   )
 }
