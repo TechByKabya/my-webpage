@@ -43,15 +43,15 @@ const ICONS: Record<string, React.ReactNode> = {
   python: <Terminal strokeWidth={1.5} size={28} />,
 }
 
-const COLORS: Record<string, { fg: string; bg: string }> = {
-  indigo:  { fg: '#5B5BF5', bg: '#EEF0FF' },
-  blue:    { fg: '#0EA5E9', bg: '#E0F2FE' },
-  green:   { fg: '#10B981', bg: '#D1FAE5' },
-  amber:   { fg: '#F59E0B', bg: '#FEF3C7' },
-  red:     { fg: '#EF4444', bg: '#FEE2E2' },
-  purple:  { fg: '#8B5CF6', bg: '#EDE9FE' },
-  teal:    { fg: '#14B8A6', bg: '#CCFBF1' },
-  pink:    { fg: '#EC4899', bg: '#FCE7F3' },
+const COLORS: Record<string, { bg: string; icon: string; shadow: string }> = {
+  indigo:  { bg: 'linear-gradient(135deg, #6366f1 0%, #4f46e5 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(79, 70, 229, 0.4)' },
+  blue:    { bg: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(37, 99, 235, 0.4)' },
+  green:   { bg: 'linear-gradient(135deg, #10b981 0%, #059669 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(5, 150, 105, 0.4)' },
+  amber:   { bg: 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(217, 119, 6, 0.4)' },
+  red:     { bg: 'linear-gradient(135deg, #ef4444 0%, #dc2626 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(220, 38, 38, 0.4)' },
+  purple:  { bg: 'linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(124, 58, 237, 0.4)' },
+  teal:    { bg: 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(13, 148, 136, 0.4)' },
+  pink:    { bg: 'linear-gradient(135deg, #ec4899 0%, #db2777 100%)', icon: '#ffffff', shadow: '0 8px 16px -4px rgba(219, 39, 119, 0.4)' },
 }
 
 const DEFAULT_SKILLS: SkillItem[] = [
@@ -69,62 +69,47 @@ const container: Variants = {
 }
 
 const cardVariant: Variants = {
-  hidden: { opacity: 0, y: 40 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] } },
+  hidden: { opacity: 0, scale: 0.95, y: 15 },
+  show: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.4, ease: [0.22, 1, 0.36, 1] } },
 }
 
 export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, skills }) => {
   const ref = useRef(null)
-  const inView = useInView(ref, { once: true, margin: '-100px' })
+  const inView = useInView(ref, { once: true, margin: '-50px' })
 
   const displaySkills = (skills && skills.length > 0) ? skills : DEFAULT_SKILLS
   const displayTitle = title || 'Core Competencies'
-  const displaySubtitle = subtitle || 'From hardware to software — the tools and technologies I use to bring ideas to life.'
+  const displaySubtitle = subtitle || 'The tools and technologies I use to bring ideas to life.'
 
   return (
     <section
       ref={ref}
       style={{
-        padding: '100px 20px',
-        background: 'linear-gradient(180deg, #f8fafc 0%, #ffffff 100%)',
-        borderTop: '1px solid rgba(0,0,0,0.06)',
+        padding: '60px 20px 80px',
+        background: '#ffffff',
       }}
     >
-      <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1000px', margin: '0 auto' }}>
         <motion.div
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 15 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, ease: 'easeOut' }}
-          style={{ textAlign: 'center', marginBottom: '64px' }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
+          style={{ textAlign: 'center', marginBottom: '40px' }}
         >
-          <span style={{
-            display: 'inline-block',
-            fontSize: '0.75rem',
-            fontWeight: 700,
-            letterSpacing: '0.15em',
-            textTransform: 'uppercase',
-            color: '#6366f1',
-            background: '#eef2ff',
-            padding: '6px 16px',
-            borderRadius: '999px',
-            marginBottom: '16px',
-          }}>
-            What I Work With
-          </span>
           <h2 style={{
-            fontSize: 'clamp(2rem, 4vw, 3rem)',
+            fontSize: 'clamp(1.75rem, 3vw, 2.5rem)',
             fontWeight: 800,
-            letterSpacing: '-0.03em',
+            letterSpacing: '-0.02em',
             color: '#1D1D1F',
             margin: 0,
-            lineHeight: 1.15,
+            lineHeight: 1.2,
           }}>
             {displayTitle}
           </h2>
           <p style={{
-            marginTop: '16px',
+            marginTop: '12px',
             color: '#6b7280',
-            fontSize: '1.05rem',
+            fontSize: '1rem',
             maxWidth: '500px',
             marginLeft: 'auto',
             marginRight: 'auto',
@@ -139,8 +124,8 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, s
           animate={inView ? 'show' : 'hidden'}
           style={{
             display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
-            gap: '20px',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
+            gap: '16px',
           }}
         >
           {displaySkills.map((skill, i) => {
@@ -151,26 +136,26 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, s
               <motion.div
                 key={skill.id || i}
                 variants={cardVariant}
-                whileHover={{ y: -6, boxShadow: '0 20px 40px rgba(0,0,0,0.1)' }}
+                whileHover={{ y: -3, scale: 1.01, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
                 style={{
-                  background: '#ffffff',
-                  borderRadius: '20px',
-                  padding: '28px 24px',
-                  border: '1px solid rgba(0,0,0,0.06)',
-                  boxShadow: '0 4px 20px rgba(0,0,0,0.04)',
+                  background: '#f8fafc',
+                  borderRadius: '16px',
+                  padding: '16px 20px',
+                  border: '1px solid rgba(0,0,0,0.03)',
                   display: 'flex',
-                  flexDirection: 'column',
+                  alignItems: 'center',
                   gap: '16px',
                   cursor: 'default',
-                  transition: 'box-shadow 0.3s ease',
+                  transition: 'all 0.2s ease',
                 }}
               >
                 <div style={{
-                  width: '56px',
-                  height: '56px',
-                  borderRadius: '14px',
+                  width: '48px',
+                  height: '48px',
+                  borderRadius: '12px',
                   background: palette.bg,
-                  color: palette.fg,
+                  color: palette.icon,
+                  boxShadow: palette.shadow,
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
@@ -182,26 +167,19 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, s
                 <div>
                   <div style={{
                     fontWeight: 700,
-                    fontSize: '1.1rem',
+                    fontSize: '1rem',
                     color: '#1D1D1F',
-                    letterSpacing: '-0.02em',
-                    marginBottom: '6px',
+                    letterSpacing: '-0.01em',
+                    marginBottom: '2px',
                   }}>
                     {skill.name}
                   </div>
                   {skill.description && (
-                    <div style={{ fontSize: '0.85rem', color: '#6b7280', fontWeight: 500 }}>
+                    <div style={{ fontSize: '0.8rem', color: '#64748b', fontWeight: 500 }}>
                       {skill.description}
                     </div>
                   )}
                 </div>
-
-                <div style={{
-                  height: '3px',
-                  borderRadius: '999px',
-                  background: `linear-gradient(90deg, ${palette.fg}33, ${palette.fg})`,
-                  marginTop: 'auto',
-                }} />
               </motion.div>
             )
           })}

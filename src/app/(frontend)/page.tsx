@@ -72,14 +72,14 @@ export default async function PortfolioHome() {
           heroFloatCard2Text={'Embedded & IoT'}
         />
 
+        <BlogGrid blogs={blogs} />
+        <ProjectGrid projects={projects} />
+        
         <SkillsSection 
           title={settings.skillsSectionTitle || undefined}
           subtitle={settings.skillsSectionSubtitle || undefined}
           skills={(settings as any).skills || undefined}
         />
-
-        <ProjectGrid projects={projects} />
-        <BlogGrid blogs={blogs} />
       </main>
 
       {/* Footer is OUTSIDE main so it always sits flush at the page bottom */}
