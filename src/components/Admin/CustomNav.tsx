@@ -81,7 +81,19 @@ export const CustomNav: React.FC = () => {
           display: flex;
           flex-direction: column;
           z-index: 50;
-          transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          overflow: hidden;
+        }
+
+        /* On desktop, when nav is collapsed (navOpen is false), hide it or shrink it */
+        @media (min-width: 1025px) {
+          .custom-nav-wrapper:not(.nav-open) {
+            width: 0px;
+            padding-left: 0;
+            padding-right: 0;
+            opacity: 0;
+            pointer-events: none;
+          }
         }
 
         .custom-nav-backdrop {
