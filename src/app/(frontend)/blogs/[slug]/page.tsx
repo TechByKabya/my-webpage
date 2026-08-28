@@ -31,9 +31,18 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
   const coverUrl = getMediaUrl(blog.coverImage, '/mission_bot.jpeg')
 
   return (
-    <main style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div className="container" style={{ maxWidth: '800px', width: '100%' }}>
-        <a href="/blogs" className="btn-secondary" style={{ display: 'inline-block', marginBottom: '30px' }}>&larr; Back to Blogs</a>
+    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
+      <div className="container" style={{ 
+        maxWidth: '850px', 
+        width: '92%', 
+        backgroundColor: '#ffffff',
+        padding: 'clamp(24px, 5vw, 48px)',
+        borderRadius: '24px',
+        boxShadow: '0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)',
+        border: '1px solid rgba(0,0,0,0.04)',
+        position: 'relative'
+      }}>
+        <a href="/blogs" className="btn-secondary" style={{ display: 'inline-block', marginBottom: '30px', marginTop: '10px' }}>&larr; Back to Blogs</a>
         
         <img src={coverUrl} alt={blog.title} style={{ width: '100%', borderRadius: '15px', marginBottom: '40px' }} />
         
