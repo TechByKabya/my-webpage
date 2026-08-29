@@ -12,6 +12,7 @@ import {
 } from '@payloadcms/richtext-lexical'
 
 import { CodeBlock } from '../blocks/CodeBlock'
+import { YouTubeBlock } from '../blocks/YouTubeBlock'
 
 export const documentationEditor = lexicalEditor({
   features: ({ defaultFeatures }) => [
@@ -37,7 +38,7 @@ export const documentationEditor = lexicalEditor({
     AlignFeature(),
     InlineCodeFeature(),
     BlocksFeature({
-      blocks: [CodeBlock],
+      blocks: [CodeBlock, YouTubeBlock],
     }),
   ],
 })

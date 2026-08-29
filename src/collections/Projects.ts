@@ -72,6 +72,14 @@ export const Projects: CollectionConfig = {
               admin: {
                 description: 'Write the full article or details about your project here.',
               },
+            },
+            {
+              name: 'youtubeUrl',
+              type: 'text',
+              label: 'YouTube Video URL (Optional)',
+              admin: {
+                description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
+              }
             }
           ],
         },

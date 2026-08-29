@@ -18,6 +18,7 @@ import type {
   MediaBlock as MediaBlockProps,
 } from '@/payload-types'
 import { CallToActionBlock } from '@/blocks/CallToAction/Component'
+import { YouTubeBlockComponent, YouTubeBlockProps } from '@/blocks/YouTubeBlock/Component'
 import { cn } from '@/utilities/ui'
 
 type NodeTypes = 
@@ -52,6 +53,7 @@ const jsxConverters: JSXConvertersFunction<NodeTypes> = ({ defaultConverters }) 
     code: ({ node }: { node: any }) => <CodeBlock className="col-start-2" {...node.fields} />,
     codeBlock: ({ node }: { node: any }) => <CodeBlock className="col-start-2" {...node.fields} />,
     cta: ({ node }: { node: any }) => <CallToActionBlock {...node.fields} />,
+    youtubeBlock: ({ node }: { node: any }) => <YouTubeBlockComponent {...node.fields} />,
   },
 })
 

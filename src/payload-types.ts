@@ -623,6 +623,10 @@ export interface Blog {
     };
     [k: string]: unknown;
   };
+  /**
+   * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
+   */
+  youtubeUrl?: string | null;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -663,6 +667,10 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
+   */
+  youtubeUrl?: string | null;
   linkUrl?: string | null;
   gridSpan: 'span-1' | 'span-2';
   /**
@@ -1144,6 +1152,7 @@ export interface BlogsSelect<T extends boolean = true> {
   title?: T;
   excerpt?: T;
   content?: T;
+  youtubeUrl?: T;
   meta?:
     | T
     | {
@@ -1165,6 +1174,7 @@ export interface ProjectsSelect<T extends boolean = true> {
   tag?: T;
   description?: T;
   content?: T;
+  youtubeUrl?: T;
   linkUrl?: T;
   gridSpan?: T;
   isGithubCard?: T;

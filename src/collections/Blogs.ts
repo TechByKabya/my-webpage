@@ -65,6 +65,14 @@ export const Blogs: CollectionConfig = {
               label: 'Main Content',
               required: true,
             },
+            {
+              name: 'youtubeUrl',
+              type: 'text',
+              label: 'YouTube Video URL (Optional)',
+              admin: {
+                description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
+              }
+            },
           ],
         },
       ],

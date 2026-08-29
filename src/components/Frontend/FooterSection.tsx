@@ -62,6 +62,43 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
         padding: 0,
       }}
     >
+      <style>{`
+        @media (max-width: 768px) {
+          .responsive-footer-grid {
+            justify-content: center !important;
+            text-align: center !important;
+          }
+          .footer-col {
+            align-items: center !important;
+            margin: 0 auto;
+          }
+          .footer-contact-row {
+            transition: color 0.2s;
+          }
+          .social-container {
+            justify-content: flex-start;
+          }
+          .brand-row {
+            justify-content: center !important;
+          }
+          .responsive-footer-bottom {
+            flex-direction: column;
+            justify-content: center !important;
+            gap: 30px !important;
+          }
+          .responsive-footer-bottom > div {
+            justify-content: center !important;
+          }
+          .text-center-mobile {
+            text-align: center !important;
+          }
+          @media (max-width: 768px) {
+            .social-container {
+              justify-content: center !important;
+            }
+          }
+        }
+      `}</style>
 
       {/* ── SPLIT CTA SECTION ── */}
       {!hideContactForm && (
@@ -89,8 +126,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               transition={{ duration: 0.7 }}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 40px' }}
             >
-              <div style={{ width: '280px', marginBottom: '4px' }}>
-                <LottieContactAnimation />
+              <div style={{ width: '100%', maxWidth: '340px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
+                <div style={{ width: '100%' }}>
+                  <LottieContactAnimation />
+                </div>
               </div>
               <h2 style={{ 
                 fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', 
@@ -145,8 +184,10 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               transition={{ duration: 0.7 }}
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 40px' }}
             >
-              <div style={{ width: '260px', marginBottom: '4px' }}>
-                <Lottie3DAnimation />
+              <div style={{ width: '100%', maxWidth: '320px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
+                <div style={{ width: '100%' }}>
+                  <Lottie3DAnimation />
+                </div>
               </div>
               <h2 style={{ 
                 fontSize: 'clamp(1.8rem, 3vw, 2.8rem)', 
@@ -176,23 +217,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   <i className="fas fa-cube" style={{ fontSize: '0.85rem' }} />
                   Place an Order
                 </motion.a>
-                <div style={{ display: 'flex', gap: '8px', justifyContent: 'center', flexWrap: 'wrap' }}>
-                  {[
-                    { label: 'PLA Prints', icon: 'fas fa-layer-group' },
-                    { label: 'Fast Delivery', icon: 'fas fa-bolt' },
-                    { label: 'CAD Design', icon: 'fas fa-drafting-compass' },
-                  ].map((tag) => (
-                    <span key={tag.label} style={{
-                      display: 'inline-flex', alignItems: 'center', gap: '5px',
-                      padding: '6px 12px', borderRadius: '20px',
-                      background: '#fff7ed', border: '1px solid #fed7aa',
-                      color: '#c2410c', fontSize: '0.78rem', fontWeight: 600,
-                    }}>
-                      <i className={tag.icon} style={{ fontSize: '0.7rem' }} />
-                      {tag.label}
-                    </span>
-                  ))}
-                </div>
+
               </div>
             </motion.div>
 
@@ -209,8 +234,8 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
           <div className="responsive-footer-grid" style={{ display: 'flex', justifyContent: 'space-between', flexWrap: 'wrap', gap: '40px', marginBottom: '60px' }}>
             
             {/* Brand */}
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '320px', flex: '1 1 300px' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
+            <div className="footer-col" style={{ display: 'flex', flexDirection: 'column', gap: '20px', maxWidth: '320px', flex: '1 1 300px' }}>
+              <div className="brand-row" style={{ display: 'flex', alignItems: 'center', gap: '16px' }}>
                 <div style={{
                   width: '56px', height: '56px', borderRadius: '16px', overflow: 'hidden', flexShrink: 0,
                   boxShadow: '0 4px 16px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)',
@@ -230,25 +255,25 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   <p style={{ color: '#6b7280', fontSize: '0.85rem', marginTop: '4px', fontWeight: 500 }}>Building with curiosity.</p>
                 </div>
               </div>
-              <p style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6, marginTop: '4px' }}>
+              <p className="text-center-mobile" style={{ color: '#6b7280', fontSize: '0.9rem', lineHeight: 1.6, marginTop: '4px' }}>
                 Delivering high-quality embedded systems, IoT solutions, and precise 3D printing services in Bangladesh.
               </p>
             </div>
 
             {/* Contact Details */}
-            <div style={{ flex: '1 1 200px', maxWidth: '280px' }}>
-              <p style={{ color: '#111827', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '24px' }}>Contact Info</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-                <a href={`mailto:${contactEmail || 'kabya.connect24@gmail.com'}`} style={{ color: '#4b5563', fontSize: '0.95rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '14px', fontWeight: 500, transition: 'color 0.2s' }}
+            <div className="footer-col" style={{ flex: '1 1 200px', maxWidth: '280px', display: 'flex', flexDirection: 'column' }}>
+              <p className="text-center-mobile" style={{ color: '#111827', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '24px' }}>Contact Info</p>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '16px', alignItems: 'flex-start' }}>
+                <a href={`mailto:${contactEmail || 'kabya.connect24@gmail.com'}`} className="footer-contact-row" style={{ color: '#4b5563', fontSize: '0.95rem', textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '14px', fontWeight: 500, transition: 'color 0.2s' }}
                    onMouseEnter={e => e.currentTarget.style.color = '#6366f1'} onMouseLeave={e => e.currentTarget.style.color = '#4b5563'}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(99,102,241,0.08)', color: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0 }}><i className="fas fa-envelope" /></div>
                   <span style={{ wordBreak: 'break-all' }}>{contactEmail || 'kabya.connect24@gmail.com'}</span>
                 </a>
-                <span style={{ color: '#4b5563', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '14px', fontWeight: 500 }}>
+                <span className="footer-contact-row" style={{ color: '#4b5563', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '14px', fontWeight: 500 }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(99,102,241,0.08)', color: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0 }}><i className="fas fa-phone" /></div>
                   <span>{contactPhone || '+880 1950-440296'}</span>
                 </span>
-                <span style={{ color: '#4b5563', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '14px', fontWeight: 500 }}>
+                <span className="footer-contact-row" style={{ color: '#4b5563', fontSize: '0.95rem', display: 'flex', alignItems: 'center', gap: '14px', fontWeight: 500 }}>
                   <div style={{ width: '36px', height: '36px', borderRadius: '10px', background: 'rgba(99,102,241,0.08)', color: '#6366f1', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '0.9rem', flexShrink: 0 }}><i className="fas fa-map-marker-alt" /></div>
                   <span>Dhaka, Bangladesh</span>
                 </span>
@@ -256,9 +281,9 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             </div>
 
             {/* Social Links */}
-            <div style={{ flex: '1 1 200px', maxWidth: '300px' }}>
-              <p style={{ color: '#111827', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '24px' }}>Connect</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+            <div className="footer-col" style={{ flex: '1 1 200px', maxWidth: '300px', display: 'flex', flexDirection: 'column' }}>
+              <p className="text-center-mobile" style={{ color: '#111827', fontSize: '0.8rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', marginBottom: '24px' }}>Connect</p>
+              <div className="social-container" style={{ display: 'flex', flexWrap: 'wrap', gap: '12px', width: '100%' }}>
                 {socials.map((s, i) => {
                   const names: Record<string, string> = { 'fab fa-github': 'GitHub', 'fab fa-linkedin': 'LinkedIn', 'fab fa-youtube': 'YouTube', 'fab fa-facebook': 'Facebook' };
                   const name = names[s.icon] || 'Social';
@@ -266,10 +291,11 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                     <motion.a key={i} href={s.href} target="_blank" rel="noreferrer"
                       whileHover={{ y: -2, background: '#6366f1', color: '#ffffff', borderColor: '#6366f1' }}
                       style={{ 
-                        padding: '12px 14px', borderRadius: '12px', background: '#ffffff', 
-                        border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', gap: '10px',
+                        padding: '12px 18px', borderRadius: '12px', background: '#ffffff', 
+                        border: '1px solid rgba(0,0,0,0.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                         color: '#4b5563', fontSize: '0.9rem', textDecoration: 'none', fontWeight: 500,
-                        transition: 'all 0.2s ease', boxShadow: '0 2px 6px rgba(0,0,0,0.02)'
+                        transition: 'all 0.2s ease', boxShadow: '0 2px 6px rgba(0,0,0,0.02)',
+                        minWidth: '130px', flex: '1 1 auto'
                       }}>
                       <i className={s.icon} style={{ fontSize: '1.1rem' }} /> {name}
                     </motion.a>

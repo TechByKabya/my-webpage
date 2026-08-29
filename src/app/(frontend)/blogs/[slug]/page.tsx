@@ -53,6 +53,12 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
   }
   const coverUrl = getMediaUrl(blog.coverImage, '/mission_bot.jpeg')
 
+  const getYouTubeId = (url?: string) => {
+    if (!url) return null;
+    const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([^&?]+)/);
+    return match ? match[1] : null;
+  }
+
   return (
     <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
       <div className="container" style={{ 
@@ -90,6 +96,17 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
             <TextToSpeech targetId="post-content" />
             <p style={{ color: '#6b7280', fontSize: '1.2rem', lineHeight: 1.6, marginTop: '24px' }}>{blog.excerpt}</p>
         </div>
+
+        {blog.youtubeUrl && getYouTubeId(blog.youtubeUrl as string) && (
+          <div style={{ marginTop: '40px', width: '100%', maxWidth: '850px', margin: '40px auto 0 auto', position: 'relative', paddingBottom: 'min(478px, 56.25%)', height: 0, overflow: 'hidden', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
+            <iframe 
+              src={`https://www.youtube.com/embed/${getYouTubeId(blog.youtubeUrl as string)}`} 
+              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }} 
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+              allowFullScreen
+            />
+          </div>
+        )}
 
         <hr style={{ border: 'none', borderBottom: '1px solid rgba(0,0,0,0.08)', margin: '40px 0' }} />
 
