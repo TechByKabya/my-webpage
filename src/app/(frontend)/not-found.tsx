@@ -13,46 +13,94 @@ const DotLottiePlayer = dynamic(
 
 export default function NotFound() {
   return (
-    <div 
-      className="min-h-screen flex flex-col items-center justify-center px-4 text-center relative"
-      style={{ backgroundColor: '#ffffff', zIndex: 99999 }}
-    >
+    <div style={{
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      width: '100vw',
+      height: '100vh',
+      backgroundColor: '#fbfbfd',
+      zIndex: 9999999, // Cover header and chatbot completely
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      justifyContent: 'center',
+      padding: '24px',
+      overflow: 'hidden'
+    }}>
       <motion.div 
-        initial={{ opacity: 0, y: 20 }}
+        initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
-        className="w-full max-w-md mx-auto flex flex-col items-center"
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+        style={{
+          width: '100%',
+          maxWidth: '800px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          textAlign: 'center'
+        }}
       >
-        <div className="w-full max-w-sm mb-8">
+        {/* Bigger animation container */}
+        <div style={{ width: '100%', maxWidth: '650px', marginBottom: '10px' }}>
           <DotLottiePlayer
-            src="/404-animation.json"
+            src="/404-sleep-cat.json"
             autoplay
             loop
-            style={{ width: '100%', height: '100%' }}
+            style={{ width: '100%', height: 'auto' }}
           />
         </div>
         
-        <h1 className="text-4xl font-black text-gray-900 mb-20 tracking-tight">
-          Page Not Found
+        <h1 style={{
+          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontWeight: 800,
+          color: '#1d1d1f',
+          letterSpacing: '-0.04em',
+          marginBottom: '16px'
+        }}>
+          Looks like you're lost.
         </h1>
+        
+        <p style={{
+          fontSize: 'clamp(1.1rem, 2vw, 1.25rem)',
+          color: '#86868b',
+          marginBottom: '48px',
+          maxWidth: '500px',
+          lineHeight: 1.5
+        }}>
+          We can't find the page you're looking for. Let's get you back on track.
+        </p>
 
-        <Link 
-          href="/" 
-          className="group inline-flex items-center justify-center gap-3 px-8 py-3.5 bg-black text-white text-sm font-semibold rounded-full hover:bg-gray-800 transition-all duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:shadow-[0_12px_40px_rgb(0,0,0,0.2)] hover:-translate-y-0.5"
-        >
-          <span>Go Back Home</span>
-          <svg 
-            className="w-4 h-4 transform group-hover:translate-x-1 transition-transform duration-300" 
-            fill="none" 
-            stroke="currentColor" 
-            viewBox="0 0 24 24" 
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M14 5l7 7m0 0l-7 7m7-7H3" />
-          </svg>
+        <style>{`
+          .apple-home-btn {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 18px 40px;
+            background: #1d1d1f;
+            color: #ffffff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 999px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 4px 14px rgba(0,0,0,0.1);
+          }
+          .apple-home-btn:hover {
+            background: #000000;
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+          }
+          .apple-home-btn:active {
+            transform: scale(0.98);
+          }
+        `}</style>
+
+        <Link href="/" className="apple-home-btn">
+          <span>Go to Homepage</span>
         </Link>
       </motion.div>
     </div>
   )
 }
-
