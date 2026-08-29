@@ -8,33 +8,55 @@ export const metadata: Metadata = {
 }
 
 export default function FAQPage() {
-  const faqs = [
+  const faqCategories = [
     {
-      question: "Who works in embedded system IoT in Dhaka?",
-      answer: "Kabya Ghosh is a leading Embedded System IoT Engineer based in Dhaka, Bangladesh. With extensive experience in hardware-software integration, microcontroller programming, and cloud connectivity, Kabya provides end-to-end IoT solutions for startups and enterprises across BD."
+      category: "Background & Academics",
+      faqs: [
+        { question: "Who is Kabya Ghosh?", answer: "I am a Computer Science and Engineering undergraduate at Daffodil International University." },
+        { question: "What is your core expertise?", answer: "I specialize in embedded systems, IoT architecture, and full-stack hardware prototyping." },
+        { question: "What is Team EmbedX?", answer: "A competitive engineering and research group I founded to tackle advanced hardware hackathons." },
+        { question: "Are you involved in university research?", answer: "I actively collaborate with the Microprocessor & Embedded System Laboratory." }
+      ]
     },
     {
-      question: "Who can design CAD models well in Bangladesh?",
-      answer: "Kabya Ghosh offers professional, high-precision CAD modeling services in Bangladesh. Whether it's for rapid prototyping, product design, or mechanical engineering applications, Kabya designs intricate and highly accurate 3D CAD models optimized for 3D printing and manufacturing."
+      category: "Hardware & IoT Engineering",
+      faqs: [
+        { question: "Which microcontrollers do you program?", answer: "I develop custom firmware extensively for the ESP32 series, Arduino Uno, and STM32 platforms." },
+        { question: "Do you design custom PCBs?", answer: "Yes, I use KiCad and EasyEDA to route multi-layer SMD boards, optocouplers, and power management systems." },
+        { question: "What is the Smart Student Attendance System?", answer: "A multi-modal IoT biometric device I built utilizing RFID, fingerprint, and voice recognition." },
+        { question: "Have you built robotics platforms?", answer: "I engineered Mission BOT, an award-winning solar-powered rover featuring a 3-DOF robotic arm." },
+        { question: "What power systems have you prototyped?", answer: "I design custom circuits like logic gate traffic controllers and 12V auto cut-off battery chargers." }
+      ]
     },
     {
-      question: "Where can I find a low cost 3D printing service in Dhaka?",
-      answer: "Kabya Ghosh provides a premium yet low-cost 3D printing service in Dhaka, serving all local areas including near Daffodil International University. We offer rapid turnaround times, a variety of materials (like PLA, ABS, PETG), and high-quality precision prints."
+      category: "AI, Web & Software Development",
+      faqs: [
+        { question: "What is your experience with Edge AI?", answer: "I implement TinyML to run local machine learning models directly on microcontroller hardware." },
+        { question: "What is the electronic nose project?", answer: "A handheld Edge AI device leveraging gas sensors to evaluate and detect food freshness." },
+        { question: "Do you develop web dashboards?", answer: "I build custom backend systems and APIs using Python (Flask), PHP, HTML, CSS, and JavaScript." },
+        { question: "Can you create WordPress tools?", answer: "Yes, I program dynamic, single-file PHP plugins for tools like e-libraries and interactive quizzes." },
+        { question: "Have you built environmental platforms?", answer: "I engineered EnviroSense, an IoT architecture for flood monitoring and smart aquaculture telemetry." },
+        { question: "What is your primary software stack?", answer: "I rely on Visual Studio Code, GitHub, and macOS for seamless development workflows." }
+      ]
     },
     {
-      question: "Who is an embedded system IoT expert in BD?",
-      answer: "Kabya Ghosh is widely recognized as an embedded system IoT expert in BD. Currently affiliated as an Embedded System IoT Engineer at Daffodil International University, Kabya excels in designing smart, connected hardware systems, automation frameworks, and custom PCB designs."
-    },
-    {
-      question: "What are the best rapid prototyping services near Daffodil?",
-      answer: "For students, researchers, and professionals near Daffodil International University, Kabya Ghosh offers the best rapid prototyping services. Combining expert CAD design and low-cost 3D printing, we help turn your digital concepts into physical realities fast."
+      category: "3D Prototyping & Media",
+      faqs: [
+        { question: "Do you offer CAD modeling?", answer: "I design functional enclosures and parametric robotics components using Autodesk Fusion 360." },
+        { question: "What is your 3D printing workflow?", answer: "I fabricate high-tolerance physical prototypes on a Bambu Lab A1 using PLA+ and PETG filaments." },
+        { question: "Do you create 3D animations?", answer: "I utilize Blender for photorealistic Cycles rendering and procedural environment scattering." },
+        { question: "How do you edit showcase videos?", answer: "I handle project demonstrations and color grading using DaVinci Resolve." },
+        { question: "Are you available for custom hardware projects?", answer: "I actively design, prototype, and deploy end-to-end IoT and embedded system solutions." }
+      ]
     }
   ]
+
+  const allFaqs = faqCategories.flatMap(cat => cat.faqs)
 
   const jsonLd = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
+    mainEntity: allFaqs.map(faq => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {
@@ -175,18 +197,32 @@ export default function FAQPage() {
           </div>
 
           <div className="faq-list">
-            {faqs.map((faq, index) => (
-              <details key={index} className="faq-details">
-                <summary className="faq-summary">
-                  {faq.question}
-                  <div className="faq-icon">
-                    <i className="fas fa-chevron-down" style={{ fontSize: '0.9rem' }}></i>
-                  </div>
-                </summary>
-                <div className="faq-content">
-                  {faq.answer}
-                </div>
-              </details>
+            {faqCategories.map((categoryBlock, catIndex) => (
+              <div key={catIndex} style={{ marginBottom: '40px' }}>
+                <h2 style={{ 
+                  fontSize: '1.4rem', 
+                  fontWeight: 800, 
+                  color: '#1d1d1f', 
+                  marginBottom: '20px', 
+                  paddingLeft: '10px',
+                  borderLeft: '4px solid #6366f1'
+                }}>
+                  {categoryBlock.category}
+                </h2>
+                {categoryBlock.faqs.map((faq, index) => (
+                  <details key={index} className="faq-details">
+                    <summary className="faq-summary">
+                      {faq.question}
+                      <div className="faq-icon">
+                        <i className="fas fa-chevron-down" style={{ fontSize: '0.9rem' }}></i>
+                      </div>
+                    </summary>
+                    <div className="faq-content">
+                      {faq.answer}
+                    </div>
+                  </details>
+                ))}
+              </div>
             ))}
           </div>
         </div>

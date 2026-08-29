@@ -34,6 +34,34 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
+  // Web Audio API for cute soft pop sound
+  const playCutePop = () => {
+    try {
+      const AudioContext = window.AudioContext || (window as any).webkitAudioContext;
+      if (!AudioContext) return;
+      const audioCtx = new AudioContext();
+      
+      const osc = audioCtx.createOscillator();
+      const gainNode = audioCtx.createGain();
+
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(600, audioCtx.currentTime); 
+      osc.frequency.exponentialRampToValueAtTime(1200, audioCtx.currentTime + 0.1); 
+
+      gainNode.gain.setValueAtTime(0, audioCtx.currentTime);
+      gainNode.gain.linearRampToValueAtTime(0.15, audioCtx.currentTime + 0.02); 
+      gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.15); 
+
+      osc.connect(gainNode);
+      gainNode.connect(audioCtx.destination);
+
+      osc.start();
+      osc.stop(audioCtx.currentTime + 0.15);
+    } catch (e) {
+      // Audio context might be blocked if no user interaction yet, ignore silently
+    }
+  }
+
   const sectionMessages: Record<string, string> = {
     'section-hero': 'Hi! Welcome to my portfolio!',
     'section-skills': 'Check out the tools I use every day.',
@@ -98,6 +126,7 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
               // Not shown yet, show it and mark it
               setCurrentMessage(sectionMessages[currentSec])
               setShowBubble(true)
+              playCutePop()
               shownMessages.push(currentSec)
               sessionStorage.setItem('shownGuideMessages', JSON.stringify(shownMessages))
               
@@ -118,6 +147,7 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
     if (!shownMessages.includes('section-hero')) {
       setShowBubble(true)
       setCurrentMessage(sectionMessages['section-hero'])
+      playCutePop()
       shownMessages.push('section-hero')
       sessionStorage.setItem('shownGuideMessages', JSON.stringify(shownMessages))
       hideTimeout = setTimeout(() => setShowBubble(false), 5000)
