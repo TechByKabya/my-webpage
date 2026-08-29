@@ -2,6 +2,7 @@
 
 import React, { useState, useMemo } from 'react'
 import Fuse from 'fuse.js'
+import Image from 'next/image'
 
 export default function SearchableBlogs({ blogs }: { blogs: any[] }) {
   const [query, setQuery] = useState('')
@@ -132,7 +133,7 @@ export default function SearchableBlogs({ blogs }: { blogs: any[] }) {
             return (
               <div className="project-card span-1" data-cursor="Read" key={i}>
                   <a href={`/blogs/${blog.slug || '#'}`} className="full-link">
-                    <img src={coverUrl} alt={blog.title} className="p-bg" />
+                    <Image src={coverUrl} alt={blog.title} fill className="p-bg" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
                     <div className="p-content">
                         <span className="p-tag">Blog Post</span>
                         <h3>{blog.title}</h3>

@@ -2,6 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { notFound } from 'next/navigation'
+import Image from 'next/image'
 import RichText from '@/components/RichText'
 import type { Metadata } from 'next'
 import { generateMeta } from '@/utilities/generateMeta'
@@ -215,8 +216,15 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
                 {publishDate}
             </p>
 
-            <div style={{ marginBottom: '40px' }}>
-              <img src={coverUrl} alt={project.title} style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: '4px' }} />
+            <div style={{ marginBottom: '40px', position: 'relative' }}>
+              <Image 
+                src={coverUrl} 
+                alt={project.title} 
+                width={1200}
+                height={630}
+                priority
+                style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: '4px' }} 
+              />
             </div>
 
             <div style={{ marginBottom: '24px' }}>
@@ -263,8 +271,8 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
             <div>
                <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', marginBottom: '24px', borderBottom: '1px solid #eee', paddingBottom: '12px', fontWeight: 600 }}>About the Engineer</h4>
                <div className="author-block">
-                   <div className="author-avatar">
-                      <img src="/kabya.jpeg" alt="Kabya Ghosh" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)' }} />
+                   <div className="author-avatar" style={{ position: 'relative' }}>
+                      <Image src="/kabya.jpeg" alt="Kabya Ghosh" fill sizes="160px" style={{ objectFit: 'cover', filter: 'grayscale(100%)' }} />
                    </div>
                    <div>
                      <p style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.6, fontFamily: '"Georgia", serif' }}>
@@ -289,7 +297,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
                         return (
                           <a key={i} href={`/projects/${suggestion.slug}`} className="project-suggestion-link">
                             <div style={{ width: '100%', paddingTop: '66%', position: 'relative', overflow: 'hidden', borderRadius: '4px' }}>
-                              <img src={sCoverUrl} alt={suggestion.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                              <Image src={sCoverUrl} alt={suggestion.title} fill sizes="(max-width: 991px) 280px, 400px" style={{ objectFit: 'cover' }} />
                             </div>
                             <div>
                               <h5 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#111', marginBottom: '8px', lineHeight: 1.3, fontFamily: '"Georgia", serif' }}>{suggestion.title}</h5>
