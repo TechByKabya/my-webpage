@@ -4,6 +4,8 @@
 
 import React, { useState, useRef, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
+import { DotLottiePlayer } from '@dotlottie/react-player'
+import '@dotlottie/react-player/dist/index.css'
 
 type Message = { role: 'user' | 'assistant'; content: string; id: string }
 
@@ -16,6 +18,93 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
   ])
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+
+  // Robot state
+  const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [showBubble, setShowBubble] = useState(true)
+  const [isHovered, setIsHovered] = useState(false)
+  const [isMobile, setIsMobile] = useState(false)
+
+  const sectionMessages: Record<string, string> = {
+    'section-hero': "Hi, I'm your AI guide! Let's explore.",
+    'section-blogs': "Check out these latest articles to learn something new!",
+    'section-projects': "Here are some cool projects Kabya has built!",
+    'section-skills': "A solid stack of skills and technologies!",
+    'section-footer': "Need something? Place an order or drop a message!",
+  }
+
+  // Detect mobile
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 768)
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  // Intersection Observer for sections
+  useEffect(() => {
+    // If chat is open, we don't necessarily need to stop observing, but we can.
+    const observerOptions = {
+      root: null,
+      rootMargin: '-30% 0px -30% 0px', 
+      threshold: 0,
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+          // The scroll listener will handle setting showBubble to true
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+    
+    const sections = ['section-hero', 'section-blogs', 'section-projects', 'section-skills', 'section-footer']
+    sections.forEach(id => {
+      const el = document.getElementById(id)
+      if (el) observer.observe(el)
+    })
+
+    return () => observer.disconnect()
+  }, [])
+
+  // Smart scroll logic: hide on scroll, show after settling, then hide again
+  useEffect(() => {
+    let scrollTimeout: NodeJS.Timeout
+    let hideTimeout: NodeJS.Timeout
+    
+    const onScroll = () => {
+      if (!isOpen) {
+        // User is actively scrolling: immediately hide the bubble
+        setShowBubble(false)
+        clearTimeout(scrollTimeout)
+        clearTimeout(hideTimeout)
+        
+        // When they stop scrolling for 600ms, organically show the bubble
+        scrollTimeout = setTimeout(() => {
+          setShowBubble(true)
+          
+          // And then hide it again after 4 seconds so it doesn't linger forever
+          hideTimeout = setTimeout(() => {
+            setShowBubble(false)
+          }, 4000)
+        }, 600)
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    
+    // Initial timeout to hide the first bubble if they don't scroll
+    hideTimeout = setTimeout(() => setShowBubble(false), 4000)
+    
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      clearTimeout(scrollTimeout)
+      clearTimeout(hideTimeout)
+    }
+  }, [isOpen])
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -93,8 +182,31 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
     sendMessage()
   }
 
+  // Robot animation variants
+  const floatVariants = {
+    animate: {
+      y: [0, -15, 0, 10, 0],
+      x: [0, 10, -5, 5, 0],
+      rotate: [0, 3, -2, 2, 0],
+      scale: [1, 1.03, 0.97, 1.02, 1], 
+      transition: {
+        duration: 8,
+        ease: "easeInOut",
+        repeat: Infinity,
+        repeatType: "mirror" as const,
+      }
+    },
+    hover: {
+      scale: 1.15,
+      y: -5,
+      transition: { duration: 0.3 }
+    }
+  }
+
+  const currentMessage = activeSection ? sectionMessages[activeSection] : null
+
   return (
-    <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 9999 }}>
+    <div style={{ position: 'fixed', bottom: isMobile ? '20px' : '40px', right: isMobile ? '10px' : '40px', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', pointerEvents: 'none' }}>
 
       {/* CHAT WINDOW */}
       <AnimatePresence>
@@ -105,9 +217,7 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ duration: 0.2 }}
             style={{
-              position: 'absolute',
-              bottom: '70px',
-              right: '0',
+              pointerEvents: 'auto',
               width: '340px',
               height: '480px',
               background: 'rgba(255, 255, 255, 0.92)',
@@ -119,6 +229,7 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
               display: 'flex',
               flexDirection: 'column',
               overflow: 'hidden',
+              marginBottom: '16px',
             }}
           >
             {/* Header */}
@@ -211,28 +322,63 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
         )}
       </AnimatePresence>
 
-      {/* TOGGLE BUTTON */}
-      <motion.button
-        onClick={() => setIsOpen(!isOpen)}
-        whileHover={{ scale: 1.08 }}
-        whileTap={{ scale: 0.92 }}
-        style={{
-          width: '56px',
-          height: '56px',
-          borderRadius: '50%',
-          border: 'none',
-          background: 'linear-gradient(135deg, #1d1d1f, #3a3a3f)',
-          color: '#fff',
-          fontSize: '1.4rem',
-          cursor: 'pointer',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.2)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-        }}
-      >
-        <i className={isOpen ? 'fas fa-times' : 'fas fa-comment-dots'}></i>
-      </motion.button>
+      {/* FLOATING ROBOT TOGGLE / SCROLL TOOLTIP */}
+      {!isOpen && (
+        <>
+          <AnimatePresence>
+            {currentMessage && showBubble && (
+              <motion.div
+                initial={{ opacity: 0, y: 20, scale: 0.8 }}
+                animate={{ opacity: 1, y: 0, scale: 1 }}
+                exit={{ opacity: 0, y: 10, scale: 0.8 }}
+                transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+                style={{
+                  background: 'rgba(255, 255, 255, 0.95)',
+                  backdropFilter: 'blur(10px)',
+                  padding: '12px 18px',
+                  borderRadius: '20px',
+                  borderBottomRightRadius: '4px',
+                  boxShadow: '0 10px 30px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.05)',
+                  border: '1px solid rgba(255,255,255,0.4)',
+                  marginBottom: '10px',
+                  marginRight: '20px', 
+                  maxWidth: '220px',
+                  textAlign: 'center',
+                  color: '#1d1d1f',
+                  fontSize: '0.85rem',
+                  fontWeight: 600,
+                  pointerEvents: 'auto',
+                }}
+              >
+                {currentMessage}
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          <motion.div
+            variants={floatVariants}
+            animate={isHovered ? "hover" : "animate"}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+            onClick={() => setIsOpen(true)}
+            style={{
+              width: isMobile ? '90px' : '110px',
+              height: isMobile ? '90px' : '110px',
+              pointerEvents: 'auto',
+              cursor: 'pointer',
+              // Add a subtle drop shadow to make it pop out like a button
+              filter: 'drop-shadow(0px 10px 20px rgba(0,0,0,0.15))',
+            }}
+          >
+            <DotLottiePlayer
+              src="/ai-robot-animation.json"
+              autoplay
+              loop
+              style={{ width: '100%', height: '100%' }}
+            />
+          </motion.div>
+        </>
+      )}
 
     </div>
   )

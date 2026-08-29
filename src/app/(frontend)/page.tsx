@@ -100,18 +100,20 @@ export default async function PortfolioHome() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <main className="bg-[#f8fafc] text-[#1D1D1F]" style={{ flex: 1 }}>
-        <HeroSection 
-          heroTitle={heroTitle}
-          heroBio={settings.heroBio || 'I work where hardware and software meet — building practical projects, helping teams, and learning along the way.'}
-          heroBadgeText={settings.heroBadgeText || 'Based in Bangladesh'}
-          heroPhotoUrl={heroPhotoUrl}
-          heroFloatCard1Icon={settings.heroFloatCard1Icon || 'fas fa-bolt'}
-          heroFloatCard1Text={'AIOT'}
-          heroFloatCard2Icon={settings.heroFloatCard2Icon || 'fas fa-brain'}
-          heroFloatCard2Text={'Embedded & IoT'}
-        />
+        <div id="section-hero">
+          <HeroSection 
+            heroTitle={heroTitle}
+            heroBio={settings.heroBio || 'I work where hardware and software meet — building practical projects, helping teams, and learning along the way.'}
+            heroBadgeText={settings.heroBadgeText || 'Based in Bangladesh'}
+            heroPhotoUrl={heroPhotoUrl}
+            heroFloatCard1Icon={settings.heroFloatCard1Icon || 'fas fa-bolt'}
+            heroFloatCard1Text={'AIOT'}
+            heroFloatCard2Icon={settings.heroFloatCard2Icon || 'fas fa-brain'}
+            heroFloatCard2Text={'Embedded & IoT'}
+          />
+        </div>
 
-        <div style={{ 
+        <div id="section-blogs" style={{ 
           background: '#ffffff', 
           borderTop: '1px solid rgba(0,0,0,0.04)', 
           borderBottom: '1px solid rgba(0,0,0,0.04)',
@@ -120,11 +122,11 @@ export default async function PortfolioHome() {
           <BlogGrid blogs={blogs} totalCount={totalBlogs} />
         </div>
 
-        <div style={{ background: '#f8fafc' }}>
+        <div id="section-projects" style={{ background: '#f8fafc' }}>
           <ProjectGrid projects={projects} totalCount={totalProjects} />
         </div>
         
-        <div style={{ 
+        <div id="section-skills" style={{ 
           background: '#ffffff',
           borderTop: '1px solid rgba(0,0,0,0.04)',
           boxShadow: '0 -4px 30px rgba(0,0,0,0.02)'
@@ -138,7 +140,9 @@ export default async function PortfolioHome() {
       </main>
 
       {/* Footer is OUTSIDE main so it always sits flush at the page bottom */}
-      <FooterSection 
+      <div id="section-footer">
+        <FooterSection 
+
         footerVideoUrl={getMediaUrl(settings.footerVideoBg, '')}
         contactTitle={settings.contactTitle || ''}
         contactSubtitle={settings.contactSubtitle || ''}
@@ -148,7 +152,8 @@ export default async function PortfolioHome() {
         githubUrl={settings.githubUrl || ''}
         youtubeUrl={settings.youtubeUrl || ''}
         linkedinUrl={settings.linkedinUrl || ''}
-      />
+        />
+      </div>
     </div>
   )
 }
