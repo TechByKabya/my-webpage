@@ -32,26 +32,6 @@ export default async function GlobalElements() {
   // Separate loading animation from Site Settings
   const loadingAnimationMedia = (siteSettings as any).loadingAnimation
   const loadingAnimationUrl = loadingAnimationMedia && typeof loadingAnimationMedia === 'object' && 'url' in loadingAnimationMedia
-    ? (loadingAnimationMedia as any).url as string
-    : typeof loadingAnimationMedia === 'string' ? loadingAnimationMedia : undefined
-
-  // We only use this helper for the avatar to avoid breaking existing logo setups
-  const getAvatarUrl = (mediaObj: any, defaultUrl?: string) => {
-    if (mediaObj && typeof mediaObj === 'object' && 'url' in mediaObj && mediaObj.url) {
-      return mediaObj.url.startsWith('http')
-        ? mediaObj.url
-        : `${process.env.NEXT_PUBLIC_SERVER_URL || ''}${mediaObj.url}`
-    }
-    if (typeof mediaObj === 'string' && mediaObj) {
-      return mediaObj.startsWith('http')
-        ? mediaObj
-        : `${process.env.NEXT_PUBLIC_SERVER_URL || ''}${mediaObj}`
-    }
-    return defaultUrl || '/kabya.jpeg'
-  }
-  
-  const heroPhotoUrl = getAvatarUrl((settings as any).heroPhoto)
-
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -94,7 +74,7 @@ export default async function GlobalElements() {
               <nav id="nav-menu" className="nav-menu-wrapper">
                   {/* Mobile Sidebar Header */}
                   <div className="mobile-sidebar-header hide-on-desktop">
-                     <img src={heroPhotoUrl} alt="Kabya Ghosh" className="mobile-avatar" />
+                     <img src="/kabya.jpeg" alt="Kabya Ghosh" className="mobile-avatar" />
                      <div className="mobile-profile-info">
                         <h4>Kabya Ghosh</h4>
                         <p>Embedded System IoT Engineer</p>
@@ -135,9 +115,10 @@ export default async function GlobalElements() {
               </nav>
 
               <button className="hamburger" id="hamburger-menu" aria-label="Toggle Menu">
-                  <div className="hamburger-icon-wrapper">
-                      <i className="fas fa-bars menu-open-icon"></i>
-                      <i className="fas fa-times menu-close-icon"></i>
+                  <div className="morph-hamburger">
+                      <span></span>
+                      <span></span>
+                      <span></span>
                   </div>
               </button>
           </div>
