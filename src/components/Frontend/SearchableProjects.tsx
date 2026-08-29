@@ -146,7 +146,9 @@ export default function SearchableProjects({ projects }: { projects: any[] }) {
             return (
               <div className={`project-card ${proj.gridSpan}`} data-cursor="View Case" key={i}>
                 <a href={`/projects/${proj.slug || '#'}`} className="full-link">
-                  <Image src={coverUrl} alt={proj.title} fill className="p-bg" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
+                  <div className="card-img-wrap">
+                    <Image src={coverUrl} alt={proj.title} fill className="p-bg" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
+                  </div>
                   <div className="p-content">
                     <span className="p-tag">{proj.tag}</span>
                     <h3>{proj.title}</h3>

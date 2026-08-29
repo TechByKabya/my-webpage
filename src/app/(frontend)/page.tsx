@@ -104,7 +104,7 @@ export default async function PortfolioHome() {
           <HeroSection 
             heroTitle={heroTitle}
             heroBio={settings.heroBio || 'I work where hardware and software meet — building practical projects, helping teams, and learning along the way.'}
-            heroBadgeText={settings.heroBadgeText || 'Based in Bangladesh'}
+            heroBadgeText={''}
             heroPhotoUrl={heroPhotoUrl}
             heroFloatCard1Icon={settings.heroFloatCard1Icon || 'fas fa-bolt'}
             heroFloatCard1Text={'AIOT'}

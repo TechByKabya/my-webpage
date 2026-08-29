@@ -8,14 +8,14 @@ import { LottieAnimation } from './LottieAnimation'
 const LottieContactAnimation = () => (
   <LottieAnimation
     src="/contactus-animation.json"
-    style={{ width: '100%', height: 'auto', display: 'block' }}
+    style={{ width: '100%', height: '100%', display: 'block' }}
   />
 )
 
 const Lottie3DAnimation = () => (
   <LottieAnimation
     src="https://lottie.host/d7dfafa4-1d91-470e-8682-0ed044516b7e/Gmso1MWI18.lottie"
-    style={{ width: '100%', height: 'auto', display: 'block' }}
+    style={{ width: '100%', height: '100%', display: 'block' }}
   />
 )
 
@@ -96,6 +96,44 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
             .social-container {
               justify-content: center !important;
             }
+            .cta-split-grid {
+              grid-template-columns: 1fr 1fr !important;
+              gap: 12px !important;
+              padding: 0 12px !important;
+            }
+            .cta-split-divider {
+              display: none !important;
+            }
+            .cta-card-mobile {
+              padding: 0 10px !important;
+            }
+            .cta-card-contact {
+              border-right: 1px solid #e5e7eb !important;
+              padding-right: 15px !important;
+            }
+            .cta-card-3d {
+              padding-left: 15px !important;
+            }
+            .cta-card-mobile h2 {
+              font-size: 1.25rem !important;
+              margin-bottom: 6px !important;
+            }
+            .cta-card-mobile p {
+              font-size: 0.75rem !important;
+              line-height: 1.4 !important;
+              margin-bottom: 16px !important;
+            }
+            .cta-card-mobile a {
+              padding: 10px 0 !important;
+              font-size: 0.8rem !important;
+              width: 100% !important;
+              justify-content: center !important;
+            }
+            .lottie-mobile {
+              height: 120px !important;
+              margin-bottom: 12px !important;
+              overflow: hidden !important;
+            }
           }
         }
       `}</style>
@@ -124,10 +162,11 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
+              className="cta-card-mobile cta-card-contact"
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 40px' }}
             >
-              <div style={{ width: '100%', maxWidth: '340px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
-                <div style={{ width: '100%' }}>
+              <div className="lottie-mobile" style={{ width: '100%', maxWidth: '340px', height: '240px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <LottieContactAnimation />
                 </div>
               </div>
@@ -142,22 +181,25 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               <p style={{ color: '#6b7280', fontSize: '1rem', maxWidth: '320px', lineHeight: 1.6, margin: '0 0 32px' }}>
                 Have a project in mind or just want to say hi? I'd love to hear from you.
               </p>
-              <motion.a
-                href="/contact"
-                whileHover={{ scale: 1.04, boxShadow: '0 16px 40px rgba(99,102,241,0.35)' }}
-                whileTap={{ scale: 0.97 }}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '10px',
-                  padding: '14px 36px', borderRadius: '50px',
-                  background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
-                  color: '#fff', fontSize: '0.95rem', fontWeight: 700,
-                  textDecoration: 'none', letterSpacing: '0.01em',
-                  boxShadow: '0 8px 24px rgba(99,102,241,0.25)',
-                }}
-              >
-                <i className="fas fa-paper-plane" style={{ fontSize: '0.85rem' }} />
-                Contact Me
-              </motion.a>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', maxWidth: '280px' }}>
+                <motion.a
+                  href="/contact"
+                  whileHover={{ scale: 1.04, boxShadow: '0 16px 40px rgba(99,102,241,0.35)' }}
+                  whileTap={{ scale: 0.97 }}
+                  style={{
+                    display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
+                    padding: '14px 36px', borderRadius: '50px',
+                    background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
+                    color: '#fff', fontSize: '0.95rem', fontWeight: 700,
+                    textDecoration: 'none', letterSpacing: '0.01em',
+                    boxShadow: '0 8px 24px rgba(99,102,241,0.25)',
+                    width: '100%'
+                  }}
+                >
+                  <i className="fas fa-paper-plane" style={{ fontSize: '0.85rem' }} />
+                  Contact Me
+                </motion.a>
+              </div>
             </motion.div>
 
             {/* ── MIDDLE: Decorative Divider ── */}
@@ -182,10 +224,11 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.7 }}
+              className="cta-card-mobile cta-card-3d"
               style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', textAlign: 'center', padding: '0 40px' }}
             >
-              <div style={{ width: '100%', maxWidth: '320px', height: '300px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '4px' }}>
-                <div style={{ width: '100%' }}>
+              <div className="lottie-mobile" style={{ width: '100%', maxWidth: '320px', height: '240px', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px', overflow: 'hidden' }}>
+                <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
                   <Lottie3DAnimation />
                 </div>
               </div>
@@ -203,21 +246,21 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
               <div style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '100%', maxWidth: '280px' }}>
                 <motion.a
                   href="/3d-printing"
-                  whileHover={{ scale: 1.03, boxShadow: '0 12px 32px rgba(249,115,22,0.3)' }}
+                  whileHover={{ scale: 1.03, boxShadow: '0 16px 40px rgba(99,102,241,0.35)' }}
                   whileTap={{ scale: 0.97 }}
                   style={{
                     display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '10px',
                     padding: '14px 36px', borderRadius: '50px',
-                    background: 'linear-gradient(135deg, #f97316, #ea580c)',
+                    background: 'linear-gradient(135deg, #6366f1, #4f46e5)',
                     color: '#fff', fontSize: '0.95rem', fontWeight: 700,
                     textDecoration: 'none', letterSpacing: '0.01em',
-                    boxShadow: '0 8px 24px rgba(249,115,22,0.2)',
+                    boxShadow: '0 8px 24px rgba(99,102,241,0.25)',
+                    width: '100%'
                   }}
                 >
                   <i className="fas fa-cube" style={{ fontSize: '0.85rem' }} />
                   Place an Order
                 </motion.a>
-
               </div>
             </motion.div>
 

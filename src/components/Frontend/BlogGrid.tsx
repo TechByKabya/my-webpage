@@ -54,7 +54,6 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ blogs, totalCount = 0 }) => 
           className="section-header center-text text-center max-w-[1200px] mx-auto"
         >
           <h2>Latest Articles</h2>
-          <p className="sub-head">Thoughts and tutorials.</p>
         </motion.div>
 
         <div className="bento-grid">
@@ -77,7 +76,9 @@ export const BlogGrid: React.FC<BlogGridProps> = ({ blogs, totalCount = 0 }) => 
                   style={{ position: 'relative', overflow: 'hidden' }}
                 >
                   <a href={isLastWithMore ? "/blogs" : `/blogs/${blog.slug || '#'}`} className="full-link">
-                    <Image src={coverUrl} alt={blog.title} fill sizes="(max-width: 768px) 100vw, 33vw" className="p-bg" style={{ objectFit: 'cover' }} />
+                    <div className="card-img-wrap">
+                      <Image src={coverUrl} alt={blog.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="p-bg" style={{ objectFit: 'cover' }} />
+                    </div>
                     <div className="p-content">
                       <span className="p-tag">Blog Post</span>
                       <h3>{blog.title}</h3>

@@ -75,14 +75,16 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
           className="hero-text"
           style={{ flex: 1, display: 'flex', flexDirection: 'column', alignItems: 'flex-start', gap: '20px', zIndex: 10, y: yText, opacity: opacityText }}
         >
-          <motion.span 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            className="badge"
-          >
-            {heroBadgeText}
-          </motion.span>
+          {heroBadgeText && (
+            <motion.span 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              className="badge"
+            >
+              {heroBadgeText}
+            </motion.span>
+          )}
           
           <h1 className="hero-title-3d" style={{ whiteSpace: 'pre-line' }}>
              {typedText}

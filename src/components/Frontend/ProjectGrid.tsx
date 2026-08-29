@@ -58,7 +58,6 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects, totalCount =
           className="section-header center-text text-center max-w-[1200px] mx-auto"
         >
           <h2>Recent Projects</h2>
-          <p className="sub-head">A glimpse of my latest work.</p>
         </motion.div>
 
         <div className="bento-grid">
@@ -108,7 +107,9 @@ export const ProjectGrid: React.FC<ProjectGridProps> = ({ projects, totalCount =
                 style={{ position: 'relative', overflow: 'hidden' }}
               >
                 <a href={isLastWithMore ? "/projects" : `/projects/${proj.slug || '#'}`} className="full-link">
-                  <Image src={coverUrl} alt={proj.title} fill sizes="(max-width: 768px) 100vw, 50vw" className="p-bg" style={{ objectFit: 'cover' }} />
+                  <div className="card-img-wrap">
+                    <Image src={coverUrl} alt={proj.title} fill sizes="(max-width: 768px) 50vw, 50vw" className="p-bg" style={{ objectFit: 'cover' }} />
+                  </div>
                   <div className="p-content">
                     <span className="p-tag">{proj.tag}</span>
                     <h3>{proj.title}</h3>

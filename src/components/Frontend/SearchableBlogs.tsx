@@ -133,7 +133,9 @@ export default function SearchableBlogs({ blogs }: { blogs: any[] }) {
             return (
               <div className="project-card span-1" data-cursor="Read" key={i}>
                   <a href={`/blogs/${blog.slug || '#'}`} className="full-link">
-                    <Image src={coverUrl} alt={blog.title} fill className="p-bg" sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
+                    <div className="card-img-wrap">
+                      <Image src={coverUrl} alt={blog.title} fill className="p-bg" sizes="(max-width: 768px) 50vw, (max-width: 1200px) 50vw, 33vw" style={{ objectFit: 'cover' }} />
+                    </div>
                     <div className="p-content">
                         <span className="p-tag">Blog Post</span>
                         <h3>{blog.title}</h3>

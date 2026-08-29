@@ -118,15 +118,30 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, s
           </p>
         </motion.div>
 
+        <style>{`
+          .skills-grid-mobile {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 16px;
+          }
+          @media (max-width: 768px) {
+            .skills-grid-mobile {
+              grid-template-columns: 1fr 1fr;
+            }
+            .skill-card-mobile {
+              flex-direction: column !important;
+              text-align: center;
+              padding: 16px 10px !important;
+              gap: 10px !important;
+            }
+          }
+        `}</style>
+
         <motion.div
           variants={container}
           initial="hidden"
           animate={inView ? 'show' : 'hidden'}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))',
-            gap: '16px',
-          }}
+          className="skills-grid-mobile"
         >
           {displaySkills.map((skill, i) => {
             const palette = COLORS[skill.color || 'indigo'] || COLORS.indigo
@@ -137,6 +152,7 @@ export const SkillsSection: React.FC<SkillsSectionProps> = ({ title, subtitle, s
                 key={skill.id || i}
                 variants={cardVariant}
                 whileHover={{ y: -3, scale: 1.01, boxShadow: '0 12px 24px rgba(0,0,0,0.06)' }}
+                className="skill-card-mobile"
                 style={{
                   background: '#f8fafc',
                   borderRadius: '16px',
