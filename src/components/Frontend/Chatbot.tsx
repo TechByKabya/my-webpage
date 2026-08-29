@@ -21,10 +21,10 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
 
   // Robot state
   const [currentMessage, setCurrentMessage] = useState("Hi! Let me know if you need help.")
-  const [showBubble, setShowBubble] = useState(true)
+  const [showBubble, setShowBubble] = useState(false)
   const [isHovered, setIsHovered] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-  const messageCache = useRef<Record<string, string>>({})
+  const activeSectionRef = useRef<string | null>(null)
 
   // Detect mobile
   useEffect(() => {
@@ -54,10 +54,7 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const sectionId = entry.target.id
-          if (sectionMessages[sectionId]) {
-            setCurrentMessage(sectionMessages[sectionId])
-          }
+          activeSectionRef.current = entry.target.id
         }
       })
     }
@@ -91,21 +88,41 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
         // When they stop scrolling for 800ms, organically show the bubble
         scrollTimeout = setTimeout(() => {
           clearTimeout(initialHideDelay) // cancel the hide if they stopped super fast
-          setShowBubble(true)
           
-          // And then hide it again after 4 seconds so it doesn't linger forever
-          hideTimeout = setTimeout(() => {
-            setShowBubble(false)
-          }, 4000)
+          const currentSec = activeSectionRef.current
+          if (currentSec && sectionMessages[currentSec]) {
+            // Check if we've shown this message in this session
+            const shownMessages = JSON.parse(sessionStorage.getItem('shownGuideMessages') || '[]')
+            
+            if (!shownMessages.includes(currentSec)) {
+              // Not shown yet, show it and mark it
+              setCurrentMessage(sectionMessages[currentSec])
+              setShowBubble(true)
+              shownMessages.push(currentSec)
+              sessionStorage.setItem('shownGuideMessages', JSON.stringify(shownMessages))
+              
+              // And then hide it again after 4 seconds so it doesn't linger forever
+              hideTimeout = setTimeout(() => {
+                setShowBubble(false)
+              }, 4000)
+            }
+          }
         }, 800)
       }
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
     
-    // Initial timeout to hide the first bubble if they don't scroll
-    hideTimeout = setTimeout(() => setShowBubble(false), 5000)
-    
+    // Initial check for the hero section or first load
+    const shownMessages = JSON.parse(sessionStorage.getItem('shownGuideMessages') || '[]')
+    if (!shownMessages.includes('section-hero')) {
+      setShowBubble(true)
+      setCurrentMessage(sectionMessages['section-hero'])
+      shownMessages.push('section-hero')
+      sessionStorage.setItem('shownGuideMessages', JSON.stringify(shownMessages))
+      hideTimeout = setTimeout(() => setShowBubble(false), 5000)
+    }
+
     return () => {
       window.removeEventListener('scroll', onScroll)
       clearTimeout(scrollTimeout)
