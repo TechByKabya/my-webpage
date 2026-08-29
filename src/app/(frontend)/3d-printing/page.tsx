@@ -15,7 +15,21 @@ export const metadata: Metadata = {
     siteName: 'Kabya Ghosh',
     locale: 'en_US',
     type: 'website',
-  }
+  },
+  alternates: {
+    canonical: 'https://www.kabyac.tech/3d-printing',
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
 }
 
 export default async function PrintingServicePage() {
@@ -65,7 +79,18 @@ export default async function PrintingServicePage() {
     ],
     url: 'https://www.kabyac.tech/3d-printing',
     priceRange: '৳৳',
-    telephone: '+880' // Add an actual phone if needed, keeping schema valid
+    telephone: '+880', // Keeping generic to pass validation if exact phone isn't public
+    offers: {
+      '@type': 'Offer',
+      url: 'https://www.kabyac.tech/3d-printing',
+      priceCurrency: 'BDT',
+      price: '150', // Base price indicator
+      availability: 'https://schema.org/InStock',
+      itemOffered: {
+        '@type': 'Service',
+        name: 'Custom 3D Printing'
+      }
+    }
   }
 
   return (
