@@ -526,22 +526,24 @@ body {
 
 /* --- 5. Bento Grid (Projects) --- */
 section {
-    padding: 100px 20px;
+    padding: 60px 20px 100px 20px;
 }
 
 .center-text {
-    text-align: center;
-    margin-bottom: 80px;
+    text-align: center !important;
+    margin-bottom: 24px;
 }
 
 .section-header {
     max-width: 1200px;
-    margin: 0 auto;
+    margin-inline: auto;
 }
 
 .section-header h2 {
     font-size: 3rem;
-    letter-spacing: -1px;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    color: #000000;
     margin-bottom: 10px;
 }
 
@@ -1173,7 +1175,7 @@ footer {
     .hero-container {
         flex-direction: column-reverse;
         text-align: center;
-        padding-top: 100px;
+        padding-top: 160px;
     }
 
     .hero-visual {
@@ -1192,8 +1194,23 @@ footer {
         justify-content: center;
     }
 
-    section {
-        padding: 50px 20px !important;
+    #hero {
+        padding-top: 140px !important;
+    }
+
+    section:not(#hero) {
+        padding: 30px 20px 60px 20px !important;
+    }
+
+    .section-header h2 {
+        font-weight: 800 !important;
+        letter-spacing: -0.04em !important;
+        color: #000000 !important;
+        font-size: 2.5rem !important;
+    }
+
+    .center-text {
+        margin-bottom: 24px !important;
     }
 
     /* ── Mobile: 2-column product card grid ── */
@@ -1830,7 +1847,7 @@ body {
 .hero-title-3d {
   background: none !important;
   -webkit-text-fill-color: initial !important;
-  color: #1d1d1f !important;
+  color: #000000 !important;
   letter-spacing: -0.04em !important;
   text-shadow: 0 4px 20px rgba(0,0,0,0.05) !important;
 }
