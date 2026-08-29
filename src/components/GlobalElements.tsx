@@ -117,7 +117,7 @@ export default async function GlobalElements() {
                                   className={item.isButton ? "btn-nav" : ""} 
                                   data-cursor={item.label}
                                 >
-                                  <i className={`mobile-nav-icon ${(item as any).icon || 'fas fa-circle-notch'}`}></i>
+                                  <i className={`mobile-nav-icon hide-on-desktop ${(item as any).icon || 'fas fa-circle-notch'}`}></i>
                                   <span>{item.label}</span>
                                 </a>
                             </li>
@@ -134,8 +134,11 @@ export default async function GlobalElements() {
                   </div>
               </nav>
 
-              <button className="hamburger" id="hamburger-menu">
-                  <i className="fas fa-bars"></i>
+              <button className="hamburger" id="hamburger-menu" aria-label="Toggle Menu">
+                  <div className="hamburger-icon-wrapper">
+                      <i className="fas fa-bars menu-open-icon"></i>
+                      <i className="fas fa-times menu-close-icon"></i>
+                  </div>
               </button>
           </div>
       </header>
