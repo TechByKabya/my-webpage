@@ -1,5 +1,5 @@
 import type { Metadata } from 'next'
-
+import { SpeedInsights } from '@vercel/speed-insights/next'
 import { cn } from '@/utilities/ui'
 import { GeistMono } from 'geist/font/mono'
 import { GeistSans } from 'geist/font/sans'
@@ -56,6 +56,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
           />
           <GlobalElements />
           {children}
+          <SpeedInsights />
         </Providers>
       </body>
     </html>
