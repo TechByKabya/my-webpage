@@ -35,6 +35,23 @@ export default async function GlobalElements() {
     ? (loadingAnimationMedia as any).url as string
     : typeof loadingAnimationMedia === 'string' ? loadingAnimationMedia : undefined
 
+  // We only use this helper for the avatar to avoid breaking existing logo setups
+  const getAvatarUrl = (mediaObj: any, defaultUrl?: string) => {
+    if (mediaObj && typeof mediaObj === 'object' && 'url' in mediaObj && mediaObj.url) {
+      return mediaObj.url.startsWith('http')
+        ? mediaObj.url
+        : `${process.env.NEXT_PUBLIC_SERVER_URL || ''}${mediaObj.url}`
+    }
+    if (typeof mediaObj === 'string' && mediaObj) {
+      return mediaObj.startsWith('http')
+        ? mediaObj
+        : `${process.env.NEXT_PUBLIC_SERVER_URL || ''}${mediaObj}`
+    }
+    return defaultUrl || '/kabya.jpeg'
+  }
+  
+  const heroPhotoUrl = getAvatarUrl((settings as any).heroPhoto)
+
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
@@ -42,6 +59,9 @@ export default async function GlobalElements() {
 
       {/* SPLASH SCREEN — uses dedicated loading animation from Site Settings */}
       <SplashScreen logoVideoUrl={loadingAnimationUrl ?? logoVideoUrl} />
+
+      {/* Mobile Overlay */}
+      <div id="mobile-overlay" className="mobile-overlay"></div>
 
       <header id="main-nav">
           <div className="nav-container">
@@ -71,25 +91,48 @@ export default async function GlobalElements() {
                 )}
               </a>
 
-              <ul className="menu" id="nav-menu">
-                  {(settings.menuItems && settings.menuItems.length > 0 ? settings.menuItems : [
-                      { label: 'Home', link: '/', isButton: false },
-                      { label: 'Blogs', link: '/blogs', isButton: false },
-                      { label: 'Projects', link: '/projects', isButton: false },
-                      { label: '3D Printing', link: '/3d-printing', isButton: false },
-                      { label: 'Contact', link: '/contact', isButton: true },
-                  ]).map((item, i) => (
-                      <li key={i}>
-                          <a 
-                            href={item.link} 
-                            className={item.isButton ? "btn-nav" : ""} 
-                            data-cursor={item.label}
-                          >
-                            {item.label}
-                          </a>
-                      </li>
-                  ))}
-              </ul>
+              <nav id="nav-menu" className="nav-menu-wrapper">
+                  {/* Mobile Sidebar Header */}
+                  <div className="mobile-sidebar-header hide-on-desktop">
+                     <img src={heroPhotoUrl} alt="Kabya Ghosh" className="mobile-avatar" />
+                     <div className="mobile-profile-info">
+                        <h4>Kabya Ghosh</h4>
+                        <p>Embedded System IoT Engineer</p>
+                     </div>
+                  </div>
+
+                  {/* Menu Links Centered */}
+                  <div className="mobile-menu-center">
+                    <ul className="menu">
+                        {(settings.menuItems && settings.menuItems.length > 0 ? settings.menuItems : [
+                            { label: 'Home', link: '/', isButton: false, icon: 'fas fa-home' },
+                            { label: 'Blogs', link: '/blogs', isButton: false, icon: 'fas fa-pen-nib' },
+                            { label: 'Projects', link: '/projects', isButton: false, icon: 'fas fa-layer-group' },
+                            { label: '3D Printing', link: '/3d-printing', isButton: false, icon: 'fas fa-cube' },
+                            { label: 'Contact', link: '/contact', isButton: true, icon: 'fas fa-envelope' },
+                        ]).map((item, i) => (
+                            <li key={i}>
+                                <a 
+                                  href={item.link} 
+                                  className={item.isButton ? "btn-nav" : ""} 
+                                  data-cursor={item.label}
+                                >
+                                  <i className={`mobile-nav-icon ${(item as any).icon || 'fas fa-circle-notch'}`}></i>
+                                  <span>{item.label}</span>
+                                </a>
+                            </li>
+                        ))}
+                    </ul>
+                  </div>
+
+                  {/* Mobile Sidebar Footer */}
+                  <div className="mobile-sidebar-footer hide-on-desktop">
+                      <a href="/faq" className="faq-button">
+                          <i className="fas fa-info-circle"></i> 
+                          <span>Help & Information</span>
+                      </a>
+                  </div>
+              </nav>
 
               <button className="hamburger" id="hamburger-menu">
                   <i className="fas fa-bars"></i>

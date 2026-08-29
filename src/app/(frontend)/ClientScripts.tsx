@@ -62,25 +62,36 @@ export function ClientScripts() {
     const hamburger = document.getElementById('hamburger-menu');
     const navMenu = document.getElementById('nav-menu');
     const navLinks = document.querySelectorAll('.menu a');
+    const mobileOverlay = document.getElementById('mobile-overlay');
 
     if (hamburger && navMenu) {
         hamburger.addEventListener('click', () => {
             navMenu.classList.toggle('active');
+            if (mobileOverlay) mobileOverlay.classList.toggle('active');
+            
             const icon = hamburger.querySelector('i');
             if(icon) {
-              if (navMenu.classList.contains('active')) {
-                  icon.classList.remove('fa-bars');
-                  icon.classList.add('fa-times');
-              } else {
-                  icon.classList.remove('fa-times');
-                  icon.classList.add('fa-bars');
-              }
+              icon.style.opacity = '0';
+              icon.style.transform = navMenu.classList.contains('active') ? 'rotate(90deg)' : 'rotate(-90deg)';
+              setTimeout(() => {
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+                icon.style.opacity = '1';
+                icon.style.transform = 'rotate(0deg)';
+              }, 150);
             }
         });
 
         navLinks.forEach(link => {
             link.addEventListener('click', () => {
                 navMenu.classList.remove('active');
+                if (mobileOverlay) mobileOverlay.classList.remove('active');
+                
                 const icon = hamburger.querySelector('i');
                 if(icon) {
                   icon.classList.remove('fa-times');
@@ -88,6 +99,18 @@ export function ClientScripts() {
                 }
             });
         });
+
+        if (mobileOverlay) {
+            mobileOverlay.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileOverlay.classList.remove('active');
+                const icon = hamburger.querySelector('i');
+                if(icon) {
+                  icon.classList.remove('fa-times');
+                  icon.classList.add('fa-bars');
+                }
+            });
+        }
     }
 
 

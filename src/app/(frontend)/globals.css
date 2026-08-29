@@ -128,6 +128,26 @@ body {
     padding: 15px 20px;
 }
 
+.hide-on-desktop {
+    display: none !important;
+}
+
+.mobile-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.4);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+    z-index: 9999;
+    backdrop-filter: blur(2px);
+}
+
+.mobile-overlay.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
 .logo {
     font-size: 1.4rem;
     font-weight: 700;
@@ -1372,35 +1392,155 @@ footer {
         flex-direction: column-reverse;
     }
 
-    /* Navigation */
+    /* Mobile Sidebar Navigation */
     .hamburger {
         display: block;
         position: relative;
         z-index: 10001;
     }
 
-    .menu {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100vh;
-        background: white;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transform: translateX(100%);
-        transition: 0.3s;
-        z-index: 10000;
+    .hamburger i {
+        transition: transform 0.15s ease-in-out, opacity 0.15s ease-in-out;
+        display: inline-block;
     }
 
-    .menu.active {
+    .nav-menu-wrapper {
+        position: fixed;
+        top: 0;
+        right: 0;
+        width: 280px;
+        height: 100dvh;
+        background: #ffffff;
+        border-radius: 24px 0 0 24px;
+        box-shadow: -10px 0 30px rgba(0,0,0,0.05);
+        display: flex;
+        flex-direction: column;
+        padding: 30px 20px;
+        transform: translateX(100%);
+        transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        z-index: 10000;
+        overflow-y: auto;
+    }
+
+    .nav-menu-wrapper.active {
         transform: translateX(0);
     }
 
-    .menu a {
-        font-size: 1.5rem;
+    .mobile-sidebar-header {
+        display: flex !important;
+        align-items: center;
+        gap: 15px;
+        padding: 0 10px 20px 10px;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .mobile-avatar {
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .mobile-profile-info h4 {
+        font-size: 0.95rem;
+        font-weight: 600;
         color: var(--text-main);
+        margin: 0;
+        margin-bottom: 2px;
+    }
+
+    .mobile-profile-info p {
+        font-size: 0.75rem;
+        color: var(--text-light);
+        margin: 0;
+        line-height: 1.2;
+    }
+
+    .mobile-menu-center {
+        margin: auto 0;
+        width: 100%;
+    }
+
+    /* Reset .menu for mobile sidebar */
+    .nav-menu-wrapper .menu {
+        position: static;
+        width: 100%;
+        height: auto;
+        transform: none;
+        flex-direction: column;
+        gap: 8px;
+        padding: 0;
+        margin: 0;
+        align-items: stretch;
+        background: transparent;
+    }
+
+    .nav-menu-wrapper .menu li {
+        width: 100%;
+    }
+
+    .nav-menu-wrapper .menu a {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        font-size: 0.95rem;
+        font-weight: 500;
+        color: var(--text-main);
+        padding: 12px 16px;
+        border-radius: 12px;
+        transition: background 0.3s;
+    }
+
+    .nav-menu-wrapper .menu a:hover, .nav-menu-wrapper .menu a:active {
+        background: rgba(0, 0, 0, 0.04);
+        color: var(--black);
+    }
+    
+    .nav-menu-wrapper .menu a::before {
+        display: none;
+    }
+
+    .mobile-nav-icon {
+        width: 20px;
+        text-align: center;
+        color: var(--text-light);
+        font-size: 1.1rem;
+    }
+
+    /* Hide buttons inside the mobile menu */
+    .nav-menu-wrapper .menu a.btn-nav {
+        display: none;
+    }
+
+    .mobile-sidebar-footer {
+        display: block !important;
+        margin-top: 20px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .faq-button {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        color: var(--text-main);
+        text-decoration: none;
+        font-weight: 500;
+        padding: 12px 16px;
+        border-radius: 12px;
+        transition: background 0.3s;
+        font-size: 0.95rem;
+    }
+
+    .faq-button:hover, .faq-button:active {
+        background: rgba(0,0,0,0.04);
+    }
+    
+    .faq-button i {
+        width: 20px;
+        text-align: center;
+        color: var(--text-light);
+        font-size: 1.1rem;
     }
 }
 
