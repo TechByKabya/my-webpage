@@ -59,99 +59,222 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
     return match ? match[1] : null;
   }
 
+  // Format date
+  const publishDate = blog.createdAt ? new Date(blog.createdAt).toLocaleDateString('en-US', {
+    weekday: 'long',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  }) : 'Recently Published'
+
   return (
-    <main style={{ paddingTop: '100px', paddingBottom: '100px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-      <div className="container" style={{ 
-        maxWidth: '1050px', 
-        width: '92%', 
-        backgroundColor: '#ffffff',
-        padding: 'clamp(24px, 5vw, 48px)',
-        borderRadius: '24px',
-        boxShadow: '0 20px 40px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05)',
-        border: '1px solid rgba(0,0,0,0.04)',
-        position: 'relative'
-      }}>
-        <div style={{ display: 'flex', gap: '10px', marginBottom: '30px', marginTop: '10px' }}>
-          <a href="/" className="btn-secondary" style={{ display: 'inline-block' }}><i className="fas fa-home" style={{ marginRight: '6px' }}></i> Home</a>
-          <a href="/blogs" className="btn-secondary" style={{ display: 'inline-block' }}>&larr; Back to Blogs</a>
-        </div>
+    <main style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', backgroundColor: '#ffffff' }}>
+      <div className="editorial-grid" style={{ width: '100%' }}>
+        <style>{`
+          .editorial-grid {
+             display: grid;
+             grid-template-columns: 1fr;
+             gap: 60px;
+             align-items: start;
+          }
+          .sidebar-responsive {
+             display: flex;
+             flex-direction: column;
+             gap: 40px;
+             background-color: #fafafa;
+             border-top: 1px solid #eaeaea;
+             padding: 40px 5%;
+          }
+          .author-block {
+             display: flex;
+             flex-direction: column;
+             align-items: center;
+             text-align: center;
+          }
+          .author-avatar {
+             width: 160px;
+             height: 160px;
+             border-radius: 50%;
+             overflow: hidden;
+             margin-bottom: 20px;
+             flex-shrink: 0;
+          }
+          .up-next-list {
+             display: flex;
+             flex-direction: column;
+             gap: 32px;
+          }
+          @media(min-width: 992px) {
+             .editorial-grid {
+                 grid-template-columns: minmax(0, 1fr) 400px;
+             }
+             .sidebar-responsive {
+                 border-top: none;
+                 border-left: 1px solid #eaeaea;
+                 padding: 60px 40px;
+                 height: calc(100vh - 100px);
+                 position: sticky;
+                 top: 100px;
+                 overflow-y: auto;
+                 gap: 60px;
+             }
+          }
+          @media(max-width: 991px) {
+             .sidebar-responsive {
+                 display: grid;
+                 grid-template-columns: 1fr 1fr;
+                 gap: 20px;
+                 padding: 40px 4%;
+                 border-left: none;
+             }
+             .author-block {
+                 flex-direction: column;
+                 text-align: center;
+                 gap: 16px;
+             }
+             .author-avatar {
+                 width: 100px;
+                 height: 100px;
+                 margin-bottom: 0;
+             }
+             .author-socials {
+                 justify-content: center;
+             }
+             .up-next-list {
+                 flex-direction: column;
+                 overflow-y: auto;
+                 overflow-x: hidden;
+                 max-height: 450px;
+                 padding-bottom: 0;
+                 padding-right: 10px;
+                 gap: 16px;
+                 scroll-snap-type: none;
+             }
+             .up-next-list > * {
+                 min-width: 0;
+                 max-width: none;
+             }
+          }
+          .editorial-content img {
+             border-radius: 4px;
+          }
+          .blog-suggestion-link {
+             text-decoration: none;
+             color: inherit;
+             display: flex;
+             flex-direction: column;
+             gap: 12px;
+             transition: opacity 0.2s;
+          }
+          .blog-suggestion-link:hover {
+             opacity: 0.7;
+          }
+        `}</style>
         
-        <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
-          <img src={coverUrl} alt={blog.title} style={{ width: '100%', maxWidth: '850px', maxHeight: '500px', objectFit: 'cover', borderRadius: '15px' }} />
-        </div>
-        
-        <div>
-            <h1 style={{ fontSize: '3rem', color: '#1D1D1F', marginBottom: '16px', fontWeight: 800, letterSpacing: '-0.02em', lineHeight: 1.2 }}>{blog.title}</h1>
+        {/* Left Column (Main Article) */}
+        <article style={{ minWidth: 0, overflow: 'hidden', padding: '60px 4%', paddingBottom: '100px' }}>
+          <div style={{ maxWidth: '850px', margin: '0 auto' }}>
+            <div style={{ marginBottom: '40px' }}>
+              <a href="/blogs" style={{ color: '#86868b', textDecoration: 'none', fontSize: '0.9rem', textTransform: 'uppercase', letterSpacing: '0.05em' }}>&larr; Back to Journal</a>
+            </div>
+
+            <h1 style={{ 
+              fontSize: 'clamp(2.5rem, 5vw, 4rem)', 
+              fontFamily: '"Georgia", serif', 
+              color: '#111', 
+              marginBottom: '16px', 
+              fontWeight: 400, 
+              lineHeight: 1.1,
+              letterSpacing: '-0.02em'
+            }}>
+              {blog.title}
+            </h1>
             
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '24px' }}>
-              <div style={{ width: '44px', height: '44px', borderRadius: '50%', background: '#f3f4f6', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden' }}>
-                <img src="/kabya.jpeg" alt="Kabya Ghosh" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-              </div>
-              <div>
-                <p style={{ margin: 0, fontWeight: 700, color: '#1d1d1f', fontSize: '1.05rem' }}>Kabya Ghosh</p>
-                <p style={{ margin: 0, color: '#6b7280', fontSize: '0.9rem', fontWeight: 500 }}>Author</p>
-              </div>
+            <p style={{ color: '#666', fontSize: '1.05rem', marginBottom: '40px', fontStyle: 'italic' }}>
+                {publishDate}
+            </p>
+
+            <div style={{ marginBottom: '40px' }}>
+              <img src={coverUrl} alt={blog.title} style={{ width: '100%', height: 'auto', objectFit: 'cover', borderRadius: '4px' }} />
             </div>
 
-            <TextToSpeech targetId="post-content" />
-            <p style={{ color: '#6b7280', fontSize: '1.2rem', lineHeight: 1.6, marginTop: '24px' }}>{blog.excerpt}</p>
-        </div>
-
-        {blog.youtubeUrl && getYouTubeId(blog.youtubeUrl as string) && (
-          <div style={{ marginTop: '40px', width: '100%', maxWidth: '850px', margin: '40px auto 0 auto', position: 'relative', paddingBottom: 'min(478px, 56.25%)', height: 0, overflow: 'hidden', borderRadius: '16px', boxShadow: '0 10px 30px rgba(0,0,0,0.1)' }}>
-            <iframe 
-              src={`https://www.youtube.com/embed/${getYouTubeId(blog.youtubeUrl as string)}`} 
-              style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }} 
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-              allowFullScreen
-            />
-          </div>
-        )}
-
-        <hr style={{ border: 'none', borderBottom: '1px solid rgba(0,0,0,0.08)', margin: '40px 0' }} />
-
-        {blog.content && (
-          <div id="post-content" className="blog-content" style={{ color: 'var(--text-main)', fontSize: '1.1rem', lineHeight: 1.8 }}>
-            <RichText data={blog.content} enableGutter={false} />
-          </div>
-        )}
-
-        {suggestedBlogs && suggestedBlogs.length > 0 && (
-          <div style={{ marginTop: '80px', borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '40px' }}>
-            <style>{`
-              .blog-suggestion-card {
-                text-decoration: none;
-                display: flex;
-                gap: 20px;
-                align-items: center;
-                padding: 12px;
-                border-radius: 16px;
-                transition: background 0.2s;
-                background: transparent;
-              }
-              .blog-suggestion-card:hover {
-                background: #f9fafb;
-              }
-            `}</style>
-            <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '24px', color: '#1D1D1F' }}>Up Next</h3>
-            <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-              {suggestedBlogs.map((suggestion, i) => {
-                const sCoverUrl = getMediaUrl(suggestion.coverImage, '/mission_bot.jpeg')
-                return (
-                  <a key={i} href={`/blogs/${suggestion.slug}`} className="blog-suggestion-card">
-                    <div style={{ width: '160px', height: '100px', flexShrink: 0, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.05)' }}>
-                      <img src={sCoverUrl} alt={suggestion.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                    </div>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-                      <h4 style={{ fontSize: '1.15rem', fontWeight: 700, color: '#1d1d1f', marginBottom: '6px', lineHeight: 1.3 }}>{suggestion.title}</h4>
-                      <p style={{ color: '#6b7280', fontSize: '0.9rem', margin: 0, display: '-webkit-box', WebkitLineClamp: 2, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>{suggestion.excerpt}</p>
-                    </div>
-                  </a>
-                )
-              })}
+            <div style={{ marginBottom: '24px' }}>
+              <TextToSpeech targetId="post-content" />
             </div>
+
+            {blog.excerpt && (
+              <p style={{ color: '#111', fontSize: '1.4rem', lineHeight: 1.6, marginTop: '24px', fontWeight: 400, fontFamily: '"Georgia", serif' }}>
+                {blog.excerpt}
+              </p>
+            )}
+
+            {blog.youtubeUrl && getYouTubeId(blog.youtubeUrl as string) && (
+              <div style={{ marginTop: '40px', width: '100%', position: 'relative', paddingBottom: '56.25%', height: 0, overflow: 'hidden', borderRadius: '4px' }}>
+                <iframe 
+                  src={`https://www.youtube.com/embed/${getYouTubeId(blog.youtubeUrl as string)}`} 
+                  style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', border: 0 }} 
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                  allowFullScreen
+                />
+              </div>
+            )}
+
+            {blog.content && (
+              <div id="post-content" className="editorial-content" style={{ color: '#222', fontSize: '1.15rem', lineHeight: 1.8, marginTop: '40px', fontFamily: '"Georgia", serif' }}>
+                <RichText data={blog.content} enableGutter={false} />
+              </div>
+            )}
           </div>
-        )}
+        </article>
+
+        {/* Right Column (Sidebar) */}
+        <aside className="sidebar-responsive">
+            
+            {/* Author Block */}
+            <div>
+               <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', marginBottom: '24px', borderBottom: '1px solid #eee', paddingBottom: '12px', fontWeight: 600 }}>About the Author</h4>
+               <div className="author-block">
+                   <div className="author-avatar">
+                      {/* Grayscale matches the Austin Kleon aesthetic */}
+                      <img src="/kabya.jpeg" alt="Kabya Ghosh" style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'grayscale(100%)' }} />
+                   </div>
+                   <div>
+                     <p style={{ fontSize: '1.05rem', color: '#333', lineHeight: 1.6, fontFamily: '"Georgia", serif' }}>
+                        <strong style={{ color: '#d93025' }}>Kabya Ghosh</strong> is a Computer Science and Engineering undergraduate specializing in embedded systems, IoT architecture, and full-stack prototyping.
+                     </p>
+                     {/* Social links */}
+                     <div className="author-socials" style={{ display: 'flex', gap: '20px', marginTop: '16px' }}>
+                         <a href="https://github.com/TechByKabya" target="_blank" style={{ color: '#000', fontSize: '1.3rem', transition: 'color 0.2s' }}><i className="fab fa-github hover:text-red-600"></i></a>
+                         <a href="https://linkedin.com/in/kabya-ghosh" target="_blank" style={{ color: '#000', fontSize: '1.3rem', transition: 'color 0.2s' }}><i className="fab fa-linkedin hover:text-red-600"></i></a>
+                         <a href="mailto:kabyaghosh52005@gmail.com" style={{ color: '#000', fontSize: '1.3rem', transition: 'color 0.2s' }}><i className="fas fa-envelope hover:text-red-600"></i></a>
+                     </div>
+                   </div>
+               </div>
+            </div>
+
+            {/* Up Next */}
+            {suggestedBlogs && suggestedBlogs.length > 0 && (
+                <div>
+                   <h4 style={{ fontSize: '0.8rem', textTransform: 'uppercase', letterSpacing: '0.1em', color: '#666', marginBottom: '24px', borderBottom: '1px solid #eee', paddingBottom: '12px', fontWeight: 600 }}>Up Next</h4>
+                   <div className="up-next-list">
+                      {suggestedBlogs.map((suggestion, i) => {
+                        const sCoverUrl = getMediaUrl(suggestion.coverImage, '/mission_bot.jpeg')
+                        return (
+                          <a key={i} href={`/blogs/${suggestion.slug}`} className="blog-suggestion-link">
+                            <div style={{ width: '100%', paddingTop: '66%', position: 'relative', overflow: 'hidden', borderRadius: '4px' }}>
+                              <img src={sCoverUrl} alt={suggestion.title} style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', objectFit: 'cover' }} />
+                            </div>
+                            <div>
+                              <h5 style={{ fontSize: '1.1rem', fontWeight: 600, color: '#111', marginBottom: '8px', lineHeight: 1.3, fontFamily: '"Georgia", serif' }}>{suggestion.title}</h5>
+                              <p style={{ color: '#666', fontSize: '0.95rem', margin: 0, display: '-webkit-box', WebkitLineClamp: 3, WebkitBoxOrient: 'vertical', overflow: 'hidden', fontFamily: '"Georgia", serif' }}>{suggestion.excerpt}</p>
+                            </div>
+                          </a>
+                        )
+                      })}
+                   </div>
+                </div>
+            )}
+        </aside>
       </div>
     </main>
   )
