@@ -20,18 +20,11 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
   const inputRef = useRef<HTMLInputElement>(null)
 
   // Robot state
-  const [activeSection, setActiveSection] = useState<string | null>(null)
+  const [currentMessage, setCurrentMessage] = useState("Hi! Let me know if you need help.")
   const [showBubble, setShowBubble] = useState(true)
   const [isHovered, setIsHovered] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
-
-  const sectionMessages: Record<string, string> = {
-    'section-hero': "Hi, I'm your AI guide! Let's explore.",
-    'section-blogs': "Check out these latest articles to learn something new!",
-    'section-projects': "Here are some cool projects Kabya has built!",
-    'section-skills': "A solid stack of skills and technologies!",
-    'section-footer': "Need something? Place an order or drop a message!",
-  }
+  const messageCache = useRef<Record<string, string>>({})
 
   // Detect mobile
   useEffect(() => {
@@ -41,31 +34,39 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
     return () => window.removeEventListener('resize', checkMobile)
   }, [])
 
-  // Intersection Observer for sections
+  const sectionMessages: Record<string, string> = {
+    'section-hero': 'Hi! Welcome to my portfolio!',
+    'section-skills': 'Check out the tools I use every day.',
+    'section-projects': 'Here are some of my featured projects!',
+    'section-blogs': 'Read my latest articles and insights.',
+    'section-contact': 'Got a question? Send me a message!',
+    'section-footer': 'Thanks for visiting! Connect with me.',
+  }
+
+  // Intersection Observer for predefined section messages
   useEffect(() => {
-    // If chat is open, we don't necessarily need to stop observing, but we can.
     const observerOptions = {
       root: null,
-      rootMargin: '-30% 0px -30% 0px', 
+      rootMargin: '-40% 0px -40% 0px', // Focus on center of screen
       threshold: 0,
     }
 
     const observerCallback = (entries: IntersectionObserverEntry[]) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
-          // The scroll listener will handle setting showBubble to true
+          const sectionId = entry.target.id
+          if (sectionMessages[sectionId]) {
+            setCurrentMessage(sectionMessages[sectionId])
+          }
         }
       })
     }
 
     const observer = new IntersectionObserver(observerCallback, observerOptions)
     
-    const sections = ['section-hero', 'section-blogs', 'section-projects', 'section-skills', 'section-footer']
-    sections.forEach(id => {
-      const el = document.getElementById(id)
-      if (el) observer.observe(el)
-    })
+    // Observe sections
+    const sections = document.querySelectorAll('div[id^="section-"], section[id^="section-"]')
+    sections.forEach(sec => observer.observe(sec))
 
     return () => observer.disconnect()
   }, [])
@@ -74,35 +75,42 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
   useEffect(() => {
     let scrollTimeout: NodeJS.Timeout
     let hideTimeout: NodeJS.Timeout
+    let initialHideDelay: NodeJS.Timeout
     
     const onScroll = () => {
       if (!isOpen) {
-        // User is actively scrolling: immediately hide the bubble
-        setShowBubble(false)
         clearTimeout(scrollTimeout)
         clearTimeout(hideTimeout)
         
-        // When they stop scrolling for 600ms, organically show the bubble
+        // Add a minor delay (150ms) to hiding, so tiny bumps don't instantly snap it away
+        clearTimeout(initialHideDelay)
+        initialHideDelay = setTimeout(() => {
+          setShowBubble(false)
+        }, 150)
+        
+        // When they stop scrolling for 800ms, organically show the bubble
         scrollTimeout = setTimeout(() => {
+          clearTimeout(initialHideDelay) // cancel the hide if they stopped super fast
           setShowBubble(true)
           
           // And then hide it again after 4 seconds so it doesn't linger forever
           hideTimeout = setTimeout(() => {
             setShowBubble(false)
           }, 4000)
-        }, 600)
+        }, 800)
       }
     }
 
     window.addEventListener('scroll', onScroll, { passive: true })
     
     // Initial timeout to hide the first bubble if they don't scroll
-    hideTimeout = setTimeout(() => setShowBubble(false), 4000)
+    hideTimeout = setTimeout(() => setShowBubble(false), 5000)
     
     return () => {
       window.removeEventListener('scroll', onScroll)
       clearTimeout(scrollTimeout)
       clearTimeout(hideTimeout)
+      clearTimeout(initialHideDelay)
     }
   }, [isOpen])
 
@@ -202,8 +210,6 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
       transition: { duration: 0.3 }
     }
   }
-
-  const currentMessage = activeSection ? sectionMessages[activeSection] : null
 
   return (
     <div style={{ position: 'fixed', bottom: isMobile ? '20px' : '40px', right: isMobile ? '10px' : '40px', zIndex: 9999, display: 'flex', flexDirection: 'column', alignItems: 'flex-end', pointerEvents: 'none' }}>
