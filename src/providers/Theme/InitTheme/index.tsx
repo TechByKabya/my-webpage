@@ -1,12 +1,13 @@
 import React from 'react'
+import Script from 'next/script'
 
 import { defaultTheme, themeLocalStorageKey } from '../ThemeSelector/types'
 
 export const InitTheme: React.FC = () => {
   return (
-    <script
+    <Script
       id="theme-script"
-      suppressHydrationWarning
+      strategy="beforeInteractive"
       dangerouslySetInnerHTML={{
         __html: `
   (function () {

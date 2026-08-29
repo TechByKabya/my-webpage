@@ -198,7 +198,13 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
         <div style={{ maxWidth: '600px', width: '100%' }}>
           {status === 'success' ? (
             <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} style={{ textAlign: 'center', padding: '60px 20px' }}>
-              <div style={{ fontSize: '4rem', marginBottom: '20px' }}>✨</div>
+              <div style={{ width: '150px', height: '150px', margin: '0 auto 10px' }}>
+                <DotLottiePlayer
+                  src="/order-confirmed-animation.json"
+                  autoplay
+                  loop={false}
+                />
+              </div>
               <h4 style={{ color: '#1d1d1f', fontSize: '1.8rem', fontWeight: 800, letterSpacing: '-0.03em', marginBottom: '12px' }}>Request Submitted</h4>
               <p style={{ color: '#64748b', fontSize: '1rem', lineHeight: 1.5 }}>We are reviewing your model geometry. You'll receive a detailed quote in your inbox shortly.</p>
               <button onClick={() => setStatus('idle')} style={{ marginTop: '30px', padding: '12px 28px', background: '#1d1d1f', color: '#fff', fontSize: '0.95rem', fontWeight: 600, border: 'none', borderRadius: '50px', cursor: 'pointer', boxShadow: '0 10px 25px rgba(0,0,0,0.1)' }}>Submit Another Order</button>

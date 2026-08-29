@@ -164,18 +164,53 @@ body {
 .menu a {
     text-decoration: none;
     color: var(--text-light);
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     font-weight: 500;
-    transition: 0.3s;
+    padding: 8px 16px;
+    border-radius: 20px;
+    position: relative;
+    transition: color 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 1;
+}
+
+.menu a::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 20px;
+    background: rgba(0, 0, 0, 0.04);
+    opacity: 0;
+    transform: scale(0.85);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: -1;
 }
 
 .menu a:hover {
     color: var(--black);
 }
 
+.menu a:hover::before {
+    opacity: 1;
+    transform: scale(1);
+}
+
 .btn-nav {
-    color: var(--primary) !important;
+    color: #fff !important;
+    background: var(--black);
+    padding: 8px 20px !important;
     font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+.btn-nav::before {
+    display: none !important;
+}
+
+.btn-nav:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    background: #333;
 }
 
 .hamburger {
@@ -1798,4 +1833,56 @@ body {
 .hover-unblur:hover {
   backdrop-filter: blur(4px) !important;
   background-color: rgba(0,0,0,0.3) !important;
+}
+
+/* Contact page responsive grid */
+@media (max-width: 768px) {
+  .contact-grid {
+    grid-template-columns: 1fr !important;
+    gap: 28px !important;
+  }
+
+  .contact-form-name-email {
+    grid-template-columns: 1fr !important;
+  }
+
+  .contact-page-main {
+    padding-top: 96px !important;
+    padding-bottom: 48px !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    align-items: flex-start !important;
+  }
+
+  .contact-left {
+    gap: 12px !important;
+  }
+
+  .contact-left h1 {
+    font-size: 1.75rem !important;
+  }
+
+  .contact-left p {
+    font-size: 0.9rem !important;
+  }
+
+  .contact-lottie {
+    width: 160px !important;
+    margin-top: 4px !important;
+  }
+
+  .contact-form-card {
+    padding: 20px 18px !important;
+    border-radius: 16px !important;
+  }
+
+  /* Footer CTA Split Grid Mobile */
+  .cta-split-grid {
+    grid-template-columns: 1fr !important;
+    gap: 40px !important;
+  }
+
+  .cta-split-divider {
+    display: none !important;
+  }
 }

@@ -5,7 +5,7 @@ import type { Metadata } from 'next'
 import './globals.css'
 
 export const metadata: Metadata = {
-  title: 'Kabya Ghosh | Embedded System IoT Engineer BD',
+  title: 'Kabya Ghosh | Embedded System IoT Expert BD',
   description: 'Kabya Ghosh is an Embedded System IoT Expert in BD and student at Daffodil International University. Offering IoT solutions, low cost 3D printing and CAD design in Dhaka.',
 }
 
@@ -72,7 +72,7 @@ export default async function PortfolioHome() {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Kabya Ghosh',
-    jobTitle: 'Embedded System IoT Engineer',
+    jobTitle: 'Embedded System IoT Expert',
     alumniOf: {
       '@type': 'CollegeOrUniversity',
       name: 'Daffodil International University'
