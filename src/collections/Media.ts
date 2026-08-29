@@ -49,6 +49,16 @@ export const Media: CollectionConfig = {
   upload: {
     adminThumbnail: 'thumbnail',
     focalPoint: true,
+    formatOptions: {
+      format: 'webp',
+      options: {
+        quality: 75,
+      },
+    },
+    resizeOptions: {
+      width: 1920,
+      withoutEnlargement: true,
+    },
     imageSizes: [
       {
         name: 'thumbnail',

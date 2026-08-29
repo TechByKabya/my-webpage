@@ -118,12 +118,27 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
 
         {suggestedBlogs && suggestedBlogs.length > 0 && (
           <div style={{ marginTop: '80px', borderTop: '1px solid rgba(0,0,0,0.08)', paddingTop: '40px' }}>
+            <style>{`
+              .blog-suggestion-card {
+                text-decoration: none;
+                display: flex;
+                gap: 20px;
+                align-items: center;
+                padding: 12px;
+                border-radius: 16px;
+                transition: background 0.2s;
+                background: transparent;
+              }
+              .blog-suggestion-card:hover {
+                background: #f9fafb;
+              }
+            `}</style>
             <h3 style={{ fontSize: '1.4rem', fontWeight: 800, marginBottom: '24px', color: '#1D1D1F' }}>Up Next</h3>
             <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
               {suggestedBlogs.map((suggestion, i) => {
                 const sCoverUrl = getMediaUrl(suggestion.coverImage, '/mission_bot.jpeg')
                 return (
-                  <a key={i} href={`/blogs/${suggestion.slug}`} style={{ textDecoration: 'none', display: 'flex', gap: '20px', alignItems: 'center', padding: '12px', borderRadius: '16px', transition: 'background 0.2s' }} onMouseEnter={e => e.currentTarget.style.background = '#f9fafb'} onMouseLeave={e => e.currentTarget.style.background = 'transparent'}>
+                  <a key={i} href={`/blogs/${suggestion.slug}`} className="blog-suggestion-card">
                     <div style={{ width: '160px', height: '100px', flexShrink: 0, borderRadius: '12px', overflow: 'hidden', border: '1px solid rgba(0,0,0,0.05)' }}>
                       <img src={sCoverUrl} alt={suggestion.title} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
                     </div>
