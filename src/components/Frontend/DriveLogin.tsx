@@ -2,7 +2,8 @@
 
 import React, { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Lock, User, Key, ArrowRight, Loader2 } from 'lucide-react'
+import { User, Key, ArrowRight, Loader2 } from 'lucide-react'
+import { LottieAnimation } from '@/components/Frontend/LottieAnimation'
 
 export const DriveLogin: React.FC = () => {
   const [username, setUsername] = useState('')
@@ -95,50 +96,12 @@ export const DriveLogin: React.FC = () => {
           zIndex: 10,
         }}
       >
-        {/* Icon */}
-        <motion.div
-          initial={{ scale: 0, rotate: -20 }}
-          animate={{ scale: 1, rotate: 0 }}
-          transition={{ delay: 0.2, type: 'spring', stiffness: 200, damping: 18 }}
-          style={{
-            width: '72px',
-            height: '72px',
-            background: 'linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%)',
-            borderRadius: '20px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            margin: '0 auto 28px',
-            boxShadow: '0 12px 32px rgba(79,70,229,0.35)',
-          }}
-        >
-          <Lock color="white" size={34} strokeWidth={2.5} />
-        </motion.div>
-
-        {/* Heading */}
-        <div style={{ textAlign: 'center', marginBottom: '36px' }}>
-          <h1
-            style={{
-              fontSize: '2rem',
-              fontWeight: 800,
-              color: '#0f172a',
-              margin: 0,
-              letterSpacing: '-0.5px',
-              lineHeight: 1.2,
-            }}
-          >
-            Secure Vault
-          </h1>
-          <p
-            style={{
-              marginTop: '10px',
-              fontSize: '1rem',
-              color: '#64748b',
-              fontWeight: 500,
-            }}
-          >
-            Authenticate to access protected files
-          </p>
+        {/* Animation */}
+        <div style={{ width: '150px', height: '150px', margin: '0 auto 16px auto' }}>
+          <LottieAnimation
+            src="/cloud-storage-animation.json"
+            style={{ width: '100%', height: '100%', display: 'block' }}
+          />
         </div>
 
         {/* Form */}
