@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useEffect, useState } from 'react'
+import { createPortal } from 'react-dom'
 
 const TypingEffect: React.FC<{text: string}> = ({ text }) => {
   const [displayedText, setDisplayedText] = useState('')
@@ -503,93 +504,62 @@ const BeforeLogin: React.FC = () => {
         `}</style>
       )}
 
-      {/* Brand block that appears above the form (inside .template-minimal__wrap) */}
-      <div id="admin-login-brand-block" style={{
-        position: 'fixed',
-        /* We'll move this via JS after mount */
-        left: '-9999px',
-        top: '-9999px',
-        zIndex: -1,
-      }}>
-        <div className="login-brand-inner">
-          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px', position: 'relative' }}>
-            <a href="/" style={{ position: 'absolute', left: 0, top: 0, padding: '10px 16px', background: 'rgba(0,0,0,0.04)', borderRadius: '12px', textDecoration: 'none', color: '#374151', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', border: '1px solid rgba(0,0,0,0.05)' }} onMouseEnter={e => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.04)'; e.currentTarget.style.boxShadow = 'none'; }}>
+      <PortalInjector>
+        <div className="login-brand-inner" style={{ width: '100%' }}>
+          
+          {/* Home Button Container (Relative, not absolute) */}
+          <div style={{ display: 'flex', justifyContent: 'flex-start', marginBottom: '32px' }}>
+            <a href="/" style={{ padding: '10px 16px', background: 'rgba(0,0,0,0.04)', borderRadius: '12px', textDecoration: 'none', color: '#374151', fontWeight: 600, fontSize: '13px', display: 'flex', alignItems: 'center', gap: '8px', transition: 'all 0.2s', border: '1px solid rgba(0,0,0,0.05)' }} onMouseEnter={e => { e.currentTarget.style.background = '#ffffff'; e.currentTarget.style.boxShadow = '0 4px 12px rgba(0,0,0,0.05)'; }} onMouseLeave={e => { e.currentTarget.style.background = 'rgba(0,0,0,0.04)'; e.currentTarget.style.boxShadow = 'none'; }}>
               <svg width="16" height="16" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
               Home
             </a>
+          </div>
+
+          {/* Logo Container */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginBottom: '40px' }}>
             <div style={{
               width: '120px', height: '120px', borderRadius: '24px', overflow: 'hidden', flexShrink: 0,
               boxShadow: '0 8px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)',
-              display: loginVideoUrl ? 'block' : 'none',
+              display: (footerVideoUrl || loginVideoUrl) ? 'block' : 'none',
+              background: '#000'
             }}>
-              {loginVideoUrl && (
-                <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
-                  <source src={loginVideoUrl} type="video/quicktime" />
-                  <source src={loginVideoUrl} type="video/mp4" />
-                </video>
+              {(footerVideoUrl || loginVideoUrl) && (
+                <video src={footerVideoUrl || loginVideoUrl} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               )}
             </div>
           </div>
         </div>
-      </div>
-
-      <BrandInjector />
+      </PortalInjector>
     </>
   )
 }
 
-// Injects the brand block into the right panel above the form
-const BrandInjector: React.FC = () => {
+// Safely injects the brand block into the right panel above the form
+const PortalInjector: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+  const [target, setTarget] = useState<HTMLElement | null>(null)
+
   useEffect(() => {
     const tryInject = () => {
-      const brandBlock = document.getElementById('admin-login-brand-block')
       const form = document.querySelector('.login__form')
-      if (!form || !brandBlock) return
-
-      // Move brand block to be the first child of the form
-      const inner = brandBlock.querySelector('.login-brand-inner')
-      if (!inner) return
-
-      // Check if already injected
-      if (form.querySelector('#injected-brand')) return
-
-      const wrapper = document.createElement('div')
-      wrapper.id = 'injected-brand'
-      Object.assign(wrapper.style, {
-        padding: '56px 0 0',
-      })
-      
-      // Move actual DOM nodes so the video element retains its state/autoplay
-      while (inner.firstChild) {
-        wrapper.appendChild(inner.firstChild)
+      if (form) {
+        let wrapper = form.querySelector('#injected-brand') as HTMLElement
+        if (!wrapper) {
+          wrapper = document.createElement('div')
+          wrapper.id = 'injected-brand'
+          wrapper.style.padding = '56px 0 0'
+          form.insertBefore(wrapper, form.firstChild)
+        }
+        setTarget(wrapper)
       }
-      
-      form.insertBefore(wrapper, form.firstChild)
-
-      // Explicitly play video if needed
-      const video = wrapper.querySelector('video')
-      if (video) {
-        video.play().catch(() => {})
-      }
-
-      // Hide the original off-screen element
-      brandBlock.style.display = 'none'
     }
 
-    // Try immediately and retry after delay
     tryInject()
-    const timer1 = setTimeout(tryInject, 200)
-    const timer2 = setTimeout(tryInject, 600)
-    const timer3 = setTimeout(tryInject, 1200)
-
-    return () => {
-      clearTimeout(timer1)
-      clearTimeout(timer2)
-      clearTimeout(timer3)
-    }
+    const timer = setInterval(tryInject, 100)
+    return () => clearInterval(timer)
   }, [])
 
-  return null
+  if (!target) return null
+  return createPortal(children, target)
 }
 
 export default BeforeLogin
