@@ -1,4 +1,3 @@
-// @ts-nocheck
 export const maxDuration = 30
 
 import React from 'react'
@@ -95,7 +94,7 @@ export default async function ContactPage() {
           <div style={{ width: '100%' }}>
             <ContactForm
               title={settings.contactTitle || 'Send a Message'}
-              subtitle={settings.contactSubtitle}
+              subtitle={settings.contactSubtitle || undefined}
             />
           </div>
 

@@ -2,7 +2,12 @@ import crypto from 'crypto'
 import { cookies } from 'next/headers'
 
 // Use PAYLOAD_SECRET for signing, or a fallback if not set.
-const getSecret = () => process.env.PAYLOAD_SECRET || 'fallback-secret-for-drive-auth-123'
+const getSecret = () => {
+  if (!process.env.PAYLOAD_SECRET) {
+    throw new Error('PAYLOAD_SECRET is missing. Cannot sign drive auth cookie.');
+  }
+  return process.env.PAYLOAD_SECRET;
+}
 
 export const signDriveCookie = (payload: string): string => {
   const hmac = crypto.createHmac('sha256', getSecret())

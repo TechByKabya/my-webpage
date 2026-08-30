@@ -12,21 +12,21 @@ interface ContactFormProps {
 }
 
 export const ContactForm: React.FC<ContactFormProps> = ({ title, subtitle }) => {
-  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', subject: '', message: '', website: '' })
   const [status, setStatus] = useState<'idle' | 'loading' | 'success' | 'error'>('idle')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('loading')
     try {
-      const res = await fetch('/api/contact-submissions', {
+      const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
       })
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', email: '', subject: '', message: '' })
+        setForm({ name: '', email: '', subject: '', message: '', website: '' })
       } else {
         setStatus('error')
       }
@@ -105,6 +105,17 @@ export const ContactForm: React.FC<ContactFormProps> = ({ title, subtitle }) => 
         </motion.div>
       ) : (
         <form onSubmit={handleSubmit}>
+          {/* Honeypot field - hidden from users, bots will fill it out */}
+          <input 
+            type="text" 
+            name="website" 
+            value={form.website} 
+            onChange={e => setForm(f => ({ ...f, website: e.target.value }))} 
+            style={{ display: 'none' }} 
+            tabIndex={-1} 
+            autoComplete="off" 
+          />
+
           {/* Name + Email side by side */}
           <div className="contact-form-name-email" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px', marginBottom: '12px' }}>
             <div>

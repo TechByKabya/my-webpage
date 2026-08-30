@@ -3,6 +3,8 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getServerSideURL } from '@/utilities/getURL'
 
+export const revalidate = 86400
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config: configPromise })
   

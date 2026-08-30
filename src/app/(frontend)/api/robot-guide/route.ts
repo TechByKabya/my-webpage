@@ -1,7 +1,7 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
 import { generateText } from 'ai';
 
-export const maxDuration = 10;
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
   try {
