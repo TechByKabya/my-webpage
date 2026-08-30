@@ -1,4 +1,5 @@
 import { postgresAdapter } from '@payloadcms/db-postgres'
+import { resendAdapter } from '@payloadcms/email-resend'
 import sharp from 'sharp'
 import path from 'path'
 import { buildConfig, PayloadRequest } from 'payload'
@@ -30,7 +31,7 @@ export default buildConfig({
     theme: 'light',
     meta: {
       titleSuffix: '- Kabya Ghosh CMS',
-      icons: [{ rel: 'icon', type: 'image/png', url: '/admin-favicon.png' }],
+      icons: [{ rel: 'icon', type: 'image/x-icon', url: '/favicon.ico' }],
     },
     components: {
       Nav: '@/components/Admin/CustomNav#CustomNav',
@@ -99,6 +100,11 @@ export default buildConfig({
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },
+  email: resendAdapter({
+    defaultFromAddress: 'noreply@orders.kabyac.tech', // Verified domain used in 3D Printing Orders
+    defaultFromName: 'Kabya Ghosh',
+    apiKey: process.env.RESEND_API_KEY || '',
+  }),
   jobs: {
     access: {
       run: ({ req }: { req: PayloadRequest }): boolean => {

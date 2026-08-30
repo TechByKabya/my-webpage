@@ -28,6 +28,7 @@
     "@payloadcms/admin-bar": "latest",
     "@payloadcms/db-postgres": "^3.88.0",
     "@payloadcms/db-sqlite": "latest",
+    "@payloadcms/email-resend": "^3.88.0",
     "@payloadcms/live-preview-react": "latest",
     "@payloadcms/next": "latest",
     "@payloadcms/plugin-form-builder": "latest",
