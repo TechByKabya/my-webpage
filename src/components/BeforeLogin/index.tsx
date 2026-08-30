@@ -524,7 +524,7 @@ const BeforeLogin: React.FC = () => {
               background: '#000'
             }}>
               {(footerVideoUrl || loginVideoUrl) && (
-                <video src={footerVideoUrl || loginVideoUrl} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
+                <video src={footerVideoUrl || loginVideoUrl || undefined} autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }} />
               )}
             </div>
           </div>
