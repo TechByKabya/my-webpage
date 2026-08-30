@@ -284,7 +284,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   boxShadow: '0 4px 16px rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.05)',
                 }}>
                   {footerVideoUrl ? (
-                    <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
+                    <video autoPlay loop muted playsInline preload="auto" style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
                       <source src={footerVideoUrl} type="video/mp4" />
                       <source src={footerVideoUrl} type="video/quicktime" />
                     </video>

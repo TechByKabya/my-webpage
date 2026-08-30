@@ -161,6 +161,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
                 loop 
                 muted 
                 playsInline 
+                preload="auto"
                 className="profile-photo"
                 style={{ objectFit: 'cover' }}
               />

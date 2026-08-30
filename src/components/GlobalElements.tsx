@@ -56,6 +56,7 @@ export default async function GlobalElements() {
                     muted
                     loop
                     playsInline
+                    preload="auto"
                     style={{
                       height: '52px',
                       width: '52px',

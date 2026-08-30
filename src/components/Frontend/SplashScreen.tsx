@@ -20,12 +20,12 @@ export const SplashScreen = ({ logoVideoUrl }: SplashScreenProps) => {
   }
 
   useEffect(() => {
-    // Don't show on back navigation (only first load per session)
-    if (sessionStorage.getItem('splashShown')) {
-      setVisible(false)
-      return
-    }
-    sessionStorage.setItem('splashShown', '1')
+    // Temporarily disabled session storage check so you can always see the loading screen while testing
+    // if (sessionStorage.getItem('splashShown')) {
+    //   setVisible(false)
+    //   return
+    // }
+    // sessionStorage.setItem('splashShown', '1')
 
     // Minimum display time so it doesn't just flash
     const MIN_MS = 800
@@ -84,11 +84,7 @@ export const SplashScreen = ({ logoVideoUrl }: SplashScreenProps) => {
           muted
           loop
           playsInline
-          onLoadedData={(e) => {
-            if (e.currentTarget.currentTime < 1) {
-              e.currentTarget.currentTime = 1
-            }
-          }}
+          preload="auto"
           style={{
             width: '180px',
             height: '180px',
