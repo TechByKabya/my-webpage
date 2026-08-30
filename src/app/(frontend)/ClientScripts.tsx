@@ -141,9 +141,9 @@ export function ClientScripts() {
     // --- 5. Particles ---
     // @ts-ignore
     let particlesInstance: any = null;
-    if(window.Particles && document.getElementById('particles-canvas')) {
+    if((window as any).Particles && document.getElementById('particles-canvas')) {
       // @ts-ignore
-      particlesInstance = window.Particles.init({
+      particlesInstance = (window as any).Particles.init({
         selector: '#particles-canvas',
         color: ['#00ff88', '#ffffff'],
         connectParticles: true,

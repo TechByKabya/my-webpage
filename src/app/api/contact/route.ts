@@ -6,7 +6,7 @@ const rateLimit = new Map<string, { count: number; time: number }>()
 
 export async function POST(req: NextRequest) {
   try {
-    const ip = req.ip || req.headers.get('x-forwarded-for') || 'unknown'
+    const ip = req.headers.get('x-forwarded-for') || 'unknown'
     const now = Date.now()
     const windowMs = 60 * 60 * 1000 // 1 hour
 
