@@ -1,6 +1,7 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
+import { LottieAnimation } from '@/components/Frontend/LottieAnimation'
 import { motion, Variants } from 'framer-motion'
 import {
   FileText,
@@ -56,8 +57,56 @@ const itemVariants: Variants = {
 }
 
 export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
+  const totalPages = Math.max(1, Math.ceil(files.length / itemsPerPage))
+  
+  const currentFiles = files.slice(
+    (currentPage - 1) * itemsPerPage,
+    currentPage * itemsPerPage
+  )
+
   return (
-    <div
+    <>
+      <style>{`
+        .drive-grid-header {
+          display: grid;
+          grid-template-columns: 1fr 160px 160px;
+          padding: 16px 28px;
+          border-bottom: 1px solid #f1f5f9;
+          background: rgba(248,250,252,0.7);
+          font-size: 0.75rem;
+          font-weight: 700;
+          color: #94a3b8;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+        }
+        .drive-grid-row {
+          display: grid;
+          grid-template-columns: 1fr 160px 160px;
+          align-items: center;
+          padding: 18px 28px;
+          transition: background 0.2s;
+        }
+        .drive-action-col {
+          text-align: right;
+        }
+        @media (max-width: 768px) {
+          .drive-grid-header {
+            display: none;
+          }
+          .drive-grid-row {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            padding: 20px 24px;
+          }
+          .drive-action-col {
+            text-align: left;
+            margin-top: 4px;
+          }
+        }
+      `}</style>
+      <div
       style={{
         minHeight: '100vh',
         paddingTop: '100px',
@@ -99,6 +148,7 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.15 }}
           style={{
+            position: 'relative',
             background: 'rgba(255,255,255,0.8)',
             backdropFilter: 'blur(20px)',
             WebkitBackdropFilter: 'blur(20px)',
@@ -106,23 +156,21 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
             border: '1px solid rgba(255,255,255,0.7)',
             boxShadow: '0 8px 32px rgba(0,0,0,0.07)',
             overflow: 'hidden',
+            minHeight: '890px', // Expand to roughly fit 10 items
+            display: 'flex',
+            flexDirection: 'column',
           }}
         >
-          {/* Table header */}
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: '1fr 160px 160px',
-              padding: '16px 28px',
-              borderBottom: '1px solid #f1f5f9',
-              background: 'rgba(248,250,252,0.7)',
-              fontSize: '0.75rem',
-              fontWeight: 700,
-              color: '#94a3b8',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-            }}
-          >
+          {/* Background Animation */}
+          <div style={{ position: 'absolute', top: 0, left: 0, width: '100%', height: '100%', zIndex: 0, opacity: 0.1, pointerEvents: 'none', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <LottieAnimation
+              src="/live-cloud-storage.json"
+              style={{ width: '80%', height: '80%' }}
+            />
+          </div>
+
+          <div style={{ position: 'relative', zIndex: 1, flex: 1 }}>
+          <div className="drive-grid-header">
             <span>File</span>
             <span>Date Added</span>
             <span style={{ textAlign: 'right' }}>Action</span>
@@ -156,19 +204,15 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
             </div>
           ) : (
             <motion.div variants={containerVariants} initial="hidden" animate="show">
-              {files.map((file, i) => {
+              {currentFiles.map((file, i) => {
                 const s = FILE_ICON_STYLES[file.fileType] || FILE_ICON_STYLES.other
                 return (
                   <motion.div
                     key={file.id}
                     variants={itemVariants}
+                    className="drive-grid-row"
                     style={{
-                      display: 'grid',
-                      gridTemplateColumns: '1fr 160px 160px',
-                      alignItems: 'center',
-                      padding: '18px 28px',
-                      borderBottom: i < files.length - 1 ? '1px solid #f1f5f9' : 'none',
-                      transition: 'background 0.2s',
+                      borderBottom: i < currentFiles.length - 1 ? '1px solid #f1f5f9' : 'none',
                     }}
                     onMouseEnter={(e) => {
                       ;(e.currentTarget as HTMLDivElement).style.background = '#f8fafc'
@@ -224,7 +268,7 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
                     </div>
 
                     {/* Date */}
-                    <div style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500 }}>
+                    <div className="drive-date-col" style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500 }}>
                       {new Date(file.createdAt).toLocaleDateString('en-US', {
                         year: 'numeric',
                         month: 'short',
@@ -233,7 +277,7 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
                     </div>
 
                     {/* Download */}
-                    <div style={{ textAlign: 'right' }}>
+                    <div className="drive-action-col">
                       <a
                         href={`/api/drive/download/${file.id}`}
                         target="_blank"
@@ -274,6 +318,58 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
               })}
             </motion.div>
           )}
+
+          {/* Pagination Controls */}
+          {totalPages > 1 && (
+            <div style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              gap: '16px',
+              padding: '20px',
+              borderTop: '1px solid #f1f5f9',
+              marginTop: 'auto'
+            }}>
+              <button
+                onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                disabled={currentPage === 1}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  background: currentPage === 1 ? '#f8fafc' : '#ffffff',
+                  color: currentPage === 1 ? '#94a3b8' : '#0f172a',
+                  cursor: currentPage === 1 ? 'not-allowed' : 'pointer',
+                  fontWeight: 600,
+                  fontSize: '0.9rem'
+                }}
+              >
+                Previous
+              </button>
+              
+              <span style={{ fontSize: '0.9rem', color: '#64748b', fontWeight: 500 }}>
+                Page {currentPage} of {totalPages}
+              </span>
+
+              <button
+                onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                disabled={currentPage === totalPages}
+                style={{
+                  padding: '8px 16px',
+                  borderRadius: '8px',
+                  border: '1px solid #e2e8f0',
+                  background: currentPage === totalPages ? '#f8fafc' : '#ffffff',
+                  color: currentPage === totalPages ? '#94a3b8' : '#0f172a',
+                  cursor: currentPage === totalPages ? 'not-allowed' : 'pointer',
+                  fontWeight: 600,
+                  fontSize: '0.9rem'
+                }}
+              >
+                Next
+              </button>
+            </div>
+          )}
+          </div>
         </motion.div>
       </div>
     </div>
