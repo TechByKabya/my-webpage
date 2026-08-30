@@ -23,3 +23,5 @@ node_modules/
 .neon
 local.db
 local.db-journal
+.env
+.env.local
