@@ -95,14 +95,33 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
           .drive-grid-header {
             display: none;
           }
-          .drive-grid-row {
-            grid-template-columns: 1fr;
+          .drive-list-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
             gap: 12px;
-            padding: 20px 24px;
+            padding: 16px;
+          }
+          .drive-grid-row {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            padding: 16px;
+            border: 1px solid #f1f5f9 !important;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.03);
+          }
+          .drive-date-col {
+            margin-top: 12px;
           }
           .drive-action-col {
             text-align: left;
-            margin-top: 4px;
+            margin-top: 16px;
+            width: 100%;
+          }
+          .drive-action-col a {
+            width: 100%;
+            justify-content: center;
           }
         }
       `}</style>
@@ -203,7 +222,7 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
               <p style={{ color: '#64748b', margin: 0 }}>No files have been securely uploaded yet.</p>
             </div>
           ) : (
-            <motion.div variants={containerVariants} initial="hidden" animate="show">
+            <motion.div className="drive-list-container" variants={containerVariants} initial="hidden" animate="show">
               {currentFiles.map((file, i) => {
                 const s = FILE_ICON_STYLES[file.fileType] || FILE_ICON_STYLES.other
                 return (
@@ -372,6 +391,7 @@ export const DriveBrowser: React.FC<DriveBrowserProps> = ({ files }) => {
           </div>
         </motion.div>
       </div>
-    </div>
+      </div>
+    </>
   )
 }
