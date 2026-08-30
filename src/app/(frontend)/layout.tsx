@@ -15,8 +15,18 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import GlobalElements from '@/components/GlobalElements'
+import { unstable_cache } from 'next/cache'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
+
+const getCachedSiteSettings = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: configPromise })
+    return await payload.findGlobal({ slug: 'site-settings', depth: 1 })
+  },
+  ['global-site-settings'],
+  { revalidate: 3600, tags: ['site-settings'] }
+)
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
@@ -24,8 +34,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   // Fetch dynamic favicon from CMS
   let faviconUrl: string | null = null
   try {
-    const payload = await getPayload({ config: configPromise })
-    const siteSettings = await payload.findGlobal({ slug: 'site-settings', depth: 1 })
+    const siteSettings = await getCachedSiteSettings()
     // @ts-ignore
     const favicon = siteSettings?.favicon
     if (favicon && typeof favicon === 'object' && 'url' in favicon && favicon.url) {

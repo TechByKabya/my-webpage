@@ -5,21 +5,37 @@ import Script from 'next/script'
 import { ClientScripts } from '@/app/(frontend)/ClientScripts'
 import { Chatbot } from '@/components/Frontend/Chatbot'
 import { SplashScreen } from '@/components/Frontend/SplashScreen'
+import { unstable_cache } from 'next/cache'
+
+const getCachedSettings = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: configPromise })
+    const settings = await payload.findGlobal({
+      slug: 'homepage-settings',
+      depth: 1,
+    })
+    return settings
+  },
+  ['global-homepage-settings'],
+  { revalidate: 3600, tags: ['homepage-settings'] }
+)
+
+const getCachedSiteSettings = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: configPromise })
+    const siteSettings = await payload.findGlobal({
+      slug: 'site-settings',
+      depth: 1,
+    })
+    return siteSettings
+  },
+  ['global-site-settings'],
+  { revalidate: 3600, tags: ['site-settings'] }
+)
 
 export default async function GlobalElements() {
-  const payload = await getPayload({ config: configPromise })
-
-  // Fetch homepage settings (for nav logo, chatbot, menu)
-  const settings = await payload.findGlobal({
-    slug: 'homepage-settings',
-    depth: 1,
-  })
-
-  // Fetch site settings separately (for loading animation)
-  const siteSettings = await payload.findGlobal({
-    slug: 'site-settings',
-    depth: 1,
-  })
+  const settings = await getCachedSettings()
+  const siteSettings = await getCachedSiteSettings()
 
   const botWelcome = settings.botWelcomeMessage || 'Hello — ask me about projects, skills, or how to get in touch.'
 
