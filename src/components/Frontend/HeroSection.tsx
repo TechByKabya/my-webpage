@@ -13,6 +13,7 @@ interface HeroSectionProps {
   heroFloatCard1Text: string
   heroFloatCard2Icon: string
   heroFloatCard2Text: string
+  isHeroVideo?: boolean
 }
 
 // Simple Typing Effect Hook
@@ -42,7 +43,8 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   heroFloatCard1Icon,
   heroFloatCard1Text,
   heroFloatCard2Icon,
-  heroFloatCard2Text
+  heroFloatCard2Text,
+  isHeroVideo
 }) => {
   const { scrollY } = useScroll()
   
@@ -152,7 +154,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               <span>{heroFloatCard2Text}</span>
             </motion.div>
 
-            {heroPhotoUrl?.match(/\.(mp4|webm|mov)$/i) ? (
+            {isHeroVideo || heroPhotoUrl?.match(/\.(mp4|webm|mov)$/i) ? (
               <video 
                 src={heroPhotoUrl} 
                 autoPlay 

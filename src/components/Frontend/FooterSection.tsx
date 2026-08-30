@@ -286,6 +286,7 @@ export const FooterSection: React.FC<FooterSectionProps> = ({
                   {footerVideoUrl ? (
                     <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
                       <source src={footerVideoUrl} type="video/mp4" />
+                      <source src={footerVideoUrl} type="video/quicktime" />
                     </video>
                   ) : (
                     <div style={{ width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 900, fontSize: '1.5rem', background: '#f3f4f6', color: '#1d1d1f' }}>K</div>

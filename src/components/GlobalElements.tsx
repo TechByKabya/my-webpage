@@ -32,6 +32,8 @@ export default async function GlobalElements() {
   // Separate loading animation from Site Settings
   const loadingAnimationMedia = (siteSettings as any).loadingAnimation
   const loadingAnimationUrl = loadingAnimationMedia && typeof loadingAnimationMedia === 'object' && 'url' in loadingAnimationMedia
+    ? (loadingAnimationMedia as any).url as string
+    : typeof loadingAnimationMedia === 'string' ? loadingAnimationMedia : undefined
   return (
     <>
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />

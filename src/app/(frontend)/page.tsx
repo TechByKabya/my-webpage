@@ -66,6 +66,7 @@ export default async function PortfolioHome() {
   }
 
   const heroPhotoUrl = getMediaUrl(settings.heroPhoto, '/kabya.jpeg')
+  const isHeroVideo = typeof settings.heroPhoto === 'object' && settings.heroPhoto !== null && (settings.heroPhoto as any).mimeType?.startsWith('video/')
   const heroTitle = settings.heroTitle || 'Design.\nBuild.\nLearn.'
 
   const jsonLd = {
@@ -110,6 +111,7 @@ export default async function PortfolioHome() {
             heroFloatCard1Text={'AIOT'}
             heroFloatCard2Icon={settings.heroFloatCard2Icon || 'fas fa-brain'}
             heroFloatCard2Text={'Embedded & IoT'}
+            isHeroVideo={isHeroVideo}
           />
         </div>
 
