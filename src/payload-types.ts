@@ -1721,6 +1721,10 @@ export interface SiteSetting {
    * Your profile photo shown on the left panel of the admin login page. Use a square PNG, minimum 400×400 px.
    */
   adminLoginAvatar?: (number | null) | Media;
+  /**
+   * Short looping video shown as the logo on the admin login form. Upload a MOV or MP4 file (keep under 5MB).
+   */
+  adminLoginVideo?: (number | null) | Media;
   updatedAt?: string | null;
   createdAt?: string | null;
 }
@@ -1864,6 +1868,7 @@ export interface SiteSettingsSelect<T extends boolean = true> {
   favicon?: T;
   loadingAnimation?: T;
   adminLoginAvatar?: T;
+  adminLoginVideo?: T;
   updatedAt?: T;
   createdAt?: T;
   globalType?: T;

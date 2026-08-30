@@ -31,7 +31,10 @@ export default buildConfig({
     theme: 'light',
     meta: {
       titleSuffix: '- Kabya Ghosh CMS',
-      icons: [{ rel: 'icon', type: 'image/x-icon', url: '/favicon.ico' }],
+      icons: [
+        { rel: 'icon', type: 'image/svg+xml', url: '/favicon.svg' },
+        { rel: 'icon', type: 'image/x-icon', url: '/favicon.ico' }
+      ],
     },
     components: {
       Nav: '@/components/Admin/CustomNav#CustomNav',

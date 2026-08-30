@@ -273,6 +273,7 @@ const LOGIN_CSS = `
 const BeforeLogin: React.FC = () => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
   const [footerVideoUrl, setFooterVideoUrl] = useState<string | null>(null)
+  const [loginVideoUrl, setLoginVideoUrl] = useState<string | null>(null)
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -299,6 +300,13 @@ const BeforeLogin: React.FC = () => {
           setAvatarUrl(avatarMedia.url)
         } else if (typeof avatarMedia === 'string') {
           setAvatarUrl(avatarMedia)
+        }
+
+        const loginVideo = data?.adminLoginVideo
+        if (loginVideo && typeof loginVideo === 'object' && loginVideo.url) {
+          setLoginVideoUrl(loginVideo.url)
+        } else if (typeof loginVideo === 'string') {
+          setLoginVideoUrl(loginVideo)
         }
       })
       .catch(() => {})
@@ -512,10 +520,14 @@ const BeforeLogin: React.FC = () => {
             <div style={{
               width: '120px', height: '120px', borderRadius: '24px', overflow: 'hidden', flexShrink: 0,
               boxShadow: '0 8px 24px rgba(0,0,0,0.1), 0 0 0 1px rgba(0,0,0,0.05)',
+              display: loginVideoUrl ? 'block' : 'none',
             }}>
-              <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
-                <source src="/api/media/file/jj.mov" type="video/mp4" />
-              </video>
+              {loginVideoUrl && (
+                <video autoPlay loop muted playsInline style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}>
+                  <source src={loginVideoUrl} type="video/quicktime" />
+                  <source src={loginVideoUrl} type="video/mp4" />
+                </video>
+              )}
             </div>
           </div>
         </div>

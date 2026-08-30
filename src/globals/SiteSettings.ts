@@ -53,6 +53,17 @@ export const SiteSettings: GlobalConfig = {
           'Your profile photo shown on the left panel of the admin login page. Use a square PNG, minimum 400×400 px.',
       },
     },
+    {
+      name: 'adminLoginVideo',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Admin Login — Logo Video',
+      admin: {
+        description:
+          'Short looping video shown as the logo on the admin login form. Upload a MOV or MP4 file (keep under 5MB).',
+      },
+    },
   ],
 }
 
