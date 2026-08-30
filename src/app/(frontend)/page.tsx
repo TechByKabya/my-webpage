@@ -17,15 +17,27 @@ import { FooterSection } from '@/components/Frontend/FooterSection'
 import { SkillsSection } from '@/components/Frontend/SkillsSection'
 
 export const revalidate = 3600
+export const maxDuration = 30
 
 export default async function PortfolioHome() {
-  const payload = await getPayload({ config: configPromise })
+  let payload: any
+  let settings: any = {}
+  let projects: any[] = []
+  let totalProjects = 0
+  let blogs: any[] = []
+  let totalBlogs = 0
 
-  // ── Fetch Global Settings ──
-  const settings = await payload.findGlobal({
-    slug: 'homepage-settings',
-    depth: 2,
-  })
+  try {
+    payload = await getPayload({ config: configPromise })
+
+    // ── Fetch Global Settings ──
+    settings = await payload.findGlobal({
+      slug: 'homepage-settings',
+      depth: 2,
+    })
+  } catch (err) {
+    console.error('Error fetching homepage settings:', err)
+  }
 
   // Safely extract media URLs
   const getMediaUrl = (mediaObj: any, defaultUrl: string) => {
@@ -36,34 +48,35 @@ export default async function PortfolioHome() {
   }
 
   // ── Fetch Projects ──
-  let projects: any[] = []
-  let totalProjects = 0
-  try {
-    const projRes = await payload.find({
-      collection: 'projects',
-      depth: 2,
-      limit: 4,
-    })
-    projects = projRes.docs || []
-    totalProjects = projRes.totalDocs || 0
-  } catch (err) {
-    console.error('Error fetching projects:', err)
+  if (payload) {
+    try {
+      const projRes = await payload.find({
+        collection: 'projects',
+        depth: 2,
+        limit: 4,
+      })
+      projects = projRes.docs || []
+      totalProjects = projRes.totalDocs || 0
+    } catch (err) {
+      console.error('Error fetching projects:', err)
+    }
   }
 
   // ── Fetch Blogs ──
-  let blogs: any[] = []
-  let totalBlogs = 0
-  try {
-    const blogRes = await payload.find({
-      collection: 'blogs',
-      depth: 2,
-      limit: 4,
-    })
-    blogs = blogRes.docs || []
-    totalBlogs = blogRes.totalDocs || 0
-  } catch (err) {
-    console.error('Error fetching blogs:', err)
+  if (payload) {
+    try {
+      const blogRes = await payload.find({
+        collection: 'blogs',
+        depth: 2,
+        limit: 4,
+      })
+      blogs = blogRes.docs || []
+      totalBlogs = blogRes.totalDocs || 0
+    } catch (err) {
+      console.error('Error fetching blogs:', err)
+    }
   }
+
 
   const heroPhotoUrl = getMediaUrl(settings.heroPhoto, '/kabya.jpeg')
   const isHeroVideo = typeof settings.heroPhoto === 'object' && settings.heroPhoto !== null && (settings.heroPhoto as any).mimeType?.startsWith('video/')

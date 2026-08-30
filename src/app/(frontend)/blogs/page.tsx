@@ -10,6 +10,7 @@ export const metadata: Metadata = {
 }
 
 export const revalidate = 3600
+export const maxDuration = 30
 
 export default async function BlogsPage() {
   const payload = await getPayload({ config: configPromise })

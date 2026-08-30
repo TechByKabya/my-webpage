@@ -1,3 +1,4 @@
+export const maxDuration = 30
 import React from 'react'
 import type { Metadata } from 'next'
 import { PrintingOrderForm } from '@/components/Frontend/PrintingOrderForm'

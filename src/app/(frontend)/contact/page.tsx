@@ -1,4 +1,5 @@
 // @ts-nocheck
+export const maxDuration = 30
 
 import React from 'react'
 import { getPayload } from 'payload'
