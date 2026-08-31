@@ -3,7 +3,7 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import { getServerSideURL } from '@/utilities/getURL'
 
-export const revalidate = 86400
+export const revalidate = 0 // Update sitemap instantly when new posts are created
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config: configPromise })

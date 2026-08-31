@@ -600,13 +600,12 @@ export interface Form {
  */
 export interface Blog {
   id: number;
+  title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
-  coverImage: number | Media;
-  title: string;
   excerpt?: string | null;
   content: {
     root: {
@@ -624,6 +623,10 @@ export interface Blog {
     [k: string]: unknown;
   };
   /**
+   * Upload a high-quality cover image for your blog post.
+   */
+  coverImage: number | Media;
+  /**
    * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
    */
   youtubeUrl?: string | null;
@@ -640,13 +643,12 @@ export interface Blog {
  */
 export interface Project {
   id: number;
+  title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
   generateSlug?: boolean | null;
   slug: string;
-  coverImage: number | Media;
-  title: string;
   tag: string;
   description?: string | null;
   /**
@@ -667,6 +669,10 @@ export interface Project {
     };
     [k: string]: unknown;
   } | null;
+  /**
+   * Upload a high-quality cover image for your project.
+   */
+  coverImage: number | Media;
   /**
    * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
    */
@@ -1146,12 +1152,12 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "blogs_select".
  */
 export interface BlogsSelect<T extends boolean = true> {
+  title?: T;
   generateSlug?: T;
   slug?: T;
-  coverImage?: T;
-  title?: T;
   excerpt?: T;
   content?: T;
+  coverImage?: T;
   youtubeUrl?: T;
   meta?:
     | T
@@ -1167,13 +1173,13 @@ export interface BlogsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  title?: T;
   generateSlug?: T;
   slug?: T;
-  coverImage?: T;
-  title?: T;
   tag?: T;
   description?: T;
   content?: T;
+  coverImage?: T;
   youtubeUrl?: T;
   linkUrl?: T;
   gridSpan?: T;

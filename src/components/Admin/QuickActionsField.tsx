@@ -84,7 +84,7 @@ export const QuickActionsField: React.FC = () => {
     return (
       <div style={{ ...containerStyle, background: '#fef2f2', borderColor: '#fecaca', alignItems: 'center' }}>
         <div style={{ padding: '8px 16px', background: '#ef4444', color: '#fff', borderRadius: '20px', fontWeight: 'bold', fontSize: '0.9rem' }}>
-          ❌ Order Rejected
+          Order Rejected
         </div>
         <p style={{ margin: '8px 0 0', fontSize: '0.85rem', color: '#7f1d1d', textAlign: 'center' }}>
           This order has been permanently rejected.
@@ -97,7 +97,7 @@ export const QuickActionsField: React.FC = () => {
     return (
       <div style={{ ...containerStyle, background: '#f0fdf4', borderColor: '#bbf7d0', alignItems: 'center' }}>
         <div style={{ padding: '8px 16px', background: '#22c55e', color: '#fff', borderRadius: '20px', fontWeight: 'bold', fontSize: '0.9rem' }}>
-          ✓ Order Delivered
+          Order Delivered
         </div>
         <p style={{ margin: '8px 0 0', fontSize: '0.85rem', color: '#166534', textAlign: 'center' }}>
           This order was successfully delivered.
@@ -110,7 +110,7 @@ export const QuickActionsField: React.FC = () => {
     return (
       <div style={{ ...containerStyle, background: '#f0fdfa', borderColor: '#ccfbf1', alignItems: 'center' }}>
         <div style={{ padding: '8px 16px', background: '#0d9488', color: '#fff', borderRadius: '20px', fontWeight: 'bold', fontSize: '0.9rem' }}>
-          ✨ Printing Completed
+          Printing Completed
         </div>
         <div style={{ width: '100%', marginTop: '12px' }}>
           <button 
@@ -144,7 +144,7 @@ export const QuickActionsField: React.FC = () => {
             onClick={() => handleAction('Payment Requested')} disabled={isUpdating}
             style={{ ...btnStyle, background: '#3b82f6', marginTop: '4px' }}
           >
-             💳 Request Payment
+             Request Payment
           </button>
         </div>
       )}
@@ -162,7 +162,7 @@ export const QuickActionsField: React.FC = () => {
             onClick={() => handleAction('Suggestion Given')} disabled={isUpdating}
             style={{ ...btnStyle, background: '#64748b', marginTop: '4px' }}
           >
-             💡 Send Suggestion
+             Send Suggestion
           </button>
         </div>
       )}
@@ -173,7 +173,7 @@ export const QuickActionsField: React.FC = () => {
         onClick={() => handleAction('Rejected')} disabled={isUpdating}
         style={{ ...btnStyle, background: '#ef4444' }}
       >
-         ❌ Reject Order
+         Reject Order
       </button>
 
       {status === 'Payment Requested' && (
@@ -181,7 +181,7 @@ export const QuickActionsField: React.FC = () => {
           onClick={() => handleAction('Completed')} disabled={isUpdating}
           style={{ ...btnStyle, background: '#0d9488', marginTop: '12px' }}
         >
-           ✨ Mark Printing Complete
+           Mark Printing Complete
         </button>
       )}
     </div>

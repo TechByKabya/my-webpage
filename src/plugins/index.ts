@@ -10,16 +10,63 @@ import { Page } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { vercelBlobStorage } from '@payloadcms/storage-vercel-blob'
 
-const generateTitle: GenerateTitle<any> = ({ doc, collectionSlug }) => {
-  if (doc?.title) {
-    return `${doc.title} | Kabya Ghosh`
-  }
-  return 'Kabya Ghosh'
+import { generateObject } from 'ai'
+import { createGoogleGenerativeAI } from '@ai-sdk/google'
+import { z } from 'zod'
+
+const getGoogleAI = () => {
+  const apiKey = process.env.GOOGLE_GENERATIVE_AI_API_KEY
+  if (!apiKey) return null
+  return createGoogleGenerativeAI({ apiKey })
 }
 
-const generateDescription: any = ({ doc, collectionSlug }: any) => {
+const generateTitle: GenerateTitle<any> = async ({ doc, collectionSlug }) => {
+  const title = doc?.title || ''
+  if (!title) return 'Kabya Ghosh'
+  
+  const google = getGoogleAI()
+  if (google) {
+    try {
+      const { object } = await generateObject({
+        model: google('gemini-3.6-flash'),
+        schema: z.object({ title: z.string() }),
+        prompt: `Create a highly engaging, click-worthy SEO meta title for this post: "${title}". 
+        CRITICAL RULES:
+        1. MUST be strictly under 50 characters long.
+        2. DO NOT append site names like "| Kabya Ghosh". Just the core title.`,
+      })
+      
+      let cleanTitle = object.title.replace(/\|.*/, '').replace(/- Kabya.*/, '').trim()
+      if (cleanTitle.length > 55) {
+        cleanTitle = cleanTitle.substring(0, 55).trim()
+      }
+      return cleanTitle
+    } catch (e) {
+      // fallback
+    }
+  }
+  return `${title} | Kabya Ghosh`
+}
+
+const generateDescription: any = async ({ doc, collectionSlug }: any) => {
+  const title = doc?.title || ''
+  const excerpt = doc?.excerpt || ''
+  
   if (collectionSlug === 'blogs' || collectionSlug === 'projects') {
-    return doc?.excerpt || doc?.description || ''
+    const google = getGoogleAI()
+    if (google && title) {
+      try {
+        const { object } = await generateObject({
+          model: google('gemini-3.6-flash'),
+          schema: z.object({ description: z.string() }),
+          prompt: `Generate an SEO meta description (aim for 120-150 chars, max 160) for this post titled "${title}". Excerpt: "${excerpt}". Return it without quotes.`,
+        })
+        return object.description
+      } catch (e) {
+        // fallback
+      }
+    }
+    return excerpt || doc?.description || ''
   }
   return ''
 }
@@ -75,10 +122,41 @@ export const plugins: Plugin[] = [
   }),
   seoPlugin({
     collections: ['pages', 'blogs', 'projects'],
+    tabbedUI: true,
     generateTitle,
     generateDescription,
     generateImage,
     generateURL,
+    fields: ({ defaultFields }) => [
+      {
+        name: 'aiBanner',
+        type: 'ui',
+        admin: {
+          components: {
+            Field: '@/components/Admin/AIAutomationBanner#AIAutomationBanner',
+          },
+        },
+      },
+      {
+        name: 'seoScoreGauge',
+        type: 'ui',
+        admin: {
+          components: {
+            Field: '@/components/Admin/SEOScoreGauge#SEOScoreGauge',
+          },
+        },
+      },
+      ...defaultFields,
+      {
+        name: 'socialPreview',
+        type: 'ui',
+        admin: {
+          components: {
+            Field: '@/components/Admin/SocialPreview#SocialPreview',
+          },
+        },
+      },
+    ],
   }),
   formBuilderPlugin({
     fields: {

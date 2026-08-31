@@ -4,6 +4,7 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { documentationEditor } from '../fields/DocumentationContent'
 import { revalidatePath } from 'next/cache'
+import { autoGenerateSEO } from '../hooks/autoGenerateSEO'
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
@@ -23,6 +24,9 @@ export const Projects: CollectionConfig = {
     update: authenticated,
   },
   hooks: {
+    beforeChange: [
+      autoGenerateSEO,
+    ],
     afterChange: [
       ({ req: { payload } }) => {
         revalidatePath('/', 'layout')
@@ -30,19 +34,6 @@ export const Projects: CollectionConfig = {
     ],
   },
   fields: [
-    // ── SIDEBAR ─────────────────────────────────────
-    slugField(),
-    {
-      name: 'coverImage',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-      admin: {
-        position: 'sidebar',
-      },
-    },
-
-    // ── TABS ────────────────────────────────────────
     {
       type: 'tabs',
       tabs: [
@@ -50,9 +41,19 @@ export const Projects: CollectionConfig = {
           label: 'Project Details',
           fields: [
             {
-              name: 'title',
-              type: 'text',
-              required: true,
+              type: 'row',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+                {
+                  ...slugField(),
+                  admin: { width: '50%' },
+                },
+              ],
             },
             {
               name: 'tag',
@@ -73,6 +74,20 @@ export const Projects: CollectionConfig = {
                 description: 'Write the full article or details about your project here.',
               },
             },
+          ],
+        },
+        {
+          label: 'Media',
+          fields: [
+            {
+              name: 'coverImage',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              admin: {
+                description: 'Upload a high-quality cover image for your project.',
+              }
+            },
             {
               name: 'youtubeUrl',
               type: 'text',
@@ -80,7 +95,7 @@ export const Projects: CollectionConfig = {
               admin: {
                 description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
               }
-            }
+            },
           ],
         },
         {

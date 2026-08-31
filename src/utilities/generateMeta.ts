@@ -49,6 +49,13 @@ export const generateMeta = async (args: {
       title,
       url: url || (doc?.slug ? `/${doc.slug}` : '/'),
     }),
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@kabya_ghosh',
+      title,
+      description,
+      images: ogImage ? [ogImage] : undefined,
+    },
     title,
   }
 }

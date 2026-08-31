@@ -4,6 +4,7 @@ import { anyone } from '../access/anyone'
 import { authenticated } from '../access/authenticated'
 import { documentationEditor } from '../fields/DocumentationContent'
 import { revalidatePath } from 'next/cache'
+import { autoGenerateSEO } from '../hooks/autoGenerateSEO'
 
 export const Blogs: CollectionConfig = {
   slug: 'blogs',
@@ -22,6 +23,9 @@ export const Blogs: CollectionConfig = {
     update: authenticated,
   },
   hooks: {
+    beforeChange: [
+      autoGenerateSEO,
+    ],
     afterChange: [
       ({ req: { payload } }) => {
         revalidatePath('/', 'layout')
@@ -29,29 +33,26 @@ export const Blogs: CollectionConfig = {
     ],
   },
   fields: [
-    // ── SIDEBAR ─────────────────────────────────────
-    slugField(),
-    {
-      name: 'coverImage',
-      type: 'upload',
-      relationTo: 'media',
-      required: true,
-      admin: {
-        position: 'sidebar',
-      },
-    },
-
-    // ── TABS ────────────────────────────────────────
     {
       type: 'tabs',
       tabs: [
         {
-          label: 'Blog Content',
+          label: 'Content Editor',
           fields: [
             {
-              name: 'title',
-              type: 'text',
-              required: true,
+              type: 'row',
+              fields: [
+                {
+                  name: 'title',
+                  type: 'text',
+                  required: true,
+                  admin: { width: '50%' },
+                },
+                {
+                  ...slugField(),
+                  admin: { width: '50%' },
+                },
+              ],
             },
             {
               name: 'excerpt',
@@ -64,6 +65,20 @@ export const Blogs: CollectionConfig = {
               editor: documentationEditor,
               label: 'Main Content',
               required: true,
+            },
+          ],
+        },
+        {
+          label: 'Media & Links',
+          fields: [
+            {
+              name: 'coverImage',
+              type: 'upload',
+              relationTo: 'media',
+              required: true,
+              admin: {
+                description: 'Upload a high-quality cover image for your blog post.',
+              }
             },
             {
               name: 'youtubeUrl',
