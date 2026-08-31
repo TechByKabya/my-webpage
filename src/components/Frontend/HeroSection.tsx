@@ -100,7 +100,7 @@ export const HeroSection = ({
     <section id="hero" style={{ overflow: 'hidden', position: 'relative' }}>
       {/* --- Desktop View --- */}
       <div className="desktop-hero-layout responsive-flex-column" style={{ 
-        paddingTop: '120px',
+        paddingTop: '40px',
         paddingBottom: '80px',
         maxWidth: '1200px', 
         margin: '0 auto', 
