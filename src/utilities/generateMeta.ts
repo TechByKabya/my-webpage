@@ -25,7 +25,7 @@ export const generateMeta = async (args: {
 }): Promise<Metadata> => {
   const { doc, url } = args
 
-  const ogImage = getImageURL(doc?.meta?.image)
+  const ogImage = getImageURL(doc?.meta?.image || doc?.coverImage)
 
   const title = doc?.meta?.title
     ? doc?.meta?.title + ' | Kabya Ghosh'
