@@ -26,6 +26,7 @@ interface HeroSectionProps {
 // Simple Typing Effect Hook
 function useTypewriter(text: string, speed = 100) {
   const [displayText, setDisplayText] = useState('')
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   
   useEffect(() => {
     let i = 0;
@@ -42,7 +43,7 @@ function useTypewriter(text: string, speed = 100) {
   return displayText
 }
 
-export const HeroSection: React.FC<HeroSectionProps> = ({
+export const HeroSection = ({
   heroTitle,
   heroBio,
   heroBadgeText,
@@ -51,8 +52,9 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   heroFloatCard1Text,
   heroFloatCard2Icon,
   heroFloatCard2Text,
-  isHeroVideo
-}) => {
+  isHeroVideo = false
+}: HeroSectionProps) => {
+  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   const { scrollY } = useScroll()
   
   // Apple-like Parallax Scroll Effects
@@ -166,18 +168,33 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             </motion.div>
 
             {isHeroVideo || heroPhotoUrl?.match(/\.(mp4|webm|mov)$/i) ? (
-              <video 
-                src={heroPhotoUrl} 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                preload="auto"
-                className="profile-photo"
-                style={{ objectFit: 'cover' }}
-              />
+              <>
+                {!isVideoLoaded && (
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <DotLottiePlayer
+                      src="/lottie/Profile-Avatar.json"
+                      background="transparent"
+                      speed={1}
+                      style={{ width: '100%', height: '100%' }}
+                      loop
+                      autoplay
+                    />
+                  </div>
+                )}
+                <video 
+                  src={heroPhotoUrl} 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline 
+                  preload="auto"
+                  className="profile-photo"
+                  style={{ objectFit: 'cover', opacity: isVideoLoaded ? 1 : 0, transition: 'opacity 0.3s ease', position: 'relative', zIndex: 1 }}
+                  onLoadedData={() => setIsVideoLoaded(true)}
+                />
+              </>
             ) : (
-              <Image src={heroPhotoUrl} alt="Kabya Ghosh - Embedded System IoT Engineer at Daffodil International University" width={500} height={500} priority={true} className="profile-photo" style={{ objectFit: 'cover' }} />
+              <Image src={heroPhotoUrl} alt="Kabya Ghosh - Embedded System IoT Engineer at Daffodil International University" width={500} height={500} priority={true} className="profile-photo" style={{ objectFit: 'cover' }} onLoad={() => setIsVideoLoaded(true)} />
             )}
           </motion.div>
         </motion.div>
@@ -188,23 +205,40 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
         <div className="mobile-hero-bg"></div>
         
         <div className="mobile-hero-top">
-          <div className="mobile-hero-avatar">
+          <div className="mobile-hero-avatar" style={{ position: 'relative' }}>
             {isHeroVideo || heroPhotoUrl?.match(/\.(mp4|webm|mov)$/i) ? (
-              <video 
-                src={heroPhotoUrl} 
-                autoPlay 
-                loop 
-                muted 
-                playsInline 
-                preload="auto"
-              />
+              <>
+                {!isVideoLoaded && (
+                  <div style={{ position: 'absolute', inset: 0, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                    <DotLottiePlayer
+                      src="/lottie/Profile-Avatar.json"
+                      background="transparent"
+                      speed={1}
+                      style={{ width: '100%', height: '100%' }}
+                      loop
+                      autoplay
+                    />
+                  </div>
+                )}
+                <video 
+                  src={heroPhotoUrl} 
+                  autoPlay 
+                  loop 
+                  muted 
+                  playsInline 
+                  preload="auto"
+                  style={{ objectFit: 'cover', width: '100%', height: '100%', opacity: isVideoLoaded ? 1 : 0, transition: 'opacity 0.3s ease', position: 'relative', zIndex: 1 }}
+                  onLoadedData={() => setIsVideoLoaded(true)}
+                />
+              </>
             ) : (
               <Image 
                 src={heroPhotoUrl} 
                 alt="Profile Photo" 
-                width={120} 
-                height={150} 
+                fill
+                style={{ objectFit: 'cover' }}
                 priority={true} 
+                onLoad={() => setIsVideoLoaded(true)}
               />
             )}
           </div>
