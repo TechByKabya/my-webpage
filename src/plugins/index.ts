@@ -28,7 +28,7 @@ const generateTitle: GenerateTitle<any> = async ({ doc, collectionSlug }) => {
   if (google) {
     try {
       const { object } = await generateObject({
-        model: google('gemini-3.6-flash'),
+        model: google('gemini-flash-lite-latest'),
         schema: z.object({ title: z.string() }),
         prompt: `Create a highly engaging, click-worthy SEO meta title for this post: "${title}". 
         CRITICAL RULES:
@@ -57,7 +57,7 @@ const generateDescription: any = async ({ doc, collectionSlug }: any) => {
     if (google && title) {
       try {
         const { object } = await generateObject({
-          model: google('gemini-3.6-flash'),
+          model: google('gemini-flash-lite-latest'),
           schema: z.object({ description: z.string() }),
           prompt: `Generate an SEO meta description (aim for 120-150 chars, max 160) for this post titled "${title}". Excerpt: "${excerpt}". Return it without quotes.`,
         })

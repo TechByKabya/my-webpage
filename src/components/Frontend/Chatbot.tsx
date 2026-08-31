@@ -188,16 +188,15 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
         }),
       })
 
-      if (res.status === 401) {
+      if (!res.ok) {
+        const errorText = await res.text()
         setMessages(prev => [
           ...prev,
-          { id: Date.now().toString(), role: 'assistant', content: 'Sorry, the AI is currently unavailable (API Key missing or invalid).' },
+          { id: Date.now().toString(), role: 'assistant', content: errorText || 'Sorry, something went wrong with the connection.' },
         ])
         setIsLoading(false)
         return
       }
-
-      if (!res.ok) throw new Error('API error')
 
       const reader = res.body?.getReader()
       const decoder = new TextDecoder()
@@ -219,13 +218,13 @@ export const Chatbot = ({ initialMessage }: { initialMessage: string }) => {
 
       if (!botText.trim()) {
         setMessages(prev =>
-          prev.map(m => m.id === botId ? { ...m, content: 'Sorry, the AI is currently unavailable (API Key missing or invalid).' } : m)
+          prev.map(m => m.id === botId ? { ...m, content: 'I apologize, but I could not generate a response to that. (This usually happens if a safety filter blocks the request).' } : m)
         )
       }
     } catch {
       setMessages(prev => [
         ...prev,
-        { id: Date.now().toString(), role: 'assistant', content: 'Sorry, something went wrong. Please try again.' },
+        { id: Date.now().toString(), role: 'assistant', content: 'Sorry, something went wrong with the connection. Please try again.' },
       ])
     } finally {
       setIsLoading(false)

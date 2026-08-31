@@ -1,5 +1,5 @@
 import { createGoogleGenerativeAI } from '@ai-sdk/google';
-import { streamText } from 'ai';
+import { generateText } from 'ai';
 import { getPayload } from 'payload';
 import configPromise from '@payload-config';
 
@@ -16,8 +16,8 @@ export async function POST(req: Request) {
     if (rateLimit.has(ip)) {
       const data = rateLimit.get(ip)!;
       if (now - data.time < windowMs) {
-        if (data.count >= 10) { // Max 10 messages per minute per IP
-          return new Response('Too many requests. Please slow down.', { status: 429 });
+        if (data.count >= 5) { // Max 5 messages per minute per IP (strict spam protection)
+          return new Response('Spam protection active: Please wait a minute before sending more messages.', { status: 429 });
         }
         data.count++;
       } else {
@@ -51,16 +51,21 @@ export async function POST(req: Request) {
 
     const knowledgeBase = await getCachedKnowledge();
 
-    const systemPrompt = `You are an AI assistant for this portfolio website. Answer user queries based on the following information about the website owner:
+    const systemPrompt = `You are an AI assistant representing Kabya Ghosh on his portfolio website.
+    
+    KNOWLEDGE BASE:
+    ${knowledgeBase}
 
-${knowledgeBase}
-
-If the user asks something completely unrelated to the provided information, politely redirect them. Keep responses concise, professional, and friendly. Use markdown for formatting where appropriate.`;
+    CRITICAL RULES FOR EVERY RESPONSE:
+    1. EXTREME BREVITY: Keep your replies to 1-2 short sentences maximum. Be highly specific and direct.
+    2. FORMATTING: NO MARKDOWN. Do not use asterisks, bolding, or bullet points. Use simple, plain text paragraphs only.
+    3. RELEVANCE: If the user asks something completely unrelated to the knowledge base or Kabya's work, politely decline and steer them back to portfolio topics.
+    4. TONE: Be professional, friendly, highly concise, and helpful.`;
 
     const google = createGoogleGenerativeAI({ apiKey });
 
-    const result = await streamText({
-      model: google('gemini-3.6-flash'),
+    const { text } = await generateText({
+      model: google('gemini-flash-lite-latest'),
       system: systemPrompt,
       messages: messages.map((m: any) => ({
         role: m.role,
@@ -68,9 +73,12 @@ If the user asks something completely unrelated to the provided information, pol
       })),
     });
 
-    return result.toTextStreamResponse();
+    return new Response(text, { status: 200, headers: { 'Content-Type': 'text/plain' } });
   } catch (error: any) {
     console.error('Chat API Error:', error);
+    if (error?.message?.includes('429') || error?.message?.toLowerCase().includes('quota')) {
+      return new Response('API Quota Exceeded. The free tier limit has been reached.', { status: 429 });
+    }
     return new Response('An error occurred during chat.', { status: 500 });
   }
 }

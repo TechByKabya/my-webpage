@@ -37,7 +37,7 @@ Examples:
 
     // Use generateText instead of streamText for a simple string response
     const { text } = await generateText({
-      model: google('gemini-3.6-flash'),
+      model: google('gemini-flash-lite-latest'),
       prompt: systemPrompt,
     });
 
