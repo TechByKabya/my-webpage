@@ -90,6 +90,12 @@ export const Media: CollectionConfig = {
         width: 1200,
         height: 630,
         crop: 'center',
+        formatOptions: {
+          format: 'jpeg',
+          options: {
+            quality: 85,
+          },
+        },
       },
     ],
   },
