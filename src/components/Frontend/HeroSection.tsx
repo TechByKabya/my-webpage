@@ -1,13 +1,32 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
 import dynamic from 'next/dynamic'
 
 const DotLottiePlayer = dynamic(
   () => import('@dotlottie/react-player').then((mod) => mod.DotLottiePlayer),
-  { ssr: false }
+  { 
+    ssr: false,
+    loading: () => (
+      <div style={{
+        width: '100%', 
+        height: '100%', 
+        background: 'linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%)',
+        backgroundSize: '200% 100%',
+        animation: 'shimmer 1.5s infinite',
+        borderRadius: '50%'
+      }}>
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+          }
+        `}} />
+      </div>
+    )
+  }
 )
 import '@dotlottie/react-player/dist/index.css'
 
@@ -26,7 +45,6 @@ interface HeroSectionProps {
 // Simple Typing Effect Hook
 function useTypewriter(text: string, speed = 100) {
   const [displayText, setDisplayText] = useState('')
-  const [isVideoLoaded, setIsVideoLoaded] = useState(false)
   
   useEffect(() => {
     let i = 0;
@@ -55,6 +73,18 @@ export const HeroSection = ({
   isHeroVideo = false
 }: HeroSectionProps) => {
   const [isVideoLoaded, setIsVideoLoaded] = useState(false)
+  const desktopVideoRef = useRef<HTMLVideoElement>(null)
+  const mobileVideoRef = useRef<HTMLVideoElement>(null)
+  
+  useEffect(() => {
+    if (desktopVideoRef.current && desktopVideoRef.current.readyState >= 3) {
+      setIsVideoLoaded(true)
+    }
+    if (mobileVideoRef.current && mobileVideoRef.current.readyState >= 3) {
+      setIsVideoLoaded(true)
+    }
+  }, [heroPhotoUrl])
+  
   const { scrollY } = useScroll()
   
   // Apple-like Parallax Scroll Effects
@@ -182,6 +212,7 @@ export const HeroSection = ({
                   </div>
                 )}
                 <video 
+                  ref={desktopVideoRef}
                   src={heroPhotoUrl} 
                   autoPlay 
                   loop 
@@ -221,6 +252,7 @@ export const HeroSection = ({
                   </div>
                 )}
                 <video 
+                  ref={mobileVideoRef}
                   src={heroPhotoUrl} 
                   autoPlay 
                   loop 
