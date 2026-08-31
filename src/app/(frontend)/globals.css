@@ -515,6 +515,7 @@ body {
     gap: 10px;
     transform: translateZ(50px);
     /* Pushes element toward user */
+    z-index: 10;
 }
 
 .f-1 {
