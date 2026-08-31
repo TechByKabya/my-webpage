@@ -240,7 +240,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
           <div className="mobile-hero-lottie">
             <DotLottiePlayer
-              src="/media/Web-Development.json"
+              src="/lottie/Web-Development.json"
               background="transparent"
               speed={1}
               style={{ width: '100%', height: '100%' }}
@@ -252,7 +252,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
 
         <div className="mobile-scroll-indicator">
           <DotLottiePlayer
-            src="/media/Arrow-Down-New.json"
+            src="/lottie/Arrow-Down-New.json"
             background="transparent"
             speed={1}
             style={{ width: '60px', height: '60px' }}
