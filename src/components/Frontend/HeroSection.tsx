@@ -3,6 +3,13 @@
 import React, { useState, useEffect } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
+import dynamic from 'next/dynamic'
+
+const DotLottiePlayer = dynamic(
+  () => import('@dotlottie/react-player').then((mod) => mod.DotLottiePlayer),
+  { ssr: false }
+)
+import '@dotlottie/react-player/dist/index.css'
 
 interface HeroSectionProps {
   heroTitle: string
@@ -58,11 +65,15 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
   const typedText = useTypewriter(rawText, 80)
 
   return (
-    <section id="hero" style={{ paddingTop: '120px', paddingBottom: '80px', overflow: 'hidden' }}>
-      <div className="responsive-flex-column" style={{ 
+    <section id="hero" style={{ overflow: 'hidden', position: 'relative' }}>
+      {/* --- Desktop View --- */}
+      <div className="desktop-hero-layout responsive-flex-column" style={{ 
+        paddingTop: '120px',
+        paddingBottom: '80px',
         maxWidth: '1200px', 
         margin: '0 auto', 
-        padding: '0 20px',
+        paddingLeft: '20px',
+        paddingRight: '20px',
         width: '100%',
         display: 'flex', 
         alignItems: 'center', 
@@ -170,6 +181,85 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
             )}
           </motion.div>
         </motion.div>
+      </div>
+
+      {/* --- Mobile View --- */}
+      <div className="mobile-hero-layout">
+        <div className="mobile-hero-bg"></div>
+        
+        <div className="mobile-hero-top">
+          <div className="mobile-hero-avatar">
+            {isHeroVideo || heroPhotoUrl?.match(/\.(mp4|webm|mov)$/i) ? (
+              <video 
+                src={heroPhotoUrl} 
+                autoPlay 
+                loop 
+                muted 
+                playsInline 
+                preload="auto"
+              />
+            ) : (
+              <Image 
+                src={heroPhotoUrl} 
+                alt="Profile Photo" 
+                width={120} 
+                height={150} 
+                priority={true} 
+              />
+            )}
+          </div>
+          
+          <div className="mobile-hero-divider"></div>
+          
+          <div className="mobile-hero-text-side">
+            {heroBadgeText && (
+              <span className="badge">
+                {heroBadgeText}
+              </span>
+            )}
+            <h1 className="hero-title-3d" style={{ whiteSpace: 'pre-line' }}>
+               {typedText}
+               <motion.span 
+                 animate={{ opacity: [1, 0] }}
+                 transition={{ repeat: Infinity, duration: 0.8 }}
+               >
+                 |
+               </motion.span>
+            </h1>
+          </div>
+        </div>
+
+        <div className="mobile-hero-bottom">
+          <p className="bio">
+            {heroBio}
+          </p>
+          <div className="hero-btns">
+            <a href="/projects" className="btn-primary">View Work</a>
+            <a href="#contact" className="btn-secondary">Contact</a>
+          </div>
+
+          <div className="mobile-hero-lottie">
+            <DotLottiePlayer
+              src="/media/Web-Development.json"
+              background="transparent"
+              speed={1}
+              style={{ width: '100%', height: '100%' }}
+              loop
+              autoplay
+            />
+          </div>
+        </div>
+
+        <div className="mobile-scroll-indicator">
+          <DotLottiePlayer
+            src="/media/Arrow-Down-New.json"
+            background="transparent"
+            speed={1}
+            style={{ width: '60px', height: '60px' }}
+            loop
+            autoplay
+          />
+        </div>
       </div>
     </section>
   )
