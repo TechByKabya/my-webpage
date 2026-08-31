@@ -11,9 +11,14 @@ const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
   let url = serverUrl + '/website-template-OG.webp'
 
   if (image && typeof image === 'object' && 'url' in image) {
-    const ogUrl = image.sizes?.og?.url
+    // Prefer the og-sized image (1200x630 JPEG), fallback to the main image
+    const rawUrl = image.sizes?.og?.url || image.url
 
-    url = ogUrl ? serverUrl + ogUrl : serverUrl + image.url
+    if (rawUrl) {
+      // If it's already an absolute URL (e.g. a Vercel Blob CDN URL), use it directly
+      // If it's a relative path (e.g. /api/media/file/...), prefix with the server URL
+      url = rawUrl.startsWith('http') ? rawUrl : serverUrl + rawUrl
+    }
   }
 
   return url

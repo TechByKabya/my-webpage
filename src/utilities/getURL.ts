@@ -1,15 +1,19 @@
 import canUseDOM from './canUseDOM'
 
 export const getServerSideURL = () => {
-  if (process.env.NEXT_PUBLIC_SERVER_URL) {
-    return process.env.NEXT_PUBLIC_SERVER_URL
-  }
+  // On Vercel production, always use the canonical domain first
   if (process.env.VERCEL_ENV === 'production') {
     return 'https://www.kabyac.tech'
   }
-  return process.env.VERCEL_PROJECT_PRODUCTION_URL
-    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
-    : 'http://localhost:3000'
+  // On preview/staging deployments, use the Vercel-assigned URL
+  if (process.env.VERCEL_PROJECT_PRODUCTION_URL) {
+    return `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+  }
+  // Local development fallback
+  if (process.env.NEXT_PUBLIC_SERVER_URL) {
+    return process.env.NEXT_PUBLIC_SERVER_URL
+  }
+  return 'http://localhost:3000'
 }
 
 export const getClientSideURL = () => {
