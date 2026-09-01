@@ -122,37 +122,77 @@ export const plugins: Plugin[] = [
   }),
   seoPlugin({
     collections: ['pages', 'blogs', 'projects'],
-    tabbedUI: true,
+    tabbedUI: false,
     generateTitle,
     generateDescription,
     generateImage,
     generateURL,
     fields: ({ defaultFields }) => [
       {
-        name: 'aiBanner',
+        name: 'seoAutoGenerate',
         type: 'ui',
         admin: {
           components: {
-            Field: '@/components/Admin/AIAutomationBanner#AIAutomationBanner',
+            Field: '@/components/Admin/SEOAutoGenerateButton#SEOAutoGenerateButton',
           },
         },
       },
+      ...defaultFields.map(field => {
+        // Hide the preview UI field (it has no name)
+        if (!('name' in field) && field.type === 'ui') {
+          return {
+            ...field,
+            admin: {
+              ...('admin' in field ? field.admin : {}),
+              condition: () => false,
+            }
+          }
+        }
+        
+        // Hide the image field
+        if ('name' in field && field.name === 'image') {
+          return {
+            ...field,
+            admin: {
+              ...('admin' in field ? field.admin : {}),
+              condition: () => false,
+            }
+          }
+        }
+
+        if ('name' in field && field.name === 'meta' && field.type === 'group') {
+          return {
+            ...field,
+            fields: field.fields.map(f => {
+              if ('name' in f && (f.name === 'title' || f.name === 'description')) {
+                return {
+                  ...f,
+                  admin: {
+                    ...('admin' in f ? f.admin : {}),
+                    description: '',
+                    components: undefined // Removes the Auto-generate button
+                  }
+                }
+              }
+              // Hide any other fields in the meta group
+              return {
+                ...f,
+                admin: {
+                  ...('admin' in f ? f.admin : {}),
+                  condition: () => false
+                }
+              }
+            })
+          }
+        }
+        return field
+      }),
       {
         name: 'seoScoreGauge',
         type: 'ui',
         admin: {
           components: {
             Field: '@/components/Admin/SEOScoreGauge#SEOScoreGauge',
-          },
-        },
-      },
-      ...defaultFields,
-      {
-        name: 'socialPreview',
-        type: 'ui',
-        admin: {
-          components: {
-            Field: '@/components/Admin/SocialPreview#SocialPreview',
           },
         },
       },

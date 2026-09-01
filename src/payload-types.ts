@@ -600,16 +600,7 @@ export interface Form {
  */
 export interface Blog {
   id: number;
-  /**
-   * Private posts will be hidden from the website.
-   */
-  visibility: 'public' | 'private';
   title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
   excerpt?: string | null;
   content: {
     root: {
@@ -627,13 +618,19 @@ export interface Blog {
     [k: string]: unknown;
   };
   /**
+   * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
+   */
+  youtubeUrl?: string | null;
+  visibility: 'public' | 'private';
+  /**
    * Upload a high-quality cover image for your blog post.
    */
   coverImage: number | Media;
   /**
-   * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
    */
-  youtubeUrl?: string | null;
+  generateSlug?: boolean | null;
+  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -1164,14 +1161,14 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "blogs_select".
  */
 export interface BlogsSelect<T extends boolean = true> {
-  visibility?: T;
   title?: T;
-  generateSlug?: T;
-  slug?: T;
   excerpt?: T;
   content?: T;
-  coverImage?: T;
   youtubeUrl?: T;
+  visibility?: T;
+  coverImage?: T;
+  generateSlug?: T;
+  slug?: T;
   meta?:
     | T
     | {

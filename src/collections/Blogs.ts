@@ -20,6 +20,11 @@ export const Blogs: CollectionConfig = {
         list: {
           Component: '@/components/Admin/BlogList#BlogList',
         },
+        Edit: {
+          Default: {
+            Header: '@/components/Admin/BlogEditHeader#BlogEditHeader',
+          },
+        },
       },
     },
   },
@@ -41,6 +46,52 @@ export const Blogs: CollectionConfig = {
   },
   fields: [
     {
+      name: 'customTabSwitcher',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/Admin/CustomBlogTabSwitcher#CustomBlogTabSwitcher',
+        },
+      },
+    },
+    // --- MAIN FIELDS (Handled by Tab Switcher) ---
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      admin: {
+        className: 'blog-field',
+      },
+    },
+    {
+      name: 'excerpt',
+      type: 'textarea',
+      label: 'Short Excerpt / Description',
+      admin: {
+        className: 'blog-field',
+      },
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      editor: documentationEditor,
+      label: 'Main Content',
+      required: true,
+      admin: {
+        className: 'blog-field',
+      },
+    },
+    {
+      name: 'youtubeUrl',
+      type: 'text',
+      label: 'YouTube Video URL (Optional)',
+      admin: {
+        className: 'blog-field',
+        description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
+      }
+    },
+    // --- SIDEBAR FIELDS ---
+    {
       name: 'visibility',
       type: 'select',
       options: [
@@ -51,67 +102,26 @@ export const Blogs: CollectionConfig = {
       required: true,
       admin: {
         position: 'sidebar',
-        description: 'Private posts will be hidden from the website.',
+        components: {
+          Field: '@/components/Admin/VisibilityCustomField#VisibilityCustomField',
+        },
       },
     },
     {
-      type: 'tabs',
-      tabs: [
-        {
-          label: 'Content Editor',
-          fields: [
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  required: true,
-                  admin: { width: '50%' },
-                },
-                {
-                  ...slugField(),
-                  admin: { width: '50%' },
-                },
-              ],
-            },
-            {
-              name: 'excerpt',
-              type: 'textarea',
-              label: 'Short Excerpt / Description',
-            },
-            {
-              name: 'content',
-              type: 'richText',
-              editor: documentationEditor,
-              label: 'Main Content',
-              required: true,
-            },
-          ],
-        },
-        {
-          label: 'Media & Links',
-          fields: [
-            {
-              name: 'coverImage',
-              type: 'upload',
-              relationTo: 'media',
-              required: true,
-              admin: {
-                description: 'Upload a high-quality cover image for your blog post.',
-              }
-            },
-            {
-              name: 'youtubeUrl',
-              type: 'text',
-              label: 'YouTube Video URL (Optional)',
-              admin: {
-                description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
-              }
-            },
-          ],
-        },
-      ],
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Upload a high-quality cover image for your blog post.',
+      }
+    },
+    {
+      ...slugField(),
+      admin: {
+        position: 'sidebar',
+      },
     },
   ],
 }

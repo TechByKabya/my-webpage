@@ -39,7 +39,10 @@ export const ProjectList = async (props: any) => {
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', marginBottom: '32px' }}>
         <div>
           <h1 style={{ margin: '0 0 8px 0', fontSize: '2rem', color: '#0f172a', fontWeight: 800 }}>Projects</h1>
-          <p style={{ margin: 0, color: '#64748b', fontSize: '1rem' }}>Manage your portfolio and showcase projects.</p>
+          <p style={{ margin: '0 0 16px 0', color: '#64748b', fontSize: '1rem' }}>Manage your portfolio and showcase projects.</p>
+          <Link href="/kabya-52005/collections/projects/create" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#0f172a', color: '#fff', textDecoration: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600, transition: 'opacity 0.2s' }}>
+            + Create New Project
+          </Link>
         </div>
         
         <div style={{ display: 'flex', gap: '16px' }}>

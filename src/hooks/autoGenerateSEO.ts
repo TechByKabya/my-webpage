@@ -51,7 +51,7 @@ export const autoGenerateSEO: CollectionBeforeChangeHook = async ({ data, req, o
 
   try {
     const { object } = await generateObject({
-      model: google('gemini-3.6-flash'),
+      model: google('gemini-1.5-flash'),
       schema: z.object({
         title: z.string().describe('The SEO meta title. Aim for 50 chars.'),
         description: z.string().describe('The SEO meta description. Aim for 120-150 chars.'),
