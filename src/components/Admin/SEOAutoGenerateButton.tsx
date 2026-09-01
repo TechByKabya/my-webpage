@@ -59,6 +59,7 @@ export const SEOAutoGenerateButton: React.FC<{ field: UIField }> = () => {
 
   const titleField = useFormFields(([fields]) => fields?.title)
   const excerptField = useFormFields(([fields]) => fields?.excerpt)
+  const descriptionField = useFormFields(([fields]) => fields?.description)
 
   const { setValue: setMetaTitle } = useField<string>({ path: 'meta.title' })
   const { setValue: setMetaDescription } = useField<string>({ path: 'meta.description' })
@@ -74,7 +75,7 @@ export const SEOAutoGenerateButton: React.FC<{ field: UIField }> = () => {
     
     try {
       const title = titleField?.value as string || ''
-      const excerpt = excerptField?.value as string || ''
+      const excerpt = (excerptField?.value as string) || (descriptionField?.value as string) || ''
       
       const response = await fetch('/api/generate-seo', {
         method: 'POST',

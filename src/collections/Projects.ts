@@ -139,27 +139,7 @@ export const Projects: CollectionConfig = {
       },
     },
 
-    // ── SEO TAB FIELDS (UI components — shown in "SEO Settings" tab) ──
-    {
-      name: 'seoAutoGenerate',
-      type: 'ui',
-      admin: {
-        components: {
-          Field: '@/components/Admin/ProjectSEOAutoGenerateButton#ProjectSEOAutoGenerateButton',
-        },
-      },
-    },
-    {
-      name: 'seoScoreGauge',
-      type: 'ui',
-      admin: {
-        components: {
-          // Reuse the exact same SEOScoreGauge — it reads meta.title, meta.description, content
-          // which are the same field paths for projects
-          Field: '@/components/Admin/SEOScoreGauge#SEOScoreGauge',
-        },
-      },
-    },
+
     {
       name: 'seoSocialPreview',
       type: 'ui',

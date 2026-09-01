@@ -35,7 +35,6 @@ import { VisibilityCustomField as VisibilityCustomField_077921ad7491d87ea5761b33
 import { SlugField as SlugField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { BlogList as BlogList_7a210f917fb1b6af88434f91a0672a67 } from '@/components/Admin/BlogList'
 import { CustomProjectTabSwitcher as CustomProjectTabSwitcher_3c86ca25f7145302e7592e72d2fffe0c } from '@/components/Admin/CustomProjectTabSwitcher'
-import { ProjectSEOAutoGenerateButton as ProjectSEOAutoGenerateButton_9c95e780f4978fc6222f5d1ee6cf9b1a } from '@/components/Admin/ProjectSEOAutoGenerateButton'
 import { ProjectSocialPreview as ProjectSocialPreview_c857f4f9779434e588dd0a21c45ed871 } from '@/components/Admin/ProjectSocialPreview'
 import { ProjectList as ProjectList_45deadb1e076ead989f9cecb1eed9101 } from '@/components/Admin/ProjectList'
 import { ContactEdit as ContactEdit_9305aa5b6d57d72347e14c3ed8bfafa0 } from '@/components/Admin/ContactEdit'
@@ -93,7 +92,6 @@ export const importMap = {
   "@payloadcms/next/client#SlugField": SlugField_2b8867833a34864a02ddf429b0728a40,
   "@/components/Admin/BlogList#BlogList": BlogList_7a210f917fb1b6af88434f91a0672a67,
   "@/components/Admin/CustomProjectTabSwitcher#CustomProjectTabSwitcher": CustomProjectTabSwitcher_3c86ca25f7145302e7592e72d2fffe0c,
-  "@/components/Admin/ProjectSEOAutoGenerateButton#ProjectSEOAutoGenerateButton": ProjectSEOAutoGenerateButton_9c95e780f4978fc6222f5d1ee6cf9b1a,
   "@/components/Admin/ProjectSocialPreview#ProjectSocialPreview": ProjectSocialPreview_c857f4f9779434e588dd0a21c45ed871,
   "@/components/Admin/ProjectList#ProjectList": ProjectList_45deadb1e076ead989f9cecb1eed9101,
   "@/components/Admin/ContactEdit#ContactEdit": ContactEdit_9305aa5b6d57d72347e14c3ed8bfafa0,
