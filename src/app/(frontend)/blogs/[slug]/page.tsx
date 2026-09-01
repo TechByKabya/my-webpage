@@ -17,7 +17,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const payload = await getPayload({ config: configPromise })
   const { docs: blogs } = await payload.find({
     collection: 'blogs',
-    where: { slug: { equals: slug } },
+    where: { slug: { equals: slug }, visibility: { not_equals: 'private' } },
     limit: 1,
   })
   return generateMeta({ doc: blogs?.[0] || null, url: `/blogs/${slug}` })
@@ -31,6 +31,7 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
     collection: 'blogs',
     where: {
       slug: { equals: slug },
+      visibility: { not_equals: 'private' },
     },
     limit: 1,
   })
@@ -43,6 +44,7 @@ export default async function BlogSinglePage({ params }: { params: Promise<{ slu
     collection: 'blogs',
     where: {
       slug: { not_equals: slug },
+      visibility: { not_equals: 'private' },
     },
     limit: 4,
   })

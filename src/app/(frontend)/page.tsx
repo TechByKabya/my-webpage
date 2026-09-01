@@ -52,6 +52,7 @@ export default async function PortfolioHome() {
     try {
       const projRes = await payload.find({
         collection: 'projects',
+        where: { visibility: { not_equals: 'private' } },
         depth: 2,
         limit: 4,
       })
@@ -67,6 +68,7 @@ export default async function PortfolioHome() {
     try {
       const blogRes = await payload.find({
         collection: 'blogs',
+        where: { visibility: { not_equals: 'private' } },
         depth: 2,
         limit: 4,
       })

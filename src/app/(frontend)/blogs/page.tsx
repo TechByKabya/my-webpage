@@ -17,6 +17,7 @@ export default async function BlogsPage() {
 
   const { docs: blogs } = await payload.find({
     collection: 'blogs',
+    where: { visibility: { not_equals: 'private' } },
     depth: 2,
     limit: 100,
   })

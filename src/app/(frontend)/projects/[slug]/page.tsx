@@ -16,7 +16,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const payload = await getPayload({ config: configPromise })
   const { docs: projects } = await payload.find({
     collection: 'projects',
-    where: { slug: { equals: slug } },
+    where: { slug: { equals: slug }, visibility: { not_equals: 'private' } },
     limit: 1,
   })
   return generateMeta({ doc: projects?.[0] || null, url: `/projects/${slug}` })
@@ -30,6 +30,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
     collection: 'projects',
     where: {
       slug: { equals: slug },
+      visibility: { not_equals: 'private' },
     },
     limit: 1,
   })
@@ -43,6 +44,7 @@ export default async function ProjectSinglePage({ params }: { params: Promise<{ 
     collection: 'projects',
     where: {
       slug: { not_equals: slug },
+      visibility: { not_equals: 'private' },
     },
     limit: 4,
   })

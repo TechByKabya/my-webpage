@@ -34,6 +34,20 @@ export const Blogs: CollectionConfig = {
   },
   fields: [
     {
+      name: 'visibility',
+      type: 'select',
+      options: [
+        { label: 'Public', value: 'public' },
+        { label: 'Private', value: 'private' },
+      ],
+      defaultValue: 'public',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Private posts will be hidden from the website.',
+      },
+    },
+    {
       type: 'tabs',
       tabs: [
         {

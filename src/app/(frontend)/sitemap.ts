@@ -12,8 +12,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 
   const [pages, blogs, projects] = await Promise.all([
     payload.find({ collection: 'pages', limit: 1000 }),
-    payload.find({ collection: 'blogs', limit: 1000 }),
-    payload.find({ collection: 'projects', limit: 1000 }),
+    payload.find({ collection: 'blogs', limit: 1000, where: { visibility: { not_equals: 'private' } } }),
+    payload.find({ collection: 'projects', limit: 1000, where: { visibility: { not_equals: 'private' } } }),
   ])
 
   const sitemap: MetadataRoute.Sitemap = [

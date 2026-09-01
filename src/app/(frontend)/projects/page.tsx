@@ -17,6 +17,7 @@ export default async function ProjectsPage() {
 
   const { docs: projects } = await payload.find({
     collection: 'projects',
+    where: { visibility: { not_equals: 'private' } },
     depth: 2,
     limit: 100,
   })

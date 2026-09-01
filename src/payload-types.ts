@@ -600,6 +600,10 @@ export interface Form {
  */
 export interface Blog {
   id: number;
+  /**
+   * Private posts will be hidden from the website.
+   */
+  visibility: 'public' | 'private';
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -643,6 +647,10 @@ export interface Blog {
  */
 export interface Project {
   id: number;
+  /**
+   * Private posts will be hidden from the website.
+   */
+  visibility: 'public' | 'private';
   title: string;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -1152,6 +1160,7 @@ export interface FormBlockSelect<T extends boolean = true> {
  * via the `definition` "blogs_select".
  */
 export interface BlogsSelect<T extends boolean = true> {
+  visibility?: T;
   title?: T;
   generateSlug?: T;
   slug?: T;
@@ -1173,6 +1182,7 @@ export interface BlogsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  visibility?: T;
   title?: T;
   generateSlug?: T;
   slug?: T;
