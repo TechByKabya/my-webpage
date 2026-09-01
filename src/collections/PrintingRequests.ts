@@ -40,6 +40,25 @@ export const PrintingRequests: CollectionConfig = {
         }
         const resend = new Resend(apiKey)
 
+        // Sanitize user-supplied data before embedding in HTML email templates
+        const escapeHtml = (str: any) =>
+          String(str ?? '')
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;')
+
+        const safe = {
+          name: escapeHtml(doc.name),
+          email: escapeHtml(doc.email),
+          phone: escapeHtml(doc.phone),
+          orderType: escapeHtml(doc.orderType),
+          material: escapeHtml(doc.material),
+          color: escapeHtml(doc.color),
+          adminNotes: escapeHtml(doc.adminNotes),
+        }
+
         if (operation === 'create') {
           // Send email to admin about new order
           try {
@@ -49,12 +68,12 @@ export const PrintingRequests: CollectionConfig = {
               subject: 'New 3D Printing Order Received!',
               html: `
                 <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                  <h2>New Order from ${doc.name}</h2>
-                  <p><strong>Email:</strong> ${doc.email}</p>
-                  <p><strong>Phone:</strong> ${doc.phone}</p>
-                  <p><strong>Order Type:</strong> ${doc.orderType}</p>
-                  <p><strong>Material:</strong> ${doc.material}</p>
-                  <p><strong>Color:</strong> ${doc.color}</p>
+                  <h2>New Order from ${safe.name}</h2>
+                  <p><strong>Email:</strong> ${safe.email}</p>
+                  <p><strong>Phone:</strong> ${safe.phone}</p>
+                  <p><strong>Order Type:</strong> ${safe.orderType}</p>
+                  <p><strong>Material:</strong> ${safe.material}</p>
+                  <p><strong>Color:</strong> ${safe.color}</p>
                   <p>Log in to the admin panel to review.</p>
                 </div>
               `
@@ -94,7 +113,7 @@ export const PrintingRequests: CollectionConfig = {
                 subject: 'Payment Requested for your 3D Printing Order!',
                 html: `
                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Great news, ${doc.name}!</h2>
+                    <h2>Great news, ${safe.name}!</h2>
                     <p>Your 3D printing request has been reviewed and approved.</p>
                     <p><strong>Total Price:</strong> ${doc.price} BDT</p>
                     <p><strong>Next Steps:</strong></p>
@@ -103,7 +122,7 @@ export const PrintingRequests: CollectionConfig = {
                       <li>Take a screenshot of the successful transaction.</li>
                       <li>Contact our support agent on WhatsApp with the screenshot to confirm your order using this link: <a href="https://wa.me/qr/7RBXRALWHAPNA1">https://wa.me/qr/7RBXRALWHAPNA1</a></li>
                     </ol>
-                    <p>We are ready to start working on your project using <strong>${doc.material}</strong> in <strong>${doc.color}</strong>.</p>
+                    <p>We are ready to start working on your project using <strong>${safe.material}</strong> in <strong>${safe.color}</strong>.</p>
                     <p style="color: red; font-size: 13px;"><em>Note: Payments are non-refundable once printing begins. Please ensure you send money to the correct number, as we are not responsible for wrong transactions.</em></p>
                     <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
                     <p style="color: #666; font-size: 14px;">Thank you for choosing Kabya Ghosh 3D Printing Service!</p>
@@ -131,10 +150,10 @@ export const PrintingRequests: CollectionConfig = {
                 subject: 'Update on Your 3D Printing Order',
                 html: `
                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Hello, ${doc.name}</h2>
+                    <h2>Hello, ${safe.name}</h2>
                     <p>Unfortunately, we cannot process your 3D printing request at this time.</p>
                     <p>This may be due to a non-printable geometry, an extremely large file, or material constraints. Please contact our support team on WhatsApp if you would like to discuss modifications.</p>
-                    ${doc.adminNotes ? `<p><strong>Admin Note:</strong> ${doc.adminNotes}</p>` : ''}
+                    ${doc.adminNotes ? `<p><strong>Admin Note:</strong> ${safe.adminNotes}</p>` : ''}
                     <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
                     <p style="color: #666; font-size: 14px;">Thank you for choosing Kabya Ghosh 3D Printing Service!</p>
                   </div>
@@ -161,10 +180,10 @@ export const PrintingRequests: CollectionConfig = {
                 subject: 'Suggestion regarding your 3D Printing Order',
                 html: `
                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Hello, ${doc.name}</h2>
+                    <h2>Hello, ${safe.name}</h2>
                     <p>We have reviewed your 3D printing request and have a suggestion for you:</p>
                     <blockquote style="border-left: 4px solid #ccc; padding-left: 10px; color: #555;">
-                      ${doc.adminNotes}
+                      ${safe.adminNotes}
                     </blockquote>
                     <p>Please contact our support team on WhatsApp using this link: <a href="https://wa.me/qr/7RBXRALWHAPNA1">https://wa.me/qr/7RBXRALWHAPNA1</a></p>
                     <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
@@ -193,7 +212,7 @@ export const PrintingRequests: CollectionConfig = {
                 subject: 'Your 3D Printing Order is Delivered!',
                 html: `
                   <div style="font-family: sans-serif; max-width: 600px; margin: 0 auto;">
-                    <h2>Great news, ${doc.name}!</h2>
+                    <h2>Great news, ${safe.name}!</h2>
                     <p>Your 3D printing order has been successfully delivered.</p>
                     <p>We hope you are satisfied with the result. If you have any feedback or need further assistance, please contact our support team on WhatsApp.</p>
                     <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />

@@ -2,7 +2,7 @@ import React from 'react'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 import type { Metadata } from 'next'
-import './globals.css'
+// globals.css is imported in layout.tsx which wraps this page — no need to re-import
 
 export const metadata: Metadata = {
   title: 'Kabya Ghosh | Embedded System IoT Expert BD',
@@ -20,24 +20,11 @@ export const revalidate = 3600
 export const maxDuration = 30
 
 export default async function PortfolioHome() {
-  let payload: any
   let settings: any = {}
   let projects: any[] = []
   let totalProjects = 0
   let blogs: any[] = []
   let totalBlogs = 0
-
-  try {
-    payload = await getPayload({ config: configPromise })
-
-    // ── Fetch Global Settings ──
-    settings = await payload.findGlobal({
-      slug: 'homepage-settings',
-      depth: 2,
-    })
-  } catch (err) {
-    console.error('Error fetching homepage settings:', err)
-  }
 
   // Safely extract media URLs
   const getMediaUrl = (mediaObj: any, defaultUrl: string) => {
@@ -47,36 +34,33 @@ export default async function PortfolioHome() {
     return defaultUrl
   }
 
-  // ── Fetch Projects ──
-  if (payload) {
-    try {
-      const projRes = await payload.find({
+  try {
+    const payload = await getPayload({ config: configPromise })
+
+    // ── Fetch all data in parallel instead of sequentially ──
+    const [settingsRes, projRes, blogRes] = await Promise.all([
+      payload.findGlobal({ slug: 'homepage-settings', depth: 2 }),
+      payload.find({
         collection: 'projects',
         where: { visibility: { not_equals: 'private' } },
         depth: 2,
         limit: 4,
-      })
-      projects = projRes.docs || []
-      totalProjects = projRes.totalDocs || 0
-    } catch (err) {
-      console.error('Error fetching projects:', err)
-    }
-  }
-
-  // ── Fetch Blogs ──
-  if (payload) {
-    try {
-      const blogRes = await payload.find({
+      }),
+      payload.find({
         collection: 'blogs',
         where: { visibility: { not_equals: 'private' } },
         depth: 2,
         limit: 4,
-      })
-      blogs = blogRes.docs || []
-      totalBlogs = blogRes.totalDocs || 0
-    } catch (err) {
-      console.error('Error fetching blogs:', err)
-    }
+      }),
+    ])
+
+    settings = settingsRes
+    projects = projRes.docs || []
+    totalProjects = projRes.totalDocs || 0
+    blogs = blogRes.docs || []
+    totalBlogs = blogRes.totalDocs || 0
+  } catch (err) {
+    console.error('Error fetching homepage data:', err)
   }
 
 

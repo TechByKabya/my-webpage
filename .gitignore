@@ -25,3 +25,11 @@ local.db
 local.db-journal
 .env
 .env.local
+
+# Scratch / temp / backup files — should never be committed
+scratch_*.mjs
+scratch_*.ts
+test-*.ts
+*.bak
+tsconfig.tsbuildinfo
+models.json

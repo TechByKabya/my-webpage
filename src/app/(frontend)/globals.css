@@ -20,7 +20,6 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    box-sizing: border-box;
 }
 
 html, body {
@@ -30,16 +29,28 @@ html, body {
 
 body {
     background-color: var(--bg-gray);
-    background-image: 
-        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    background-attachment: fixed;
     color: var(--text-main);
     font-family: var(--font-stack);
     line-height: 1.5;
     overflow-x: hidden;
-    /* Hide scrollbars from 3D tilt */
+}
+
+/*
+ * Grid background via a fixed pseudo-element instead of background-attachment:fixed.
+ * This is GPU-composited and does NOT cause repaint on every scroll frame.
+ * background-attachment:fixed was causing severe scroll jank on iOS/mobile.
+ */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, rgba(0,0,0,0.04) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(0,0,0,0.04) 1px, transparent 1px);
+    background-size: 40px 40px;
+    background-color: var(--bg-gray);
 }
 
 /* --- Particle Canvas --- */

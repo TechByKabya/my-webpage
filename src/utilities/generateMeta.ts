@@ -4,19 +4,7 @@ import type { Media, Page, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
-
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-import { unstable_cache } from 'next/cache'
-
-const getCachedSiteSettings = unstable_cache(
-  async () => {
-    const payload = await getPayload({ config: configPromise })
-    return await payload.findGlobal({ slug: 'site-settings', depth: 1 })
-  },
-  ['global-site-settings-meta'],
-  { revalidate: 3600, tags: ['site-settings'] }
-)
+import { getCachedSiteSettings } from './getCachedSiteSettings'
 
 const getImageURL = async (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
@@ -28,7 +16,9 @@ const getImageURL = async (image?: Media | Config['db']['defaultIDType'] | null)
     // @ts-ignore
     const avatar = siteSettings?.adminLoginAvatar
     if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
-      url = serverUrl + (avatar.url as string)
+      const avatarUrl = avatar.url as string
+      // Vercel Blob URLs are already absolute — only prefix serverUrl for relative paths
+      url = avatarUrl.startsWith('http') ? avatarUrl : serverUrl + avatarUrl
     }
   } catch (err) {}
 

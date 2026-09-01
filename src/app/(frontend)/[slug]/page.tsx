@@ -12,6 +12,18 @@ import { generateMeta } from '@/utilities/generateMeta'
 import PageClient from './page.client'
 import { LivePreviewListener } from '@/components/LivePreviewListener'
 
+// Slugs that are served by dedicated routes — must never be
+// shadowed by the generic [slug] Payload Pages handler
+const PROTECTED_SLUGS = [
+  'blogs',
+  'projects',
+  'contact',
+  '3d-printing',
+  'faq',
+  'drive',
+  'api',
+]
+
 export async function generateStaticParams() {
   const payload = await getPayload({ config: configPromise })
   const pages = await payload.find({
@@ -27,7 +39,8 @@ export async function generateStaticParams() {
 
   const params = pages.docs
     ?.filter((doc) => {
-      return doc.slug !== 'home'
+      // Exclude 'home' (served by root page.tsx) and any reserved slug
+      return doc.slug !== 'home' && !PROTECTED_SLUGS.includes(doc.slug ?? '')
     })
     .map(({ slug }) => {
       return { slug }
@@ -47,6 +60,13 @@ export default async function Page({ params: paramsPromise }: Args) {
   const { slug = 'home' } = await paramsPromise
   // Decode to support slugs with special characters
   const decodedSlug = decodeURIComponent(slug)
+
+  // Safety guard — if someone creates a Page with a protected slug,
+  // don't let it shadow the dedicated route
+  if (PROTECTED_SLUGS.includes(decodedSlug)) {
+    return <PayloadRedirects url={`/${decodedSlug}`} />
+  }
+
   const url = '/' + decodedSlug
   let page: RequiredDataFromCollectionSlug<'pages'> | null
 

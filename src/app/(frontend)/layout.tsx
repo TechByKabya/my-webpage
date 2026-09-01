@@ -15,18 +15,7 @@ import { draftMode } from 'next/headers'
 import './globals.css'
 import { getServerSideURL } from '@/utilities/getURL'
 import GlobalElements from '@/components/GlobalElements'
-import { unstable_cache } from 'next/cache'
-import { getPayload } from 'payload'
-import configPromise from '@payload-config'
-
-const getCachedSiteSettings = unstable_cache(
-  async () => {
-    const payload = await getPayload({ config: configPromise })
-    return await payload.findGlobal({ slug: 'site-settings', depth: 1 })
-  },
-  ['global-site-settings'],
-  { revalidate: 3600, tags: ['site-settings'] }
-)
+import { getCachedSiteSettings } from '@/utilities/getCachedSiteSettings'
 
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()

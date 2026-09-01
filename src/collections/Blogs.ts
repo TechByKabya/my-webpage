@@ -39,8 +39,15 @@ export const Blogs: CollectionConfig = {
       autoGenerateSEO,
     ],
     afterChange: [
-      ({ req: { payload } }) => {
-        revalidatePath('/', 'layout')
+      ({ doc, previousDoc }) => {
+        // Revalidate only the specific paths that changed — NOT the whole layout
+        revalidatePath('/blogs', 'page')                  // blog listing page
+        revalidatePath(`/blogs/${doc.slug}`, 'page')      // new/current post URL
+        revalidatePath('/', 'page')                       // homepage blog grid
+        // If the slug was renamed, also bust the old URL
+        if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
+          revalidatePath(`/blogs/${previousDoc.slug}`, 'page')
+        }
       },
     ],
   },

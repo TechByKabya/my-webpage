@@ -1,4 +1,5 @@
 import type { GlobalConfig } from 'payload'
+import { revalidateTag } from 'next/cache'
 
 export const SiteSettings: GlobalConfig = {
   slug: 'site-settings',
@@ -16,8 +17,8 @@ export const SiteSettings: GlobalConfig = {
   hooks: {
     afterChange: [
       ({ doc }) => {
-        const { revalidateTag } = require('next/cache')
-        revalidateTag('site-settings')
+        // 'max' = stale-while-revalidate: serve stale instantly, refresh in background
+        revalidateTag('site-settings', 'max')
         return doc
       }
     ]

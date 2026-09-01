@@ -32,7 +32,8 @@ const nextConfig: NextConfig = {
         pathname: '/api/media/file/**',
       },
     ],
-    qualities: [100],
+    // No custom qualities — let Next.js use its smart defaults (75% quality)
+    // which produces ~60% smaller files while looking nearly identical
     remotePatterns: [
       ...[NEXT_PUBLIC_SERVER_URL /* 'https://example.com' */].map((item) => {
         const url = new URL(item)

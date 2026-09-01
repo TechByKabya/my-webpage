@@ -42,6 +42,20 @@ export const ContactSubmissions: CollectionConfig = {
           
           if (resendApiKey && data.adminReply) {
             const resend = new Resend(resendApiKey)
+
+            // Sanitize all user/admin-supplied strings before embedding in HTML
+            const escapeHtml = (str: string) =>
+              String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#039;')
+
+            const safeName = escapeHtml(data.name || '')
+            const safeReply = escapeHtml(data.adminReply || '')
+            const safeMessage = escapeHtml(data.message || '')
+            const safeSubject = escapeHtml(data.subject || 'Your Message to Kabya Ghosh')
             
             try {
               await resend.emails.send({
@@ -50,14 +64,14 @@ export const ContactSubmissions: CollectionConfig = {
                 subject: `Re: ${data.subject || 'Your Message to Kabya Ghosh'}`,
                 text: data.adminReply,
                 html: `<div style="font-family: sans-serif; line-height: 1.6; color: #333;">
-                  <p>Hi ${data.name},</p>
-                  <p style="white-space: pre-wrap;">${data.adminReply}</p>
+                  <p>Hi ${safeName},</p>
+                  <p style="white-space: pre-wrap;">${safeReply}</p>
                   <br/>
                   <p>Best regards,<br/>Kabya Ghosh</p>
                   <hr style="border: none; border-top: 1px solid #eaeaea; margin: 20px 0;" />
                   <p style="font-size: 0.9em; color: #888;">On ${new Date(data.createdAt || Date.now()).toLocaleDateString()}, you wrote:</p>
                   <blockquote style="border-left: 3px solid #ccc; padding-left: 10px; color: #666; white-space: pre-wrap;">
-                    ${data.message}
+                    ${safeMessage}
                   </blockquote>
                 </div>`
               })
@@ -70,7 +84,7 @@ export const ContactSubmissions: CollectionConfig = {
             }
           }
           
-          // Always uncheck the box after processing, whether it succeeded or failed (or lacked an API key)
+          // Always uncheck the box after processing
           data.sendReplyEmail = false
         }
         return data

@@ -9,22 +9,34 @@ import Link from 'next/link'
 
 export const BlogList = async (props: any) => {
   const payload = await getPayload({ config: configPromise })
+  // Read the admin route from payload config so we don't hardcode it
+  const adminRoute = payload.config.routes?.admin || '/admin'
   
   const searchParams = props.searchParams instanceof Promise ? await props.searchParams : (props.searchParams || {})
   const page = searchParams.page ? parseInt(searchParams.page as string, 10) : 1
   const limit = 10
   
-  const data = await payload.find({
-    collection: 'blogs',
-    depth: 0,
-    limit,
-    page,
-    sort: '-createdAt'
-  })
+  const [data, publicCountResult, privateCountResult] = await Promise.all([
+    payload.find({
+      collection: 'blogs',
+      depth: 0,
+      limit,
+      page,
+      sort: '-createdAt'
+    }),
+    payload.count({
+      collection: 'blogs',
+      where: { visibility: { equals: 'public' } },
+    }),
+    payload.count({
+      collection: 'blogs',
+      where: { visibility: { equals: 'private' } },
+    }),
+  ])
 
   const total = data.totalDocs
-  const publicCount = data.docs.filter(doc => doc.visibility === 'public').length
-  const privateCount = data.docs.filter(doc => doc.visibility === 'private').length
+  const publicCount = publicCountResult.totalDocs
+  const privateCount = privateCountResult.totalDocs
 
   return (
     <div style={{ padding: '40px', maxWidth: '1200px', margin: '0 auto', fontFamily: 'system-ui, -apple-system, sans-serif' }}>
@@ -39,7 +51,7 @@ export const BlogList = async (props: any) => {
         <div>
           <h1 style={{ margin: '0 0 8px 0', fontSize: '2rem', color: '#0f172a', fontWeight: 800 }}>Blogs</h1>
           <p style={{ margin: '0 0 16px 0', color: '#64748b', fontSize: '1rem' }}>Manage your blog posts and content.</p>
-          <Link href="/kabya-52005/collections/blogs/create" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#0f172a', color: '#fff', textDecoration: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600, transition: 'opacity 0.2s' }}>
+          <Link href={`${adminRoute}/collections/blogs/create`} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', background: '#0f172a', color: '#fff', textDecoration: 'none', padding: '8px 16px', borderRadius: '20px', fontSize: '0.85rem', fontWeight: 600, transition: 'opacity 0.2s' }}>
             + Create New Blog Post
           </Link>
         </div>
@@ -106,7 +118,7 @@ export const BlogList = async (props: any) => {
                       <td style={tdStyle}>
                         <div style={{ display: 'flex', gap: '8px', alignItems: 'center' }}>
                           <Link 
-                            href={`/kabya-52005/collections/blogs/${doc.id}`}
+                            href={`${adminRoute}/collections/blogs/${doc.id}`}
                             style={{
                               display: 'inline-flex',
                               alignItems: 'center',

@@ -35,8 +35,15 @@ export const Projects: CollectionConfig = {
       autoGenerateSEO,
     ],
     afterChange: [
-      ({ req: { payload } }) => {
-        revalidatePath('/', 'layout')
+      ({ doc, previousDoc }) => {
+        // Revalidate only the specific paths that changed — NOT the whole layout
+        revalidatePath('/projects', 'page')                 // projects listing page
+        revalidatePath(`/projects/${doc.slug}`, 'page')    // new/current project URL
+        revalidatePath('/', 'page')                        // homepage projects grid
+        // If the slug was renamed, also bust the old URL
+        if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
+          revalidatePath(`/projects/${previousDoc.slug}`, 'page')
+        }
       },
     ],
   },

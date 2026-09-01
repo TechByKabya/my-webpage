@@ -18,8 +18,16 @@ export default async function BlogsPage() {
   const { docs: blogs } = await payload.find({
     collection: 'blogs',
     where: { visibility: { not_equals: 'private' } },
-    depth: 2,
+    depth: 1,    // depth:1 resolves coverImage URL; no need for depth:2
     limit: 100,
+    // Only fetch the fields needed for the listing cards — not full rich-text content
+    select: {
+      title: true,
+      slug: true,
+      excerpt: true,
+      coverImage: true,
+      createdAt: true,
+    },
   })
 
   const getMediaUrl = (mediaObj: any, defaultUrl: string) => {

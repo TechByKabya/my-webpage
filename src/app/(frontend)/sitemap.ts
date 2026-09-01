@@ -8,7 +8,8 @@ export const revalidate = 0 // Update sitemap instantly when new posts are creat
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const payload = await getPayload({ config: configPromise })
   
-  const siteUrl = 'https://www.kabyac.tech'
+  // Use the environment-aware URL so staging/dev previews don't hardcode production
+  const siteUrl = getServerSideURL()
 
   const [pages, blogs, projects] = await Promise.all([
     payload.find({ collection: 'pages', limit: 1000 }),
