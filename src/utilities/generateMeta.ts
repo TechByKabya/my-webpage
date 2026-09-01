@@ -60,6 +60,13 @@ export const generateMeta = async (args: {
 
   const description = doc?.meta?.description || 'Personal portfolio, projects, and technical blog of Kabya Ghosh. Explore software engineering, web development, and more.'
 
+  let fbAppId = '966242223397117'
+  try {
+    const siteSettings = await getCachedSiteSettings()
+    // @ts-ignore
+    if (siteSettings?.fbAppId) fbAppId = siteSettings.fbAppId
+  } catch (err) {}
+
   return {
     description,
     keywords: ['Kabya Ghosh', 'Kabya', 'Ghosh', 'Software Engineer', 'Web Developer', 'Tech Blog', 'Portfolio', 'Developer', 'Bangladesh', 'TechByKabya'],
@@ -69,7 +76,7 @@ export const generateMeta = async (args: {
       images: ogImage
         ? [
             {
-              url: ogImage,
+               url: ogImage,
             },
           ]
         : undefined,
@@ -84,5 +91,8 @@ export const generateMeta = async (args: {
       images: ogImage ? [ogImage] : undefined,
     },
     title,
+    other: {
+      'fb:app_id': fbAppId,
+    },
   }
 }

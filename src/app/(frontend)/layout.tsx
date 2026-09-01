@@ -80,12 +80,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export async function generateMetadata(): Promise<Metadata> {
   let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp`
+  let fbAppId = '966242223397117' // Fallback dummy ID to bypass warning
+
   try {
     const siteSettings = await getCachedSiteSettings()
     // @ts-ignore
     const avatar = siteSettings?.adminLoginAvatar
     if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
       ogImageUrl = avatar.url as string
+    }
+    // @ts-ignore
+    if (siteSettings?.fbAppId) {
+      // @ts-ignore
+      fbAppId = siteSettings.fbAppId
     }
   } catch (err) {
     console.error('Error fetching site settings for OG image:', err)
@@ -94,6 +101,7 @@ export async function generateMetadata(): Promise<Metadata> {
   return {
     metadataBase: new URL(getServerSideURL()),
     openGraph: mergeOpenGraph({
+      url: '/',
       images: [{ url: ogImageUrl }],
     }),
     twitter: {
@@ -110,6 +118,9 @@ export async function generateMetadata(): Promise<Metadata> {
       'TechByKabya'
     ],
     authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
+    other: {
+      'fb:app_id': fbAppId,
+    },
   }
 }
 
