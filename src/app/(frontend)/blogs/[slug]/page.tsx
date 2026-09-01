@@ -12,6 +12,20 @@ import { generateMeta } from '@/utilities/generateMeta'
 export const revalidate = 3600
 export const maxDuration = 30
 
+// Only generate paths for public blogs.
+// Any unknown or private slug will correctly trigger notFound() and show
+// your custom 404 page — NOT Payload's error template.
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'blogs',
+    where: { visibility: { not_equals: 'private' } },
+    limit: 1000,
+    select: { slug: true },
+  })
+  return docs.filter((b) => Boolean(b.slug)).map((b) => ({ slug: b.slug as string }))
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const payload = await getPayload({ config: configPromise })

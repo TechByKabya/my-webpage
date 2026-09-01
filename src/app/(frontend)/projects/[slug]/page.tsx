@@ -11,6 +11,20 @@ import { TextToSpeech } from '@/components/Frontend/TextToSpeech'
 export const revalidate = 3600
 export const maxDuration = 30
 
+// Only generate paths for public projects.
+// Any unknown or private slug will correctly trigger notFound() and show
+// your custom 404 page — NOT Payload's error template.
+export async function generateStaticParams() {
+  const payload = await getPayload({ config: configPromise })
+  const { docs } = await payload.find({
+    collection: 'projects',
+    where: { visibility: { not_equals: 'private' } },
+    limit: 1000,
+    select: { slug: true },
+  })
+  return docs.filter((p) => Boolean(p.slug)).map((p) => ({ slug: p.slug as string }))
+}
+
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params
   const payload = await getPayload({ config: configPromise })

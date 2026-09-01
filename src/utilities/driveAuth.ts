@@ -22,7 +22,15 @@ export const verifyDriveCookie = (cookieValue: string): boolean => {
   const [payload, signature] = parts
   
   const expectedSignature = signDriveCookie(payload).split('.')[1]
-  return signature === expectedSignature
+  // Use timingSafeEqual to prevent timing attacks
+  try {
+    return crypto.timingSafeEqual(
+      Buffer.from(signature, 'hex'),
+      Buffer.from(expectedSignature, 'hex'),
+    )
+  } catch {
+    return false
+  }
 }
 
 export const setDriveAuthCookie = async () => {
