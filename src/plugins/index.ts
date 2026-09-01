@@ -137,17 +137,8 @@ export const plugins: Plugin[] = [
           },
         },
       },
-      ...defaultFields.map(field => {
-        // Hide the preview UI field (it has no name)
-        if (!('name' in field) && field.type === 'ui') {
-          return {
-            ...field,
-            admin: {
-              ...('admin' in field ? field.admin : {}),
-              condition: () => false,
-            }
-          }
-        }
+      ...defaultFields.map((field): any => {
+        // The preview UI field is handled and hidden by the frontend script in SEOAutoGenerateButton.tsx
         
         // Hide the image field
         if ('name' in field && field.name === 'image') {
@@ -163,7 +154,7 @@ export const plugins: Plugin[] = [
         if ('name' in field && field.name === 'meta' && field.type === 'group') {
           return {
             ...field,
-            fields: field.fields.map(f => {
+            fields: field.fields.map((f): any => {
               if ('name' in f && (f.name === 'title' || f.name === 'description')) {
                 return {
                   ...f,

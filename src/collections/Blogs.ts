@@ -22,7 +22,7 @@ export const Blogs: CollectionConfig = {
         },
         Edit: {
           Default: {
-            Header: '@/components/Admin/BlogEditHeader#BlogEditHeader',
+            // Header removed due to TS error (not supported in CustomDocumentViewConfig)
           },
         },
       },
