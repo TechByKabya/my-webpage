@@ -62,15 +62,6 @@ export const Projects: CollectionConfig = {
           label: 'Project Details',
           fields: [
             {
-              name: 'projectPostHeader',
-              type: 'ui',
-              admin: {
-                components: {
-                  Field: '@/components/Admin/ProjectPostHeader#ProjectPostHeader',
-                },
-              },
-            },
-            {
               type: 'row',
               fields: [
                 {

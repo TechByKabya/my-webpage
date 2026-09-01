@@ -17,7 +17,6 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { AIAutomationBanner as AIAutomationBanner_5334e23b95a12f251fbdd63db9937f23 } from '@/components/Admin/AIAutomationBanner'
 import { SEOScoreGauge as SEOScoreGauge_aeaf7d063c4791fc25f1f8415024ea14 } from '@/components/Admin/SEOScoreGauge'
 import { SocialPreview as SocialPreview_18a8b70f7e905d5d421084c41112eb20 } from '@/components/Admin/SocialPreview'
-import { BlogPostHeader as BlogPostHeader_a2fab6857fc85cf857557c577b8ca8e7 } from '@/components/Admin/BlogPostHeader'
 import { SlugField as SlugField_2b8867833a34864a02ddf429b0728a40 } from '@payloadcms/next/client'
 import { BlocksFeatureClient as BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { InlineCodeFeatureClient as InlineCodeFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
@@ -34,7 +33,6 @@ import { SuperscriptFeatureClient as SuperscriptFeatureClient_e70f5e05f09f93e00b
 import { SubscriptFeatureClient as SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { BlogList as BlogList_7a210f917fb1b6af88434f91a0672a67 } from '@/components/Admin/BlogList'
-import { ProjectPostHeader as ProjectPostHeader_f45531139d305bb72dbe3c64c6817c28 } from '@/components/Admin/ProjectPostHeader'
 import { ProjectList as ProjectList_45deadb1e076ead989f9cecb1eed9101 } from '@/components/Admin/ProjectList'
 import { ContactEdit as ContactEdit_9305aa5b6d57d72347e14c3ed8bfafa0 } from '@/components/Admin/ContactEdit'
 import { ContactList as ContactList_c843532965132c51d38081f44d6a3083 } from '@/components/Admin/ContactList'
@@ -73,7 +71,6 @@ export const importMap = {
   "@/components/Admin/AIAutomationBanner#AIAutomationBanner": AIAutomationBanner_5334e23b95a12f251fbdd63db9937f23,
   "@/components/Admin/SEOScoreGauge#SEOScoreGauge": SEOScoreGauge_aeaf7d063c4791fc25f1f8415024ea14,
   "@/components/Admin/SocialPreview#SocialPreview": SocialPreview_18a8b70f7e905d5d421084c41112eb20,
-  "@/components/Admin/BlogPostHeader#BlogPostHeader": BlogPostHeader_a2fab6857fc85cf857557c577b8ca8e7,
   "@payloadcms/next/client#SlugField": SlugField_2b8867833a34864a02ddf429b0728a40,
   "@payloadcms/richtext-lexical/client#BlocksFeatureClient": BlocksFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#InlineCodeFeatureClient": InlineCodeFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
@@ -90,7 +87,6 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@/components/Admin/BlogList#BlogList": BlogList_7a210f917fb1b6af88434f91a0672a67,
-  "@/components/Admin/ProjectPostHeader#ProjectPostHeader": ProjectPostHeader_f45531139d305bb72dbe3c64c6817c28,
   "@/components/Admin/ProjectList#ProjectList": ProjectList_45deadb1e076ead989f9cecb1eed9101,
   "@/components/Admin/ContactEdit#ContactEdit": ContactEdit_9305aa5b6d57d72347e14c3ed8bfafa0,
   "@/components/Admin/ContactList#ContactList": ContactList_c843532965132c51d38081f44d6a3083,
