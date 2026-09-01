@@ -15,10 +15,17 @@ export const PrintingRequests: CollectionConfig = {
     pagination: {
       defaultLimit: 10,
     },
+    components: {
+      views: {
+        list: {
+          Component: '@/components/Admin/PrintingRequestList#PrintingRequestList',
+        },
+      },
+    },
   },
   defaultSort: '-createdAt',
   access: {
-    create: () => true,
+    create: ({ req: { user } }) => Boolean(user),
     read: ({ req: { user } }) => Boolean(user),
     update: ({ req: { user } }) => Boolean(user),
     delete: ({ req: { user } }) => Boolean(user),

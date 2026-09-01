@@ -5,10 +5,32 @@ import type { Media, Page, Config } from '../payload-types'
 import { mergeOpenGraph } from './mergeOpenGraph'
 import { getServerSideURL } from './getURL'
 
-const getImageURL = (image?: Media | Config['db']['defaultIDType'] | null) => {
+import { getPayload } from 'payload'
+import configPromise from '@payload-config'
+import { unstable_cache } from 'next/cache'
+
+const getCachedSiteSettings = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config: configPromise })
+    return await payload.findGlobal({ slug: 'site-settings', depth: 1 })
+  },
+  ['global-site-settings-meta'],
+  { revalidate: 3600, tags: ['site-settings'] }
+)
+
+const getImageURL = async (image?: Media | Config['db']['defaultIDType'] | null) => {
   const serverUrl = getServerSideURL()
 
   let url = serverUrl + '/website-template-OG.webp'
+  
+  try {
+    const siteSettings = await getCachedSiteSettings()
+    // @ts-ignore
+    const avatar = siteSettings?.adminLoginAvatar
+    if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
+      url = serverUrl + (avatar.url as string)
+    }
+  } catch (err) {}
 
   if (image && typeof image === 'object' && 'url' in image) {
     // Prefer the og-sized image (1200x630 JPEG), fallback to the main image
@@ -30,7 +52,7 @@ export const generateMeta = async (args: {
 }): Promise<Metadata> => {
   const { doc, url } = args
 
-  const ogImage = getImageURL(doc?.meta?.image || doc?.coverImage)
+  const ogImage = await getImageURL(doc?.meta?.image || doc?.coverImage)
 
   const title = doc?.meta?.title
     ? doc?.meta?.title + ' | Kabya Ghosh'

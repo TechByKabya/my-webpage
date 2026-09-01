@@ -5,14 +5,25 @@ import configPromise from '@payload-config';
 
 const rateLimit = new Map<string, { count: number; time: number }>();
 
+function pruneRateLimit(windowMs: number) {
+  const now = Date.now();
+  for (const [key, data] of rateLimit.entries()) {
+    if (now - data.time >= windowMs) {
+      rateLimit.delete(key);
+    }
+  }
+}
+
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
   try {
-    const ip = req.headers.get('x-forwarded-for') || 'unknown';
+    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() || 'unknown';
     const now = Date.now();
     const windowMs = 60 * 1000; // 1 minute
     
+    pruneRateLimit(windowMs);
+
     if (rateLimit.has(ip)) {
       const data = rateLimit.get(ip)!;
       if (now - data.time < windowMs) {

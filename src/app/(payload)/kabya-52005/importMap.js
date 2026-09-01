@@ -32,9 +32,14 @@ import { IndentFeatureClient as IndentFeatureClient_e70f5e05f09f93e00b997edb1ef0
 import { SuperscriptFeatureClient as SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { SubscriptFeatureClient as SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
 import { StrikethroughFeatureClient as StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864 } from '@payloadcms/richtext-lexical/client'
+import { BlogList as BlogList_7a210f917fb1b6af88434f91a0672a67 } from '@/components/Admin/BlogList'
+import { ProjectList as ProjectList_45deadb1e076ead989f9cecb1eed9101 } from '@/components/Admin/ProjectList'
+import { ContactEdit as ContactEdit_9305aa5b6d57d72347e14c3ed8bfafa0 } from '@/components/Admin/ContactEdit'
+import { ContactList as ContactList_c843532965132c51d38081f44d6a3083 } from '@/components/Admin/ContactList'
 import { StatusCell as StatusCell_f189ca9be581943d1b91480cb00fabee } from '@/components/Admin/StatusCell'
 import { HiddenField as HiddenField_e6ccfc82cbf35023135a5c40655cd208 } from '@/components/Admin/HiddenField'
 import { QuickActionsField as QuickActionsField_60a72fd252da60880aa0aba254399bc3 } from '@/components/Admin/QuickActionsField'
+import { PrintingRequestList as PrintingRequestList_be1f7de29b2e76a9e306702c262ccba0 } from '@/components/Admin/PrintingRequestList'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { CustomNav as CustomNav_c7444955c2e5437a06591727650df7dc } from '@/components/Admin/CustomNav'
@@ -81,9 +86,14 @@ export const importMap = {
   "@payloadcms/richtext-lexical/client#SuperscriptFeatureClient": SuperscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#SubscriptFeatureClient": SubscriptFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
   "@payloadcms/richtext-lexical/client#StrikethroughFeatureClient": StrikethroughFeatureClient_e70f5e05f09f93e00b997edb1ef0c864,
+  "@/components/Admin/BlogList#BlogList": BlogList_7a210f917fb1b6af88434f91a0672a67,
+  "@/components/Admin/ProjectList#ProjectList": ProjectList_45deadb1e076ead989f9cecb1eed9101,
+  "@/components/Admin/ContactEdit#ContactEdit": ContactEdit_9305aa5b6d57d72347e14c3ed8bfafa0,
+  "@/components/Admin/ContactList#ContactList": ContactList_c843532965132c51d38081f44d6a3083,
   "@/components/Admin/StatusCell#StatusCell": StatusCell_f189ca9be581943d1b91480cb00fabee,
   "@/components/Admin/HiddenField#HiddenField": HiddenField_e6ccfc82cbf35023135a5c40655cd208,
   "@/components/Admin/QuickActionsField#QuickActionsField": QuickActionsField_60a72fd252da60880aa0aba254399bc3,
+  "@/components/Admin/PrintingRequestList#PrintingRequestList": PrintingRequestList_be1f7de29b2e76a9e306702c262ccba0,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/Admin/CustomNav#CustomNav": CustomNav_c7444955c2e5437a06591727650df7dc,

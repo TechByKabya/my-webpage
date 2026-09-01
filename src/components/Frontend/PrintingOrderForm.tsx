@@ -37,7 +37,7 @@ export const PrintingOrderForm: React.FC<Props> = ({ availableMaterials, availab
     setStatus('loading')
     
     try {
-      const res = await fetch('/api/printing-requests', {
+      const res = await fetch('/api/printing', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),

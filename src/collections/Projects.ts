@@ -16,6 +16,13 @@ export const Projects: CollectionConfig = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'slug', 'updatedAt'],
     group: ' ',
+    components: {
+      views: {
+        list: {
+          Component: '@/components/Admin/ProjectList#ProjectList',
+        },
+      },
+    },
   },
   access: {
     create: authenticated,

@@ -78,22 +78,38 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   )
 }
 
-export const metadata: Metadata = {
-  metadataBase: new URL(getServerSideURL()),
-  openGraph: mergeOpenGraph(),
-  twitter: {
-    card: 'summary_large_image',
-    creator: '@kabya_ghosh',
-  },
-  keywords: [
-    'Embedded System IoT Engineer BD',
-    'Embedded System IoT Expert in BD',
-    'Daffodil International University',
-    'Low Cost 3D Printing Dhaka',
-    'CAD Model Design Bangladesh',
-    'Kabya Ghosh',
-    'TechByKabya'
-  ],
-  authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
+export async function generateMetadata(): Promise<Metadata> {
+  let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp`
+  try {
+    const siteSettings = await getCachedSiteSettings()
+    // @ts-ignore
+    const avatar = siteSettings?.adminLoginAvatar
+    if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
+      ogImageUrl = avatar.url as string
+    }
+  } catch (err) {
+    console.error('Error fetching site settings for OG image:', err)
+  }
+
+  return {
+    metadataBase: new URL(getServerSideURL()),
+    openGraph: mergeOpenGraph({
+      images: [{ url: ogImageUrl }],
+    }),
+    twitter: {
+      card: 'summary_large_image',
+      creator: '@kabya_ghosh',
+    },
+    keywords: [
+      'Embedded System IoT Engineer BD',
+      'Embedded System IoT Expert in BD',
+      'Daffodil International University',
+      'Low Cost 3D Printing Dhaka',
+      'CAD Model Design Bangladesh',
+      'Kabya Ghosh',
+      'TechByKabya'
+    ],
+    authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
+  }
 }
 

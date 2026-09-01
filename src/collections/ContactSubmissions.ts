@@ -10,14 +10,25 @@ export const ContactSubmissions: CollectionConfig = {
     plural: 'Contact Submissions',
   },
   admin: {
-    // Removed hidden: true to make the collection visible in the admin sidebar
     group: '\u200B\u200BContact',
     useAsTitle: 'name',
     defaultColumns: ['name', 'email', 'status', 'createdAt'],
     description: 'Messages submitted through the contact form on the website.',
+    components: {
+      views: {
+        list: {
+          Component: '@/components/Admin/ContactList#ContactList',
+        },
+        edit: {
+          default: {
+            Component: '@/components/Admin/ContactEdit#ContactEdit',
+          },
+        },
+      },
+    },
   },
   access: {
-    create: anyone,       // Public can submit
+    create: authenticated,       // Prevent public from bypassing custom API rate limit
     read: authenticated,  // Only admins can view
     update: authenticated,
     delete: authenticated,

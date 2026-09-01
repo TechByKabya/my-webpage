@@ -15,6 +15,13 @@ export const Blogs: CollectionConfig = {
   admin: {
     useAsTitle: 'title',
     group: ' ',
+    components: {
+      views: {
+        list: {
+          Component: '@/components/Admin/BlogList#BlogList',
+        },
+      },
+    },
   },
   access: {
     create: authenticated,
