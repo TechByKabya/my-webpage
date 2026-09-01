@@ -31,35 +31,10 @@ const getCachedSiteSettings = unstable_cache(
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
-  // Fetch dynamic favicon from CMS
-  let faviconUrl: string | null = null
-  try {
-    const siteSettings = await getCachedSiteSettings()
-    // @ts-ignore
-    const favicon = siteSettings?.favicon
-    if (favicon && typeof favicon === 'object' && 'url' in favicon && favicon.url) {
-      faviconUrl = favicon.url as string
-    }
-  } catch {
-    // fallback to static favicon if CMS is unavailable
-  }
-
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
-        {faviconUrl ? (
-          <>
-            <link href={faviconUrl} rel="icon" />
-            <link href={faviconUrl} rel="apple-touch-icon" sizes="180x180" />
-          </>
-        ) : (
-          <>
-            <link href="/favicon.ico" rel="icon" sizes="32x32" />
-            <link href="/favicon.svg" rel="icon" type="image/svg+xml" />
-            <link href="/favicon.ico" rel="apple-touch-icon" sizes="180x180" />
-          </>
-        )}
       </head>
       <body>
         <Providers>
@@ -81,6 +56,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 export async function generateMetadata(): Promise<Metadata> {
   let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp`
   let fbAppId = '966242223397117' // Fallback dummy ID to bypass warning
+  let faviconUrl: string | null = null
 
   try {
     const siteSettings = await getCachedSiteSettings()
@@ -94,12 +70,22 @@ export async function generateMetadata(): Promise<Metadata> {
       // @ts-ignore
       fbAppId = siteSettings.fbAppId
     }
+    // @ts-ignore
+    const favicon = siteSettings?.favicon
+    if (favicon && typeof favicon === 'object' && 'url' in favicon && favicon.url) {
+      faviconUrl = favicon.url as string
+    }
   } catch (err) {
     console.error('Error fetching site settings for OG image:', err)
   }
 
   return {
     metadataBase: new URL(getServerSideURL()),
+    icons: faviconUrl ? faviconUrl : [
+      { rel: 'icon', url: '/favicon.ico', sizes: '32x32' },
+      { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
+      { rel: 'apple-touch-icon', url: '/favicon.ico', sizes: '180x180' },
+    ],
     openGraph: mergeOpenGraph({
       url: '/',
       images: [{ url: ogImageUrl }],
