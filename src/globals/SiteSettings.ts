@@ -13,6 +13,15 @@ export const SiteSettings: GlobalConfig = {
   admin: {
     group: ' ',
   },
+  hooks: {
+    afterChange: [
+      ({ doc }) => {
+        const { revalidateTag } = require('next/cache')
+        revalidateTag('site-settings')
+        return doc
+      }
+    ]
+  },
   fields: [
     {
       name: 'logo',
