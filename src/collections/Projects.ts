@@ -14,12 +14,15 @@ export const Projects: CollectionConfig = {
   },
   admin: {
     useAsTitle: 'title',
-    defaultColumns: ['title', 'slug', 'updatedAt'],
     group: ' ',
     components: {
       views: {
         list: {
           Component: '@/components/Admin/ProjectList#ProjectList',
+        },
+        // Edit header — same pattern as Blogs
+        Edit: {
+          Default: {},
         },
       },
     },
@@ -36,11 +39,9 @@ export const Projects: CollectionConfig = {
     ],
     afterChange: [
       ({ doc, previousDoc }) => {
-        // Revalidate only the specific paths that changed — NOT the whole layout
-        revalidatePath('/projects', 'page')                 // projects listing page
-        revalidatePath(`/projects/${doc.slug}`, 'page')    // new/current project URL
-        revalidatePath('/', 'page')                        // homepage projects grid
-        // If the slug was renamed, also bust the old URL
+        revalidatePath('/projects', 'page')
+        revalidatePath(`/projects/${doc.slug}`, 'page')
+        revalidatePath('/', 'page')
         if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
           revalidatePath(`/projects/${previousDoc.slug}`, 'page')
         }
@@ -48,6 +49,128 @@ export const Projects: CollectionConfig = {
     ],
   },
   fields: [
+    // ── TAB SWITCHER UI (must be FIRST field) ──
+    {
+      name: 'customTabSwitcher',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/Admin/CustomProjectTabSwitcher#CustomProjectTabSwitcher',
+        },
+      },
+    },
+
+    // ── PROJECT CONTENT FIELDS (shown in "Project Content" tab) ──
+    // All must have admin.className: 'project-field'
+    {
+      name: 'title',
+      type: 'text',
+      required: true,
+      admin: {
+        className: 'project-field',
+      },
+    },
+    {
+      name: 'tag',
+      type: 'text',
+      required: true,
+      label: 'Tag (e.g. Robotics, Award)',
+      admin: {
+        className: 'project-field',
+      },
+    },
+    {
+      name: 'description',
+      type: 'textarea',
+      label: 'Short Description / Excerpt',
+      admin: {
+        className: 'project-field',
+        description: 'Brief summary shown on project cards.',
+      },
+    },
+    {
+      name: 'content',
+      type: 'richText',
+      editor: documentationEditor,
+      label: 'Project Post Content',
+      admin: {
+        className: 'project-field',
+        description: 'Write the full article or details about your project here.',
+      },
+    },
+    {
+      name: 'youtubeUrl',
+      type: 'text',
+      label: 'YouTube Video URL (Optional)',
+      admin: {
+        className: 'project-field',
+        description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
+      },
+    },
+    {
+      name: 'linkUrl',
+      type: 'text',
+      label: 'External Link URL (Optional)',
+      admin: {
+        className: 'project-field',
+      },
+    },
+    {
+      name: 'gridSpan',
+      type: 'select',
+      defaultValue: 'span-1',
+      options: [
+        { label: 'Span 1 Column', value: 'span-1' },
+        { label: 'Span 2 Columns', value: 'span-2' },
+      ],
+      required: true,
+      admin: {
+        className: 'project-field',
+      },
+    },
+    {
+      name: 'isGithubCard',
+      type: 'checkbox',
+      label: 'Is this the GitHub/More Projects Card?',
+      defaultValue: false,
+      admin: {
+        className: 'project-field',
+        description: 'If checked, this card will be styled as the dark GitHub link card.',
+      },
+    },
+
+    // ── SEO TAB FIELDS (UI components — shown in "SEO Settings" tab) ──
+    {
+      name: 'seoAutoGenerate',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/Admin/ProjectSEOAutoGenerateButton#ProjectSEOAutoGenerateButton',
+        },
+      },
+    },
+    {
+      name: 'seoScoreGauge',
+      type: 'ui',
+      admin: {
+        components: {
+          // Reuse the exact same SEOScoreGauge — it reads meta.title, meta.description, content
+          // which are the same field paths for projects
+          Field: '@/components/Admin/SEOScoreGauge#SEOScoreGauge',
+        },
+      },
+    },
+    {
+      name: 'seoSocialPreview',
+      type: 'ui',
+      admin: {
+        components: {
+          Field: '@/components/Admin/ProjectSocialPreview#ProjectSocialPreview',
+        },
+      },
+    },
+
+    // ── SIDEBAR FIELDS ──
     {
       name: 'visibility',
       type: 'select',
@@ -59,111 +182,26 @@ export const Projects: CollectionConfig = {
       required: true,
       admin: {
         position: 'sidebar',
-        description: 'Private posts will be hidden from the website.',
+        components: {
+          Field: '@/components/Admin/VisibilityCustomField#VisibilityCustomField',
+        },
       },
     },
     {
-      type: 'tabs',
-      tabs: [
-        {
-          label: 'Project Details',
-          fields: [
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'title',
-                  type: 'text',
-                  required: true,
-                  admin: { width: '50%' },
-                },
-                {
-                  ...slugField(),
-                  admin: { width: '50%' },
-                },
-              ],
-            },
-            {
-              name: 'tag',
-              type: 'text',
-              required: true,
-              label: 'Tag (e.g. Robotics, Award)',
-            },
-            {
-              name: 'description',
-              type: 'textarea',
-            },
-            {
-              name: 'content',
-              type: 'richText',
-              editor: documentationEditor,
-              label: 'Project Post Content',
-              admin: {
-                description: 'Write the full article or details about your project here.',
-              },
-            },
-          ],
-        },
-        {
-          label: 'Media',
-          fields: [
-            {
-              name: 'coverImage',
-              type: 'upload',
-              relationTo: 'media',
-              required: true,
-              admin: {
-                description: 'Upload a high-quality cover image for your project.',
-              }
-            },
-            {
-              name: 'youtubeUrl',
-              type: 'text',
-              label: 'YouTube Video URL (Optional)',
-              admin: {
-                description: 'Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.',
-              }
-            },
-          ],
-        },
-        {
-          label: 'Links & Appearance',
-          fields: [
-            {
-              name: 'linkUrl',
-              type: 'text',
-              label: 'External Link URL (Optional)',
-            },
-            {
-              type: 'row',
-              fields: [
-                {
-                  name: 'gridSpan',
-                  type: 'select',
-                  defaultValue: 'span-1',
-                  options: [
-                    { label: 'Span 1 Column', value: 'span-1' },
-                    { label: 'Span 2 Columns', value: 'span-2' },
-                  ],
-                  required: true,
-                  admin: { width: '50%' },
-                },
-                {
-                  name: 'isGithubCard',
-                  type: 'checkbox',
-                  label: 'Is this the GitHub/More Projects Card?',
-                  defaultValue: false,
-                  admin: {
-                    width: '50%',
-                    description: 'If checked, this card will be styled as the dark GitHub link card.',
-                    style: { alignSelf: 'center', paddingTop: '30px' }
-                  }
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      name: 'coverImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: true,
+      admin: {
+        position: 'sidebar',
+        description: 'Upload a high-quality cover image for your project.',
+      },
+    },
+    {
+      ...slugField(),
+      admin: {
+        position: 'sidebar',
+      },
     },
   ],
 }
