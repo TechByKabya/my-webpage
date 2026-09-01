@@ -61,6 +61,15 @@ export const Blogs: CollectionConfig = {
           label: 'Content Editor',
           fields: [
             {
+              name: 'blogPostHeader',
+              type: 'ui',
+              admin: {
+                components: {
+                  Field: '@/components/Admin/BlogPostHeader#BlogPostHeader',
+                },
+              },
+            },
+            {
               type: 'row',
               fields: [
                 {
