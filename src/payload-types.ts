@@ -752,6 +752,10 @@ export interface ContactSubmission {
   subject?: string | null;
   message: string;
   /**
+   * IP address of the person who submitted this form.
+   */
+  ipAddress?: string | null;
+  /**
    * Type your message here. Check the box in the sidebar and save to email this reply to the user.
    */
   adminReply?: string | null;
@@ -1339,6 +1343,7 @@ export interface ContactSubmissionsSelect<T extends boolean = true> {
   email?: T;
   subject?: T;
   message?: T;
+  ipAddress?: T;
   adminReply?: T;
   status?: T;
   sendReplyEmail?: T;

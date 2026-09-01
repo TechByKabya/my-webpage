@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
 
     await payload.create({
       collection: 'contact-submissions',
-      data: { name, email, subject, message, status: 'new' },
+      data: { name, email, subject, message, status: 'new', ipAddress: ip },
     })
 
     return NextResponse.json({ success: true }, { status: 200 })

@@ -95,6 +95,16 @@ export const ContactSubmissions: CollectionConfig = {
       admin: { readOnly: true },
     },
     {
+      name: 'ipAddress',
+      type: 'text',
+      label: 'Sender IP Address',
+      admin: {
+        readOnly: true,
+        description: 'IP address of the person who submitted this form.',
+        position: 'sidebar',
+      },
+    },
+    {
       name: 'adminReply',
       type: 'textarea',
       label: 'Admin Reply',
