@@ -38,13 +38,15 @@ export const Projects: CollectionConfig = {
       autoGenerateSEO,
     ],
     afterChange: [
-      ({ doc, previousDoc }) => {
-        revalidatePath('/projects', 'page')
-        revalidatePath(`/projects/${doc.slug}`, 'page')
-        revalidatePath('/', 'page')
+      ({ doc, previousDoc, req: { payload } }) => {
+        payload.logger.info(`Revalidating caches for project: ${doc.slug}`)
+        revalidatePath('/projects')
+        revalidatePath(`/projects/${doc.slug}`)
+        revalidatePath('/')
         if (previousDoc?.slug && previousDoc.slug !== doc.slug) {
-          revalidatePath(`/projects/${previousDoc.slug}`, 'page')
+          revalidatePath(`/projects/${previousDoc.slug}`)
         }
+        return doc
       },
     ],
   },
