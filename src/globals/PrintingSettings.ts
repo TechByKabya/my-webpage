@@ -9,7 +9,27 @@ export const PrintingSettings: GlobalConfig = {
   admin: {
     group: 'Settings',
   },
+  hooks: {
+    afterChange: [
+      ({ doc, req: { payload } }) => {
+        payload.logger.info(`Revalidating caches for 3D Printing Settings`)
+        import('next/cache').then(({ revalidatePath }) => {
+          revalidatePath('/3d-printing')
+        })
+        return doc
+      }
+    ]
+  },
   fields: [
+    {
+      name: 'socialBanner',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Social Media Preview Banner',
+      admin: {
+        description: 'Upload an image (1200x630px recommended). This image will appear when you share the 3D printing page on social media.',
+      },
+    },
     {
       name: 'materials',
       type: 'array',

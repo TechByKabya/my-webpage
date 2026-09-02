@@ -5,32 +5,49 @@ import { PrintingOrderForm } from '@/components/Frontend/PrintingOrderForm'
 import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
-export const metadata: Metadata = {
-  title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
-  description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil International University and all of Bangladesh.',
-  keywords: ['3D printing service in bd', 'low cost printing service in dhaka', '3d printing service near daffodil', '3D print BD', 'Rapid Prototyping Bangladesh', 'Kabya Ghosh'],
-  openGraph: {
+import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
+import { getServerSideURL } from '@/utilities/getURL'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const payload = await getPayload({ config: configPromise })
+  let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp` // default fallback
+
+  try {
+    const settings = await payload.findGlobal({ slug: 'printing-settings' })
+    // @ts-ignore
+    const banner = settings?.socialBanner
+    if (banner && typeof banner === 'object' && 'url' in banner && banner.url) {
+      ogImageUrl = banner.url as string
+    }
+  } catch (err) {
+    console.error("Failed to fetch printing settings for metadata", err)
+  }
+
+  return {
     title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
-    description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil and all of Bangladesh.',
-    url: 'https://www.kabyac.tech/3d-printing',
-    siteName: 'Kabya Ghosh',
-    locale: 'en_US',
-    type: 'website',
-  },
-  alternates: {
-    canonical: 'https://www.kabyac.tech/3d-printing',
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
+    description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil International University and all of Bangladesh.',
+    keywords: ['3D printing service in bd', 'low cost printing service in dhaka', '3d printing service near daffodil', '3D print BD', 'Rapid Prototyping Bangladesh', 'Kabya Ghosh'],
+    openGraph: mergeOpenGraph({
+      title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
+      description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil and all of Bangladesh.',
+      url: 'https://www.kabyac.tech/3d-printing',
+      images: [{ url: ogImageUrl }],
+    }),
+    alternates: {
+      canonical: 'https://www.kabyac.tech/3d-printing',
+    },
+    robots: {
       index: true,
       follow: true,
-      'max-video-preview': -1,
-      'max-image-preview': 'large',
-      'max-snippet': -1,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
     },
-  },
+  }
 }
 
 export default async function PrintingServicePage() {
