@@ -11,13 +11,18 @@ import { getServerSideURL } from '@/utilities/getURL'
 export async function generateMetadata(): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
   let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp` // default fallback
+  let imageWidth: number | undefined
+  let imageHeight: number | undefined
 
   try {
     const settings = await payload.findGlobal({ slug: 'printing-settings' })
     // @ts-ignore
     const banner = settings?.socialBanner
     if (banner && typeof banner === 'object' && 'url' in banner && banner.url) {
-      ogImageUrl = banner.url as string
+      const url = banner.url as string
+      ogImageUrl = url.startsWith('http') ? url : `${getServerSideURL()}${url}`
+      imageWidth = banner.width as number | undefined
+      imageHeight = banner.height as number | undefined
     }
   } catch (err) {
     console.error("Failed to fetch printing settings for metadata", err)
@@ -31,7 +36,7 @@ export async function generateMetadata(): Promise<Metadata> {
       title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
       description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil and all of Bangladesh.',
       url: 'https://www.kabyac.tech/3d-printing',
-      images: [{ url: ogImageUrl }],
+      images: [{ url: ogImageUrl, width: imageWidth, height: imageHeight }],
     }),
     alternates: {
       canonical: 'https://www.kabyac.tech/3d-printing',

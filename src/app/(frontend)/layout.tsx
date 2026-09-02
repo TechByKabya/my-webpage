@@ -20,10 +20,18 @@ import { getCachedSiteSettings } from '@/utilities/getCachedSiteSettings'
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   const { isEnabled } = await draftMode()
 
+  let fbAppId = '966242223397117' // Fallback dummy ID
+  try {
+    const siteSettings = await getCachedSiteSettings()
+    // @ts-ignore
+    if (siteSettings?.fbAppId) fbAppId = siteSettings.fbAppId
+  } catch (err) { }
+
   return (
     <html className={cn(GeistSans.variable, GeistMono.variable)} lang="en" suppressHydrationWarning>
       <head>
         <InitTheme />
+        <meta property="fb:app_id" content={fbAppId} />
       </head>
       <body>
         <Providers>
@@ -44,20 +52,19 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export async function generateMetadata(): Promise<Metadata> {
   let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp`
-  let fbAppId = '966242223397117' // Fallback dummy ID to bypass warning
   let faviconUrl: string | null = null
+  let imageWidth: number | undefined
+  let imageHeight: number | undefined
 
   try {
     const siteSettings = await getCachedSiteSettings()
     // @ts-ignore
     const avatar = siteSettings?.adminLoginAvatar
     if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
-      ogImageUrl = avatar.url as string
-    }
-    // @ts-ignore
-    if (siteSettings?.fbAppId) {
-      // @ts-ignore
-      fbAppId = siteSettings.fbAppId
+      const url = avatar.url as string
+      ogImageUrl = url.startsWith('http') ? url : `${getServerSideURL()}${url}`
+      imageWidth = avatar.width as number | undefined
+      imageHeight = avatar.height as number | undefined
     }
     // @ts-ignore
     const favicon = siteSettings?.favicon
@@ -77,7 +84,7 @@ export async function generateMetadata(): Promise<Metadata> {
     ],
     openGraph: mergeOpenGraph({
       url: '/',
-      images: [{ url: ogImageUrl }],
+      images: [{ url: ogImageUrl, width: imageWidth, height: imageHeight }],
     }),
     twitter: {
       card: 'summary_large_image',
@@ -93,9 +100,6 @@ export async function generateMetadata(): Promise<Metadata> {
       'TechByKabya'
     ],
     authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
-    other: {
-      'fb:app_id': fbAppId,
-    },
   }
 }
 
