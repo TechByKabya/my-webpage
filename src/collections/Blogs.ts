@@ -51,6 +51,15 @@ export const Blogs: CollectionConfig = {
         return doc
       },
     ],
+    afterDelete: [
+      ({ doc, req: { payload } }) => {
+        payload.logger.info(`Revalidating caches for deleted blog: ${doc?.slug}`)
+        revalidatePath('/blogs')
+        if (doc?.slug) revalidatePath(`/blogs/${doc.slug}`)
+        revalidatePath('/')
+        return doc
+      }
+    ],
   },
   fields: [
     {

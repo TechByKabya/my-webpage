@@ -49,6 +49,15 @@ export const Projects: CollectionConfig = {
         return doc
       },
     ],
+    afterDelete: [
+      ({ doc, req: { payload } }) => {
+        payload.logger.info(`Revalidating caches for deleted project: ${doc?.slug}`)
+        revalidatePath('/projects')
+        if (doc?.slug) revalidatePath(`/projects/${doc.slug}`)
+        revalidatePath('/')
+        return doc
+      }
+    ],
   },
   fields: [
     // ── TAB SWITCHER UI (must be FIRST field) ──
