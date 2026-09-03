@@ -644,17 +644,11 @@ export interface Blog {
  */
 export interface Project {
   id: number;
-  /**
-   * Private posts will be hidden from the website.
-   */
-  visibility: 'public' | 'private';
   title: string;
-  /**
-   * When enabled, the slug will auto-generate from the title field on save and autosave.
-   */
-  generateSlug?: boolean | null;
-  slug: string;
   tag: string;
+  /**
+   * Brief summary shown on project cards.
+   */
   description?: string | null;
   /**
    * Write the full article or details about your project here.
@@ -675,10 +669,6 @@ export interface Project {
     [k: string]: unknown;
   } | null;
   /**
-   * Upload a high-quality cover image for your project.
-   */
-  coverImage: number | Media;
-  /**
    * Paste a YouTube video link (e.g. https://www.youtube.com/watch?v=...) to embed it in the post.
    */
   youtubeUrl?: string | null;
@@ -688,6 +678,16 @@ export interface Project {
    * If checked, this card will be styled as the dark GitHub link card.
    */
   isGithubCard?: boolean | null;
+  visibility: 'public' | 'private';
+  /**
+   * Upload a high-quality cover image for your project.
+   */
+  coverImage: number | Media;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
   meta?: {
     title?: string | null;
     description?: string | null;
@@ -1183,18 +1183,18 @@ export interface BlogsSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
-  visibility?: T;
   title?: T;
-  generateSlug?: T;
-  slug?: T;
   tag?: T;
   description?: T;
   content?: T;
-  coverImage?: T;
   youtubeUrl?: T;
   linkUrl?: T;
   gridSpan?: T;
   isGithubCard?: T;
+  visibility?: T;
+  coverImage?: T;
+  generateSlug?: T;
+  slug?: T;
   meta?:
     | T
     | {
@@ -1764,6 +1764,10 @@ export interface DriveSetting {
 export interface PrintingSetting {
   id: number;
   /**
+   * Upload an image (1200x630px recommended). This image will appear when you share the 3D printing page on social media.
+   */
+  socialBanner?: (number | null) | Media;
+  /**
    * Add materials that customers can select (e.g. PLA, PETG).
    */
   materials?:
@@ -1907,6 +1911,7 @@ export interface DriveSettingsSelect<T extends boolean = true> {
  * via the `definition` "printing-settings_select".
  */
 export interface PrintingSettingsSelect<T extends boolean = true> {
+  socialBanner?: T;
   materials?:
     | T
     | {

@@ -77,14 +77,23 @@ export async function generateMetadata(): Promise<Metadata> {
 
   return {
     metadataBase: new URL(getServerSideURL()),
-    icons: faviconUrl ? faviconUrl : [
-      { rel: 'icon', url: '/favicon.ico', sizes: '32x32' },
-      { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
-      { rel: 'apple-touch-icon', url: '/favicon.ico', sizes: '180x180' },
-    ],
+    icons: faviconUrl
+      ? [
+          { rel: 'icon', url: faviconUrl, type: 'image/png' },
+          { rel: 'apple-touch-icon', url: faviconUrl },
+        ]
+      : [
+          { rel: 'icon', url: '/favicon.ico', sizes: '32x32' },
+          { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
+          { rel: 'apple-touch-icon', url: '/favicon.ico', sizes: '180x180' },
+        ],
     openGraph: mergeOpenGraph({
       url: '/',
-      images: [{ url: ogImageUrl, width: imageWidth, height: imageHeight }],
+      images: [{
+        url: ogImageUrl,
+        ...(imageWidth ? { width: imageWidth } : {}),
+        ...(imageHeight ? { height: imageHeight } : {}),
+      }],
     }),
     twitter: {
       card: 'summary_large_image',

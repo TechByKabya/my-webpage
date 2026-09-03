@@ -32,11 +32,16 @@ export async function generateMetadata(): Promise<Metadata> {
     title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
     description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil International University and all of Bangladesh.',
     keywords: ['3D printing service in bd', 'low cost printing service in dhaka', '3d printing service near daffodil', '3D print BD', 'Rapid Prototyping Bangladesh', 'Kabya Ghosh'],
+    metadataBase: new URL('https://www.kabyac.tech'),
     openGraph: mergeOpenGraph({
       title: 'Low Cost 3D Printing Service in BD | Near Daffodil, Dhaka',
       description: 'Premium, low cost 3D printing service in Dhaka, BD. Fast delivery, precision prints, serving students and professionals near Daffodil and all of Bangladesh.',
       url: 'https://www.kabyac.tech/3d-printing',
-      images: [{ url: ogImageUrl, width: imageWidth, height: imageHeight }],
+      images: [{
+        url: ogImageUrl,
+        ...(imageWidth ? { width: imageWidth } : {}),
+        ...(imageHeight ? { height: imageHeight } : {}),
+      }],
     }),
     alternates: {
       canonical: 'https://www.kabyac.tech/3d-printing',

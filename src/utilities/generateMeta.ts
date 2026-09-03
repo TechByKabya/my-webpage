@@ -58,6 +58,7 @@ export const generateMeta = async (args: {
   } catch (err) {}
 
   return {
+    metadataBase: new URL(getServerSideURL()),
     description,
     keywords: ['Kabya Ghosh', 'Kabya', 'Ghosh', 'Software Engineer', 'Web Developer', 'Tech Blog', 'Portfolio', 'Developer', 'Bangladesh', 'TechByKabya'],
     authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
@@ -67,6 +68,8 @@ export const generateMeta = async (args: {
         ? [
             {
                url: ogImage,
+               ...(typeof doc?.meta?.image === 'object' && doc.meta.image?.width ? { width: doc.meta.image.width } : {}),
+               ...(typeof doc?.meta?.image === 'object' && doc.meta.image?.height ? { height: doc.meta.image.height } : {}),
             },
           ]
         : undefined,
