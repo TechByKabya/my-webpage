@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     description: 'Explore Kabya Ghosh\'s portfolio of embedded systems, IoT engineering projects, and custom 3D printed CAD models in Bangladesh.',
     url: 'https://www.kabyac.tech/projects',
     siteName: 'Kabya Ghosh Portfolio',
-    images: [{ url: 'https://www.kabyac.tech/website-template-OG.webp', width: 1200, height: 630 }],
+    images: [{ url: 'https://www.kabyac.tech/og-image.jpg', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     creator: '@kabya_ghosh',
     title: 'Hardware & IoT Engineering Projects | Kabya Ghosh',
     description: 'Explore Kabya Ghosh\'s portfolio of embedded systems, IoT engineering projects, and custom 3D printed CAD models in Bangladesh.',
-    images: ['https://www.kabyac.tech/website-template-OG.webp'],
+    images: ['https://www.kabyac.tech/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://www.kabyac.tech/projects',

@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     description: 'Read the latest thoughts, tutorials, and life updates on embedded systems, IoT engineering, and 3D printing by Kabya Ghosh.',
     url: 'https://www.kabyac.tech/blogs',
     siteName: 'Kabya Ghosh Portfolio',
-    images: [{ url: 'https://www.kabyac.tech/website-template-OG.webp', width: 1200, height: 630 }],
+    images: [{ url: 'https://www.kabyac.tech/og-image.jpg', width: 1200, height: 630 }],
   },
   twitter: {
     card: 'summary_large_image',
     creator: '@kabya_ghosh',
     title: 'Embedded IoT & Tech Blog | Kabya Ghosh',
     description: 'Read the latest thoughts, tutorials, and life updates on embedded systems, IoT engineering, and 3D printing by Kabya Ghosh.',
-    images: ['https://www.kabyac.tech/website-template-OG.webp'],
+    images: ['https://www.kabyac.tech/og-image.jpg'],
   },
   alternates: {
     canonical: 'https://www.kabyac.tech/blogs',

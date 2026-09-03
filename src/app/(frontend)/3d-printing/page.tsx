@@ -6,13 +6,12 @@ import { getPayload } from 'payload'
 import configPromise from '@payload-config'
 
 import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
-import { getServerSideURL } from '@/utilities/getURL'
 
 export async function generateMetadata(): Promise<Metadata> {
   const payload = await getPayload({ config: configPromise })
-  let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp` // default fallback
-  let imageWidth: number | undefined
-  let imageHeight: number | undefined
+  let ogImageUrl = 'https://www.kabyac.tech/og-image.jpg' // default fallback JPEG
+  let imageWidth: number | undefined = 1200
+  let imageHeight: number | undefined = 630
 
   try {
     const settings = await payload.findGlobal({ slug: 'printing-settings' })
@@ -20,7 +19,7 @@ export async function generateMetadata(): Promise<Metadata> {
     const banner = settings?.socialBanner
     if (banner && typeof banner === 'object' && 'url' in banner && banner.url) {
       const url = banner.url as string
-      ogImageUrl = url.startsWith('http') ? url : `${getServerSideURL()}${url}`
+      ogImageUrl = url.startsWith('http') ? url : `https://www.kabyac.tech${url}`
       imageWidth = banner.width as number | undefined
       imageHeight = banner.height as number | undefined
     }

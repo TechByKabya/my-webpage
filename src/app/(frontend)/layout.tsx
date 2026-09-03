@@ -13,7 +13,6 @@ import { mergeOpenGraph } from '@/utilities/mergeOpenGraph'
 import { draftMode } from 'next/headers'
 
 import './globals.css'
-import { getServerSideURL } from '@/utilities/getURL'
 import GlobalElements from '@/components/GlobalElements'
 import { getCachedSiteSettings } from '@/utilities/getCachedSiteSettings'
 
@@ -51,53 +50,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  let ogImageUrl = `${getServerSideURL()}/website-template-OG.webp`
-  let faviconUrl: string | null = null
-  let imageWidth: number | undefined
-  let imageHeight: number | undefined
-
-  try {
-    const siteSettings = await getCachedSiteSettings()
-    // @ts-ignore
-    const avatar = siteSettings?.adminLoginAvatar
-    if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
-      const url = avatar.url as string
-      ogImageUrl = url.startsWith('http') ? url : `${getServerSideURL()}${url}`
-      imageWidth = avatar.width as number | undefined
-      imageHeight = avatar.height as number | undefined
-    }
-    // @ts-ignore
-    const favicon = siteSettings?.favicon
-    if (favicon && typeof favicon === 'object' && 'url' in favicon && favicon.url) {
-      faviconUrl = favicon.url as string
-    }
-  } catch (err) {
-    console.error('Error fetching site settings for OG image:', err)
-  }
+  // Hardcode the production OG image URL — never use getServerSideURL() here
+  // because it runs at build time and the env var may not be set correctly.
+  // Use JPEG, not WebP — Facebook's crawler has intermittent WebP issues.
+  const ogImageUrl = 'https://www.kabyac.tech/og-image.jpg'
 
   return {
-    metadataBase: new URL(getServerSideURL()),
-    icons: faviconUrl
-      ? [
-          { rel: 'icon', url: faviconUrl, type: 'image/png' },
-          { rel: 'apple-touch-icon', url: faviconUrl },
-        ]
-      : [
-          { rel: 'icon', url: '/favicon.ico', sizes: '32x32' },
-          { rel: 'icon', url: '/favicon.svg', type: 'image/svg+xml' },
-          { rel: 'apple-touch-icon', url: '/favicon.ico', sizes: '180x180' },
-        ],
+    metadataBase: new URL('https://www.kabyac.tech'),
+    // NOTE: favicon.ico + apple-icon.png in src/app/ root handle the favicon
+    // via the file-based convention — that is the most reliable method.
+    // Do NOT define icons here as it creates a conflict with Payload's metadata.
     openGraph: mergeOpenGraph({
       url: '/',
-      images: [{
-        url: ogImageUrl,
-        ...(imageWidth ? { width: imageWidth } : {}),
-        ...(imageHeight ? { height: imageHeight } : {}),
-      }],
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: 'Kabya Ghosh Portfolio' }],
     }),
     twitter: {
       card: 'summary_large_image',
       creator: '@kabya_ghosh',
+      images: [ogImageUrl],
     },
     keywords: [
       'Embedded System IoT Engineer BD',

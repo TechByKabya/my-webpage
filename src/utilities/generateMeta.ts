@@ -3,14 +3,14 @@ import type { Metadata } from 'next'
 import type { Media, Page, Config } from '../payload-types'
 
 import { mergeOpenGraph } from './mergeOpenGraph'
-import { getServerSideURL } from './getURL'
 import { getCachedSiteSettings } from './getCachedSiteSettings'
 
 const getImageURL = async (image?: Media | Config['db']['defaultIDType'] | null) => {
-  const serverUrl = getServerSideURL()
+  const serverUrl = 'https://www.kabyac.tech'
 
-  let url = serverUrl + '/website-template-OG.webp'
-  
+  // Default fallback — JPEG for maximum social crawler compatibility
+  let url = `${serverUrl}/og-image.jpg`
+
   try {
     const siteSettings = await getCachedSiteSettings()
     // @ts-ignore
@@ -58,7 +58,7 @@ export const generateMeta = async (args: {
   } catch (err) {}
 
   return {
-    metadataBase: new URL(getServerSideURL()),
+    metadataBase: new URL('https://www.kabyac.tech'),
     description,
     keywords: ['Kabya Ghosh', 'Kabya', 'Ghosh', 'Software Engineer', 'Web Developer', 'Tech Blog', 'Portfolio', 'Developer', 'Bangladesh', 'TechByKabya'],
     authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
@@ -67,9 +67,9 @@ export const generateMeta = async (args: {
       images: ogImage
         ? [
             {
-               url: ogImage,
-               ...(typeof doc?.meta?.image === 'object' && doc.meta.image?.width ? { width: doc.meta.image.width } : {}),
-               ...(typeof doc?.meta?.image === 'object' && doc.meta.image?.height ? { height: doc.meta.image.height } : {}),
+              url: ogImage,
+              width: 1200,
+              height: 630,
             },
           ]
         : undefined,
