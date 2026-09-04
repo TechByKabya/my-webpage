@@ -29,32 +29,12 @@ export const SplashScreen = ({ logoVideoUrl }: SplashScreenProps) => {
 
     // Minimum display time so it doesn't just flash
     const MIN_MS = 800
-    const startTime = Date.now()
+    
+    // Dismiss after MIN_MS. We don't wait for window.onload because 
+    // heavy hero videos with preload="auto" will delay it heavily.
+    const timer = setTimeout(dismiss, MIN_MS)
 
-    const tryDismiss = () => {
-      const elapsed = Date.now() - startTime
-      const remaining = MIN_MS - elapsed
-      if (remaining > 0) {
-        setTimeout(dismiss, remaining)
-      } else {
-        dismiss()
-      }
-    }
-
-    // Fire when ALL resources (images, fonts, scripts) are loaded
-    if (document.readyState === 'complete') {
-      tryDismiss()
-    } else {
-      window.addEventListener('load', tryDismiss, { once: true })
-    }
-
-    // Hard cap: never show for more than 5s regardless
-    const hardCap = setTimeout(dismiss, 5000)
-
-    return () => {
-      window.removeEventListener('load', tryDismiss)
-      clearTimeout(hardCap)
-    }
+    return () => clearTimeout(timer)
   }, [])
 
   if (!visible) return null

@@ -3,13 +3,18 @@
 import React, { useState, useEffect, useRef } from 'react'
 import { motion, useScroll, useTransform } from 'framer-motion'
 import Image from 'next/image'
-import dynamic from 'next/dynamic'
+import { DotLottiePlayer as OriginalDotLottiePlayer } from '@dotlottie/react-player'
+import '@dotlottie/react-player/dist/index.css'
 
-const DotLottiePlayer = dynamic(
-  () => import('@dotlottie/react-player').then((mod) => mod.DotLottiePlayer),
-  { 
-    ssr: false,
-    loading: () => (
+const DotLottiePlayer = (props: any) => {
+  const [mounted, setMounted] = useState(false)
+  
+  useEffect(() => {
+    setMounted(true)
+  }, [])
+
+  if (!mounted) {
+    return (
       <div style={{
         width: '100%', 
         height: '100%', 
@@ -27,8 +32,9 @@ const DotLottiePlayer = dynamic(
       </div>
     )
   }
-)
-import '@dotlottie/react-player/dist/index.css'
+
+  return <OriginalDotLottiePlayer {...props} />
+}
 
 interface HeroSectionProps {
   heroTitle: string
