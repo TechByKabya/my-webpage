@@ -78,7 +78,9 @@ export default buildConfig({
   editor: defaultLexical,
   db: postgresAdapter({
     pool: {
-      connectionString: process.env.DATABASE_URL || '',
+      connectionString: process.env.DATABASE_URL 
+        ? `${process.env.DATABASE_URL}${process.env.DATABASE_URL.includes('?') ? '&' : '?'}uselibpqcompat=true&sslmode=require`
+        : '',
       connectionTimeoutMillis: 30000, // wait up to 30s for Neon to wake from scale-to-zero
       idleTimeoutMillis: 30000,
       max: 3, // keep pool small for serverless
