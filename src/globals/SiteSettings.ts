@@ -42,6 +42,17 @@ export const SiteSettings: GlobalConfig = {
       },
     },
     {
+      name: 'ogImage',
+      type: 'upload',
+      relationTo: 'media',
+      required: false,
+      label: 'Social / OG Image',
+      admin: {
+        description:
+          'Image shown when this site is shared on Facebook, Twitter/X, WhatsApp, LinkedIn, etc. Upload a JPEG, 1200×630 px for best results across all platforms.',
+      },
+    },
+    {
       name: 'loadingAnimation',
       type: 'upload',
       relationTo: 'media',

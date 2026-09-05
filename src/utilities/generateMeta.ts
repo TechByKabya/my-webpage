@@ -13,12 +13,24 @@ const getImageURL = async (image?: Media | Config['db']['defaultIDType'] | null)
 
   try {
     const siteSettings = await getCachedSiteSettings()
+
+    // Prefer the dedicated ogImage field; fall back to adminLoginAvatar
+    // @ts-ignore
+    const ogImageField = siteSettings?.ogImage
     // @ts-ignore
     const avatar = siteSettings?.adminLoginAvatar
-    if (avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url) {
-      const avatarUrl = avatar.url as string
+
+    const candidate =
+      ogImageField && typeof ogImageField === 'object' && 'url' in ogImageField && ogImageField.url
+        ? ogImageField
+        : avatar && typeof avatar === 'object' && 'url' in avatar && avatar.url
+          ? avatar
+          : null
+
+    if (candidate && typeof candidate === 'object' && 'url' in candidate && candidate.url) {
+      const candidateUrl = candidate.url as string
       // Vercel Blob URLs are already absolute — only prefix serverUrl for relative paths
-      url = avatarUrl.startsWith('http') ? avatarUrl : serverUrl + avatarUrl
+      url = candidateUrl.startsWith('http') ? candidateUrl : serverUrl + candidateUrl
     }
   } catch (err) {}
 

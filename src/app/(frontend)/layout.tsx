@@ -55,19 +55,50 @@ export async function generateMetadata(): Promise<Metadata> {
   // Use JPEG, not WebP — Facebook's crawler has intermittent WebP issues.
   const ogImageUrl = 'https://www.kabyac.tech/og-image.jpg'
 
+  // Read the favicon dynamically from Site Settings so it can be changed
+  // in the admin panel without a redeploy.
+  let faviconUrl = '/favicon.png' // static fallback
+  let siteOgImageUrl = ogImageUrl // will be overridden if ogImage is set
+  try {
+    const siteSettings = await getCachedSiteSettings()
+    const faviconMedia = (siteSettings as any)?.favicon
+    if (faviconMedia && typeof faviconMedia === 'object' && faviconMedia.url) {
+      faviconUrl = faviconMedia.url as string
+    }
+    // Also pull the dedicated ogImage if available
+    const ogMedia = (siteSettings as any)?.ogImage
+    if (ogMedia && typeof ogMedia === 'object' && ogMedia.url) {
+      siteOgImageUrl = (ogMedia.url as string).startsWith('http')
+        ? (ogMedia.url as string)
+        : `https://www.kabyac.tech${ogMedia.url}`
+    } else {
+      // Fall back to adminLoginAvatar if no ogImage set
+      const avatarMedia = (siteSettings as any)?.adminLoginAvatar
+      if (avatarMedia && typeof avatarMedia === 'object' && avatarMedia.url) {
+        siteOgImageUrl = (avatarMedia.url as string).startsWith('http')
+          ? (avatarMedia.url as string)
+          : `https://www.kabyac.tech${avatarMedia.url}`
+      }
+    }
+  } catch (err) {}
+
   return {
     metadataBase: new URL('https://www.kabyac.tech'),
-    // NOTE: favicon.ico + apple-icon.png in src/app/ root handle the favicon
-    // via the file-based convention — that is the most reliable method.
-    // Do NOT define icons here as it creates a conflict with Payload's metadata.
+    // Dynamic favicon from Site Settings — overrides file-based convention
+    // so the admin can change it without a redeploy.
+    icons: {
+      icon: [{ url: faviconUrl }],
+      shortcut: [{ url: faviconUrl }],
+      apple: [{ url: faviconUrl }],
+    },
     openGraph: mergeOpenGraph({
       url: '/',
-      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: 'Kabya Ghosh Portfolio' }],
+      images: [{ url: siteOgImageUrl, width: 1200, height: 630, alt: 'Kabya Ghosh Portfolio' }],
     }),
     twitter: {
       card: 'summary_large_image',
       creator: '@kabya_ghosh',
-      images: [ogImageUrl],
+      images: [siteOgImageUrl],
     },
     keywords: [
       'Embedded System IoT Engineer BD',
@@ -81,4 +112,5 @@ export async function generateMetadata(): Promise<Metadata> {
     authors: [{ name: 'Kabya Ghosh', url: 'https://github.com/TechByKabya' }],
   }
 }
+
 
