@@ -12,6 +12,7 @@ import { Pages } from './collections/Pages'
 import { Projects } from './collections/Projects'
 import { Users } from './collections/Users'
 import { PrintingRequests } from './collections/PrintingRequests'
+import { IndustrialProjects } from './collections/IndustrialProjects'
 import { Footer } from './Footer/config'
 import { Header } from './Header/config'
 import { HomepageSettings } from './globals/HomepageSettings'
@@ -95,6 +96,7 @@ export default buildConfig({
     Users,
     ContactSubmissions,
     PrintingRequests,
+    IndustrialProjects,
   ],
   cors: [getServerSideURL()].filter(Boolean),
   globals: [Header, Footer, HomepageSettings, SiteSettings, DriveSettings, PrintingSettings],

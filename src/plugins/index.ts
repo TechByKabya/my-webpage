@@ -52,7 +52,7 @@ const generateDescription: any = async ({ doc, collectionSlug }: any) => {
   const title = doc?.title || ''
   const excerpt = doc?.excerpt || ''
   
-  if (collectionSlug === 'blogs' || collectionSlug === 'projects') {
+  if (collectionSlug === 'blogs' || collectionSlug === 'projects' || collectionSlug === 'industrial-projects') {
     const google = getGoogleAI()
     if (google && title) {
       try {
@@ -72,7 +72,7 @@ const generateDescription: any = async ({ doc, collectionSlug }: any) => {
 }
 
 const generateImage: any = ({ doc, collectionSlug }: any) => {
-  if ((collectionSlug === 'blogs' || collectionSlug === 'projects') && doc?.coverImage) {
+  if ((collectionSlug === 'blogs' || collectionSlug === 'projects' || collectionSlug === 'industrial-projects') && doc?.coverImage) {
     return doc.coverImage
   }
   return null
@@ -83,6 +83,7 @@ const generateURL: GenerateURL<any> = ({ doc, collectionSlug }) => {
 
   if (collectionSlug === 'blogs' && doc?.slug) return `${url}/blogs/${doc.slug}`
   if (collectionSlug === 'projects' && doc?.slug) return `${url}/projects/${doc.slug}`
+  if (collectionSlug === 'industrial-projects' && doc?.slug) return `${url}/industrial/${doc.slug}`
   
   return doc?.slug ? `${url}/${doc.slug}` : url
 }
@@ -121,7 +122,7 @@ export const plugins: Plugin[] = [
     },
   }),
   seoPlugin({
-    collections: ['pages', 'blogs', 'projects'],
+    collections: ['pages', 'blogs', 'projects', 'industrial-projects'],
     tabbedUI: false,
     generateTitle,
     generateDescription,

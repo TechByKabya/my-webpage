@@ -43,6 +43,7 @@ import { StatusCell as StatusCell_f189ca9be581943d1b91480cb00fabee } from '@/com
 import { HiddenField as HiddenField_e6ccfc82cbf35023135a5c40655cd208 } from '@/components/Admin/HiddenField'
 import { QuickActionsField as QuickActionsField_60a72fd252da60880aa0aba254399bc3 } from '@/components/Admin/QuickActionsField'
 import { PrintingRequestList as PrintingRequestList_be1f7de29b2e76a9e306702c262ccba0 } from '@/components/Admin/PrintingRequestList'
+import { IndustrialAssetHelper as IndustrialAssetHelper_c47568340507c8f09a42dd79aa1fcfee } from '@/components/Admin/IndustrialAssetHelper'
 import { RowLabel as RowLabel_ec255a65fa6fa8d1faeb09cf35284224 } from '@/Header/RowLabel'
 import { RowLabel as RowLabel_1f6ff6ff633e3695d348f4f3c58f1466 } from '@/Footer/RowLabel'
 import { CustomNav as CustomNav_c7444955c2e5437a06591727650df7dc } from '@/components/Admin/CustomNav'
@@ -100,6 +101,7 @@ export const importMap = {
   "@/components/Admin/HiddenField#HiddenField": HiddenField_e6ccfc82cbf35023135a5c40655cd208,
   "@/components/Admin/QuickActionsField#QuickActionsField": QuickActionsField_60a72fd252da60880aa0aba254399bc3,
   "@/components/Admin/PrintingRequestList#PrintingRequestList": PrintingRequestList_be1f7de29b2e76a9e306702c262ccba0,
+  "@/components/Admin/IndustrialAssetHelper#IndustrialAssetHelper": IndustrialAssetHelper_c47568340507c8f09a42dd79aa1fcfee,
   "@/Header/RowLabel#RowLabel": RowLabel_ec255a65fa6fa8d1faeb09cf35284224,
   "@/Footer/RowLabel#RowLabel": RowLabel_1f6ff6ff633e3695d348f4f3c58f1466,
   "@/components/Admin/CustomNav#CustomNav": CustomNav_c7444955c2e5437a06591727650df7dc,

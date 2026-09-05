@@ -107,6 +107,7 @@ export default async function GlobalElements() {
                             { label: 'Home', link: '/', isButton: false, icon: 'fas fa-home' },
                             { label: 'Blogs', link: '/blogs', isButton: false, icon: 'fas fa-pen-nib' },
                             { label: 'Projects', link: '/projects', isButton: false, icon: 'fas fa-layer-group' },
+                            { label: 'Industrial', link: '/industrial', isButton: false, icon: 'fas fa-industry' },
                             { label: '3D Printing', link: '/3d-printing', isButton: false, icon: 'fas fa-cube' },
                             { label: 'Contact', link: '/contact', isButton: true, icon: 'fas fa-envelope' },
                         ]).map((item, i) => (

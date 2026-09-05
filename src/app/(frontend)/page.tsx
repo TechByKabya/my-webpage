@@ -15,6 +15,7 @@ import { ProjectGrid } from '@/components/Frontend/ProjectGrid'
 import { BlogGrid } from '@/components/Frontend/BlogGrid'
 import { FooterSection } from '@/components/Frontend/FooterSection'
 import { SkillsSection } from '@/components/Frontend/SkillsSection'
+import { IndustrialPreview } from '@/components/Frontend/IndustrialPreview'
 
 export const revalidate = 3600
 export const maxDuration = 30
@@ -25,6 +26,8 @@ export default async function PortfolioHome() {
   let totalProjects = 0
   let blogs: any[] = []
   let totalBlogs = 0
+  let industrialProjects: any[] = []
+  let totalIndustrialProjects = 0
 
   // Safely extract media URLs
   const getMediaUrl = (mediaObj: any, defaultUrl: string) => {
@@ -38,7 +41,7 @@ export default async function PortfolioHome() {
     const payload = await getPayload({ config: configPromise })
 
     // ── Fetch all data in parallel instead of sequentially ──
-    const [settingsRes, projRes, blogRes] = await Promise.all([
+    const [settingsRes, projRes, blogRes, indRes] = await Promise.all([
       payload.findGlobal({ slug: 'homepage-settings', depth: 2 }),
       payload.find({
         collection: 'projects',
@@ -52,6 +55,16 @@ export default async function PortfolioHome() {
         depth: 2,
         limit: 4,
       }),
+      payload.find({
+        collection: 'industrial-projects',
+        where: {
+          visibility: { not_equals: 'private' },
+          featured: { equals: true },
+        },
+        depth: 2,
+        sort: 'order',
+        limit: 3,
+      }),
     ])
 
     settings = settingsRes
@@ -59,6 +72,8 @@ export default async function PortfolioHome() {
     totalProjects = projRes.totalDocs || 0
     blogs = blogRes.docs || []
     totalBlogs = blogRes.totalDocs || 0
+    industrialProjects = indRes.docs || []
+    totalIndustrialProjects = indRes.totalDocs || 0
   } catch (err) {
     console.error('Error fetching homepage data:', err)
   }
@@ -126,6 +141,8 @@ export default async function PortfolioHome() {
         <div id="section-projects" style={{ background: '#f8fafc' }}>
           <ProjectGrid projects={projects} totalCount={totalProjects} />
         </div>
+
+        <IndustrialPreview projects={industrialProjects} totalCount={totalIndustrialProjects} />
         
         <div id="section-skills" style={{ 
           background: '#ffffff',

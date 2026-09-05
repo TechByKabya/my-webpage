@@ -5,7 +5,7 @@ import { motion } from 'framer-motion'
 import { useConfig, useAuth, useNav } from '@payloadcms/ui'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { LayoutDashboard, LogOut, Settings, FileText, Database, Folder, Image as ImageIcon, Briefcase, Key, X, Printer, Mail } from 'lucide-react'
+import { LayoutDashboard, LogOut, Settings, FileText, Database, Folder, Image as ImageIcon, Briefcase, Key, X, Printer, Mail, Factory } from 'lucide-react'
 
 export const CustomNav: React.FC = () => {
   const { config } = useConfig()
@@ -23,7 +23,7 @@ export const CustomNav: React.FC = () => {
 
   // We only want to render visible collections/globals
   // Functions in config aren't serialized to Client Components, so we explicitly filter by slug
-  const allowedCollections = ['projects', 'blogs', 'drive-files', 'media', 'printing-requests', 'contact-submissions']
+  const allowedCollections = ['projects', 'industrial-projects', 'blogs', 'drive-files', 'media', 'printing-requests', 'contact-submissions']
   const allowedGlobals = ['homepage-settings', 'site-settings', 'drive-settings', 'printing-settings']
 
   const visibleCollections = config.collections.filter(c => allowedCollections.includes(c.slug))
@@ -44,6 +44,7 @@ export const CustomNav: React.FC = () => {
       case 'drive-files': return <Folder size={18} />
       case 'drive-settings': return <Key size={18} />
       case 'projects': return <Briefcase size={18} />
+      case 'industrial-projects': return <Factory size={18} />
       case 'blogs': return <FileText size={18} />
       case 'media': return <ImageIcon size={18} />
       case 'homepage-settings': return <LayoutDashboard size={18} />

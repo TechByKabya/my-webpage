@@ -11,10 +11,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   // Use the environment-aware URL so staging/dev previews don't hardcode production
   const siteUrl = getServerSideURL()
 
-  const [pages, blogs, projects] = await Promise.all([
+  const [pages, blogs, projects, industrialProjects] = await Promise.all([
     payload.find({ collection: 'pages', limit: 1000 }),
     payload.find({ collection: 'blogs', limit: 1000, where: { visibility: { not_equals: 'private' } } }),
     payload.find({ collection: 'projects', limit: 1000, where: { visibility: { not_equals: 'private' } } }),
+    payload.find({ collection: 'industrial-projects', limit: 1000, where: { visibility: { not_equals: 'private' } } }),
   ])
 
   const sitemap: MetadataRoute.Sitemap = [
@@ -53,6 +54,12 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
       lastModified: new Date(),
       changeFrequency: 'weekly',
       priority: 0.9,
+    },
+    {
+      url: `${siteUrl}/industrial`,
+      lastModified: new Date(),
+      changeFrequency: 'weekly',
+      priority: 0.9,
     }
   ]
 
@@ -85,6 +92,17 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         lastModified: project.updatedAt,
         changeFrequency: 'weekly',
         priority: 0.7,
+      })
+    }
+  })
+
+  industrialProjects.docs.forEach((project) => {
+    if (project.slug) {
+      sitemap.push({
+        url: `${siteUrl}/industrial/${project.slug}`,
+        lastModified: project.updatedAt,
+        changeFrequency: 'weekly',
+        priority: 0.85,
       })
     }
   })

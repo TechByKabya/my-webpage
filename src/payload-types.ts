@@ -75,6 +75,7 @@ export interface Config {
     users: User;
     'contact-submissions': ContactSubmission;
     'printing-requests': PrintingRequest;
+    'industrial-projects': IndustrialProject;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -94,6 +95,7 @@ export interface Config {
     users: UsersSelect<false> | UsersSelect<true>;
     'contact-submissions': ContactSubmissionsSelect<false> | ContactSubmissionsSelect<true>;
     'printing-requests': PrintingRequestsSelect<false> | PrintingRequestsSelect<true>;
+    'industrial-projects': IndustrialProjectsSelect<false> | IndustrialProjectsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -800,6 +802,67 @@ export interface PrintingRequest {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industrial-projects".
+ */
+export interface IndustrialProject {
+  id: number;
+  title: string;
+  /**
+   * E.g. "Robotics & AI", "Industrial IoT", "Smart Manufacturing", "Factory Automation"
+   */
+  category: string;
+  /**
+   * Catchy one-line summary displayed prominently on cards.
+   */
+  tagline?: string | null;
+  /**
+   * Short paragraph explaining what this elite project accomplished.
+   */
+  description?: string | null;
+  /**
+   * Paste your complete animated HTML page here (including <style> and <script> tags). This will render in an isolated, full-screen canvas.
+   */
+  htmlCode: string;
+  /**
+   * Upload all images, SVGs, or media referenced in your HTML code. Use the Asset Helper above to copy CDN URLs or auto-replace filenames.
+   */
+  assets?:
+    | {
+        file: number | Media;
+        /**
+         * Optional alias if your HTML code references a different name.
+         */
+        customAlias?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  visibility: 'public' | 'private';
+  /**
+   * Showcase this project in the Homepage "Industrial Solutions" preview section.
+   */
+  featured?: boolean | null;
+  /**
+   * Lower numbers (0, 1, 2...) appear first in grids.
+   */
+  order?: number | null;
+  /**
+   * High-resolution thumbnail preview image for project cards.
+   */
+  coverImage: number | Media;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  meta?: {
+    title?: string | null;
+    description?: string | null;
+  };
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects".
  */
 export interface Redirect {
@@ -983,6 +1046,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'printing-requests';
         value: number | PrintingRequest;
+      } | null)
+    | ({
+        relationTo: 'industrial-projects';
+        value: number | IndustrialProject;
       } | null)
     | ({
         relationTo: 'redirects';
@@ -1372,6 +1439,38 @@ export interface PrintingRequestsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "industrial-projects_select".
+ */
+export interface IndustrialProjectsSelect<T extends boolean = true> {
+  title?: T;
+  category?: T;
+  tagline?: T;
+  description?: T;
+  htmlCode?: T;
+  assets?:
+    | T
+    | {
+        file?: T;
+        customAlias?: T;
+        id?: T;
+      };
+  visibility?: T;
+  featured?: T;
+  order?: T;
+  coverImage?: T;
+  generateSlug?: T;
+  slug?: T;
+  meta?:
+    | T
+    | {
+        title?: T;
+        description?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "redirects_select".
  */
 export interface RedirectsSelect<T extends boolean = true> {
@@ -1732,6 +1831,10 @@ export interface SiteSetting {
    */
   favicon?: (number | null) | Media;
   /**
+   * Image shown when this site is shared on Facebook, Twitter/X, WhatsApp, LinkedIn, etc. Upload a JPEG, 1200×630 px for best results across all platforms.
+   */
+  ogImage?: (number | null) | Media;
+  /**
    * Upload a short video or GIF shown while the page loads (keep it small/low-res for fast display, e.g. MOV, MP4, WebM under 500 KB).
    */
   loadingAnimation?: (number | null) | Media;
@@ -1888,6 +1991,7 @@ export interface HomepageSettingsSelect<T extends boolean = true> {
 export interface SiteSettingsSelect<T extends boolean = true> {
   logo?: T;
   favicon?: T;
+  ogImage?: T;
   loadingAnimation?: T;
   adminLoginAvatar?: T;
   adminLoginVideo?: T;
