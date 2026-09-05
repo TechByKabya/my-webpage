@@ -43,18 +43,18 @@ export const IndustrialProjects: CollectionConfig = {
                 const filename = mediaDoc.filename
                 const customAlias = item.customAlias?.trim()
 
-                // Replace filename variations (e.g. "filename.jpg", "./filename.jpg", "/filename.jpg")
+                // Replace filename variations (e.g. "filename.jpg", "images/filename.jpg", "./filename.jpg")
                 if (filename) {
                   const escapedFilename = filename.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-                  const regex = new RegExp(`(?<=['"(]|src=['"]|url\\(['"]?)(?:\\.?\\/)?${escapedFilename}(?=['")]|['"]?\\))`, 'g')
-                  updatedHtml = updatedHtml.replace(regex, mediaUrl)
+                  const regex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escapedFilename}(['"\\)])`, 'g')
+                  updatedHtml = updatedHtml.replace(regex, `$1${mediaUrl}$2`)
                 }
 
                 // Replace custom alias variations if provided
                 if (customAlias) {
                   const escapedAlias = customAlias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-                  const aliasRegex = new RegExp(`(?<=['"(]|src=['"]|url\\(['"]?)(?:\\.?\\/)?${escapedAlias}(?=['")]|['"]?\\))`, 'g')
-                  updatedHtml = updatedHtml.replace(aliasRegex, mediaUrl)
+                  const aliasRegex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escapedAlias}(['"\\)])`, 'g')
+                  updatedHtml = updatedHtml.replace(aliasRegex, `$1${mediaUrl}$2`)
                 }
               }
             }

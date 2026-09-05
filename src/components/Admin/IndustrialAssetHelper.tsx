@@ -125,12 +125,12 @@ export const IndustrialAssetHelper: React.FC = () => {
 
       targets.forEach((target) => {
         const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        // Match occurrences inside quotes or parentheses (e.g. src="target", url('target'), href="target", etc.)
-        const regex = new RegExp(`(?<=['"(]|src=['"]|url\\(['"]?)(?:\\.?\\/)?${escaped}(?=['")]|['"]?\\))`, 'g')
+        // Match occurrences inside quotes or parentheses (e.g. src="images/target", data-img="target", url('target'), etc.)
+        const regex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escaped}(['"\\)])`, 'g')
         const matches = code.match(regex)
         if (matches && matches.length > 0) {
           replacementCount += matches.length
-          code = code.replace(regex, asset.url)
+          code = code.replace(regex, `$1${asset.url}$2`)
         }
       })
     })
