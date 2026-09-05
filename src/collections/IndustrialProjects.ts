@@ -40,21 +40,23 @@ export const IndustrialProjects: CollectionConfig = {
 
               if (mediaDoc && mediaDoc.url) {
                 const mediaUrl = mediaDoc.url
-                const filename = mediaDoc.filename
-                const customAlias = item.customAlias?.trim()
+                const original = mediaDoc.alt?.trim() || ''
+                const fn = mediaDoc.filename?.trim() || ''
+                const alias = item.customAlias?.trim() || ''
+                const baseName = (original || fn).replace(/\.[^.]+$/, '')
 
-                // Replace filename variations (e.g. "filename.jpg", "images/filename.jpg", "./filename.jpg")
-                if (filename) {
-                  const escapedFilename = filename.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-                  const regex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escapedFilename}(['"\\)])`, 'g')
-                  updatedHtml = updatedHtml.replace(regex, `$1${mediaUrl}$2`)
+                const patterns: string[] = []
+                if (original) patterns.push(original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                if (fn && fn !== original) patterns.push(fn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                if (alias && alias !== original && alias !== fn) patterns.push(alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+                if (baseName && baseName.length > 2) {
+                  patterns.push(baseName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\.[a-zA-Z0-9]+')
                 }
 
-                // Replace custom alias variations if provided
-                if (customAlias) {
-                  const escapedAlias = customAlias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-                  const aliasRegex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escapedAlias}(['"\\)])`, 'g')
-                  updatedHtml = updatedHtml.replace(aliasRegex, `$1${mediaUrl}$2`)
+                if (patterns.length > 0) {
+                  const regexStr = `(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?(?:${patterns.join('|')})(['"\\)])`
+                  const regex = new RegExp(regexStr, 'gi')
+                  updatedHtml = updatedHtml.replace(regex, `$1${mediaUrl}$2`)
                 }
               }
             }

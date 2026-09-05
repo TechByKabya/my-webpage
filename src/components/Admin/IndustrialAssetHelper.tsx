@@ -1,13 +1,15 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
-import { useFormFields, useField } from '@payloadcms/ui'
-import { Copy, Check, Zap, ExternalLink, Image as ImageIcon, RefreshCw, FileCode, UploadCloud } from 'lucide-react'
+import React, { useState, useEffect, useRef, useCallback } from 'react'
+import { useFormFields, useField, useDocumentInfo } from '@payloadcms/ui'
+import { Copy, Check, Zap, ExternalLink, Image as ImageIcon, RefreshCw, FileCode, UploadCloud, CheckCircle2 } from 'lucide-react'
 
 interface AssetItem {
   id?: string
   mediaId: string | number
   filename: string
+  originalName?: string
+  alt?: string
   url: string
   customAlias?: string
   filesize?: number
@@ -15,7 +17,7 @@ interface AssetItem {
 }
 
 export const IndustrialAssetHelper: React.FC = () => {
-  const assetsField = useFormFields(([fields]) => fields?.assets)
+  const { id: docId } = useDocumentInfo()
   const slugField = useFormFields(([fields]) => fields?.slug)
   const { value: htmlCode, setValue: setHtmlCode } = useField<string>({ path: 'htmlCode' })
   const { value: assetsValue, setValue: setAssetsValue } = useField<any[]>({ path: 'assets' })
@@ -31,82 +33,118 @@ export const IndustrialAssetHelper: React.FC = () => {
   const fileInputRef = useRef<HTMLInputElement>(null)
   const slug = (slugField?.value as string) || ''
 
-  // Resolve media details from assets field
+  const storageKey = docId ? `industrial_assets_${docId}` : 'industrial_assets_draft'
+
+  // Load assets from database / API and cache on mount & page refresh
   useEffect(() => {
-    const rawAssets = assetsField?.value as any[]
-    if (!Array.isArray(rawAssets) || rawAssets.length === 0) {
-      setAssetItems([])
-      return
-    }
-
     let isMounted = true
-    setLoading(true)
 
-    const fetchAllAssets = async () => {
-      const items: AssetItem[] = []
-
-      for (let i = 0; i < rawAssets.length; i++) {
-        const item = rawAssets[i]
-        const rawFile = item?.file
-        const customAlias = item?.customAlias || ''
-
-        if (!rawFile) continue
-
-        // If file object already has URL
-        if (typeof rawFile === 'object' && rawFile !== null && rawFile.url) {
-          items.push({
-            id: rawFile.id,
-            mediaId: rawFile.id,
-            filename: rawFile.filename || `asset-${i + 1}`,
-            url: rawFile.url,
-            customAlias,
-            mimeType: rawFile.mimeType,
-          })
-          continue
+    // 1. Initial instant load from localStorage if available
+    try {
+      const cached = localStorage.getItem(storageKey)
+      if (cached) {
+        const parsed = JSON.parse(cached)
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setAssetItems(parsed)
         }
+      }
+    } catch (_) {}
 
-        // If file is an ID, fetch its details from Payload media API
-        const mediaId = typeof rawFile === 'object' && rawFile !== null ? rawFile.id : rawFile
-        if (mediaId) {
-          try {
-            const res = await fetch(`/api/media/${mediaId}`)
-            if (res.ok) {
-              const data = await res.json()
-              if (data?.url) {
-                items.push({
-                  id: String(mediaId),
-                  mediaId,
-                  filename: data.filename || `asset-${i + 1}`,
-                  url: data.url,
-                  customAlias,
-                  mimeType: data.mimeType,
+    // 2. Fetch fresh assets from API for this project
+    const fetchProjectAssets = async () => {
+      setLoading(true)
+      try {
+        if (docId) {
+          const res = await fetch(`/api/industrial-projects/${docId}?depth=1`)
+          if (res.ok) {
+            const data = await res.json()
+            if (Array.isArray(data?.assets) && data.assets.length > 0) {
+              const items: AssetItem[] = data.assets
+                .map((item: any) => {
+                  const fileObj = typeof item.file === 'object' && item.file !== null ? item.file : null
+                  if (!fileObj) return null
+                  const mediaUrl = fileObj.url || (fileObj.filename ? `/api/media/file/${fileObj.filename}` : '')
+                  if (!mediaUrl) return null
+
+                  return {
+                    id: String(item.id || fileObj.id),
+                    mediaId: fileObj.id,
+                    filename: fileObj.filename || item.customAlias || 'asset',
+                    originalName: fileObj.alt || item.customAlias || fileObj.filename,
+                    alt: fileObj.alt || item.customAlias,
+                    url: mediaUrl,
+                    customAlias: item.customAlias,
+                    mimeType: fileObj.mimeType,
+                  }
                 })
+                .filter(Boolean) as AssetItem[]
+
+              if (isMounted && items.length > 0) {
+                setAssetItems(items)
+                try {
+                  localStorage.setItem(storageKey, JSON.stringify(items))
+                } catch (_) {}
               }
             }
-          } catch (e) {
-            console.error('Failed to fetch media asset:', e)
           }
         }
-      }
-
-      if (isMounted) {
-        setAssetItems(items)
-        setLoading(false)
+      } catch (err) {
+        console.error('Error loading project assets:', err)
+      } finally {
+        if (isMounted) setLoading(false)
       }
     }
 
-    fetchAllAssets()
+    fetchProjectAssets()
 
     return () => {
       isMounted = false
     }
-  }, [assetsField?.value])
+  }, [docId, storageKey])
 
   const copyToClipboard = (text: string, index: number) => {
     navigator.clipboard.writeText(text)
     setCopiedIndex(index)
     setTimeout(() => setCopiedIndex(null), 2000)
   }
+
+  // Core replacement engine matching original name, webp filename, customAlias, and base name
+  const performAutoLink = useCallback(
+    (codeToProcess: string, itemsToLink: AssetItem[]): { updatedCode: string; count: number } => {
+      let code = codeToProcess
+      let totalCount = 0
+
+      itemsToLink.forEach((asset) => {
+        const original = (asset.originalName || asset.alt || '').trim()
+        const fn = (asset.filename || '').trim()
+        const alias = (asset.customAlias || '').trim()
+        const baseName = (original || fn).replace(/\.[^.]+$/, '')
+
+        const patterns: string[] = []
+        if (original) patterns.push(original.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        if (fn && fn !== original) patterns.push(fn.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        if (alias && alias !== original && alias !== fn) patterns.push(alias.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+        if (baseName && baseName.length > 2) {
+          patterns.push(baseName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\.[a-zA-Z0-9]+')
+        }
+
+        if (patterns.length > 0) {
+          // Match paths in quotes or url() without already having http:// or https://
+          const regexStr = `(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?(?:${patterns.join('|')})(['"\\)])`
+          const regex = new RegExp(regexStr, 'gi')
+
+          const matches = code.match(regex)
+          if (matches && matches.length > 0) {
+            totalCount += matches.length
+            code = code.replace(regex, `$1${asset.url}$2`)
+          }
+        }
+      })
+
+      return { updatedCode: code, count: totalCount }
+    },
+    [],
+  )
 
   // Handle multi-file bulk upload
   const handleFilesSelected = async (files: FileList | File[]) => {
@@ -119,6 +157,9 @@ export const IndustrialAssetHelper: React.FC = () => {
     try {
       const formData = new FormData()
       fileArray.forEach((f) => formData.append('files', f))
+      if (docId) {
+        formData.append('projectId', String(docId))
+      }
 
       const res = await fetch('/api/industrial-upload', {
         method: 'POST',
@@ -131,52 +172,62 @@ export const IndustrialAssetHelper: React.FC = () => {
       }
 
       const data = await res.json()
-      const newlyUploaded: Array<{ id: string | number; filename: string; url: string }> = data.uploaded || []
+      const newlyUploaded: Array<{
+        id: string | number
+        filename: string
+        originalName: string
+        alt: string
+        url: string
+      }> = data.uploaded || []
 
       if (newlyUploaded.length > 0) {
-        // 1. Update assets array in Payload form
+        // 1. Convert to AssetItem format
+        const newItems: AssetItem[] = newlyUploaded.map((u) => ({
+          id: String(u.id),
+          mediaId: u.id,
+          filename: u.filename,
+          originalName: u.originalName || u.alt,
+          alt: u.alt || u.originalName,
+          url: u.url,
+          customAlias: u.originalName,
+        }))
+
+        // Merge with existing items (prevent duplicates by mediaId)
+        const mergedItems = [...assetItems]
+        newItems.forEach((item) => {
+          if (!mergedItems.some((m) => String(m.mediaId) === String(item.mediaId))) {
+            mergedItems.push(item)
+          }
+        })
+
+        setAssetItems(mergedItems)
+        try {
+          localStorage.setItem(storageKey, JSON.stringify(mergedItems))
+        } catch (_) {}
+
+        // 2. Update Payload form assets field
         const currentAssets = Array.isArray(assetsValue) ? [...assetsValue] : []
         newlyUploaded.forEach((u) => {
           currentAssets.push({
             file: u.id,
-            customAlias: u.filename,
+            customAlias: u.originalName,
           })
         })
         if (setAssetsValue) {
           setAssetsValue(currentAssets)
         }
 
-        // 2. Update local assetItems list for immediate UI render
-        const newItems: AssetItem[] = newlyUploaded.map((u) => ({
-          id: String(u.id),
-          mediaId: u.id,
-          filename: u.filename,
-          url: u.url,
-          customAlias: u.filename,
-        }))
-        setAssetItems((prev) => [...prev, ...newItems])
-
-        // 3. Auto-replace into htmlCode if htmlCode is already pasted!
+        // 3. Auto-replace into htmlCode immediately if HTML is present!
         if (htmlCode) {
-          let code = htmlCode
-          let count = 0
-          newlyUploaded.forEach((u) => {
-            const escaped = u.filename.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-            const regex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escaped}(['"\\)])`, 'g')
-            const matches = code.match(regex)
-            if (matches && matches.length > 0) {
-              count += matches.length
-              code = code.replace(regex, `$1${u.url}$2`)
-            }
-          })
+          const { updatedCode, count } = performAutoLink(htmlCode, mergedItems)
           if (count > 0) {
-            setHtmlCode(code)
+            setHtmlCode(updatedCode)
             setReplaceResult(`🎉 Uploaded ${newlyUploaded.length} images & auto-linked ${count} reference(s) in HTML!`)
           } else {
-            setReplaceResult(`✅ Successfully uploaded ${newlyUploaded.length} images to Media Library!`)
+            setReplaceResult(`✅ Uploaded ${newlyUploaded.length} images! Click "Auto-Link Assets in HTML" below.`)
           }
         } else {
-          setReplaceResult(`✅ Successfully uploaded ${newlyUploaded.length} images! Paste your HTML above and click Auto-Link.`)
+          setReplaceResult(`✅ Successfully uploaded ${newlyUploaded.length} images! Paste your HTML code below and click Auto-Link.`)
         }
       }
     } catch (err: any) {
@@ -185,11 +236,11 @@ export const IndustrialAssetHelper: React.FC = () => {
       setUploading(false)
       setUploadProgress(null)
       if (fileInputRef.current) fileInputRef.current.value = ''
-      setTimeout(() => setReplaceResult(null), 6000)
+      setTimeout(() => setReplaceResult(null), 7000)
     }
   }
 
-  // Scan htmlCode and replace local file names / aliases with full CDN URLs
+  // Scan htmlCode and replace local filenames / aliases with full CDN URLs
   const handleAutoReplace = () => {
     if (!htmlCode) {
       setReplaceResult('⚠️ HTML Code is empty. Paste your HTML code first.')
@@ -198,37 +249,21 @@ export const IndustrialAssetHelper: React.FC = () => {
     }
 
     if (assetItems.length === 0) {
-      setReplaceResult('⚠️ No uploaded assets detected yet. Click "Bulk Upload Images" first.')
+      setReplaceResult('⚠️ No uploaded assets detected. Use "Bulk Upload Images" first.')
       setTimeout(() => setReplaceResult(null), 4000)
       return
     }
 
-    let code = htmlCode
-    let replacementCount = 0
+    const { updatedCode, count } = performAutoLink(htmlCode, assetItems)
 
-    assetItems.forEach((asset) => {
-      const targets = [asset.filename, asset.customAlias].filter(Boolean) as string[]
-
-      targets.forEach((target) => {
-        const escaped = target.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-        // Match occurrences inside quotes or parentheses (e.g. src="images/target", data-img="target", url('target'), etc.)
-        const regex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escaped}(['"\\)])`, 'g')
-        const matches = code.match(regex)
-        if (matches && matches.length > 0) {
-          replacementCount += matches.length
-          code = code.replace(regex, `$1${asset.url}$2`)
-        }
-      })
-    })
-
-    if (replacementCount > 0) {
-      setHtmlCode(code)
-      setReplaceResult(`✅ Successfully replaced ${replacementCount} image reference(s) with CDN URLs!`)
+    if (count > 0) {
+      setHtmlCode(updatedCode)
+      setReplaceResult(`✅ Successfully replaced ${count} image reference(s) with live CDN URLs!`)
     } else {
-      setReplaceResult('ℹ️ No matching relative filenames found in your HTML code.')
+      setReplaceResult('ℹ️ No matching relative image filenames found. (Images may already be linked!)')
     }
 
-    setTimeout(() => setReplaceResult(null), 5000)
+    setTimeout(() => setReplaceResult(null), 6000)
   }
 
   return (
@@ -279,7 +314,7 @@ export const IndustrialAssetHelper: React.FC = () => {
               Industrial Asset Assistant & Bulk Uploader
             </h4>
             <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8' }}>
-              Upload all project images at once, and auto-link local paths in your HTML to live CDN URLs.
+              Upload all project images at once. Local filenames (.png, .jpg) automatically resolve to live CDN URLs.
             </p>
           </div>
         </div>
@@ -407,10 +442,10 @@ export const IndustrialAssetHelper: React.FC = () => {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
             <UploadCloud size={30} style={{ color: '#38bdf8', opacity: 0.9 }} />
             <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#f8fafc' }}>
-              Drag & Drop your project images here, or click to browse
+              Drag & Drop all project images here, or click to browse
             </div>
             <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
-              Select multiple photos at once. They will upload to Vercel Blob and automatically link in your HTML!
+              Select multiple photos at once. They will upload directly to Vercel Blob and automatically link in your HTML!
             </div>
           </div>
         )}
@@ -436,8 +471,13 @@ export const IndustrialAssetHelper: React.FC = () => {
       {/* Asset List */}
       <div>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
-          <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 600 }}>
-            Uploaded Project Media ({assetItems.length})
+          <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 600 }}>
+            <span>Attached Project Media ({assetItems.length})</span>
+            {assetItems.length > 0 && (
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: '3px', color: '#4ade80', fontSize: '0.75rem', textTransform: 'none', fontWeight: 500 }}>
+                <CheckCircle2 size={13} /> Active
+              </span>
+            )}
           </div>
           {assetItems.length > 0 && (
             <span style={{ fontSize: '0.75rem', color: '#38bdf8' }}>
@@ -449,7 +489,7 @@ export const IndustrialAssetHelper: React.FC = () => {
         {loading ? (
           <div style={{ padding: '1rem', textAlign: 'center', color: '#94a3b8', fontSize: '0.85rem' }}>
             <RefreshCw size={16} className="animate-spin" style={{ display: 'inline', marginRight: '6px' }} />
-            Resolving uploaded asset URLs...
+            Loading project assets from database...
           </div>
         ) : assetItems.length === 0 ? (
           <div
@@ -502,7 +542,7 @@ export const IndustrialAssetHelper: React.FC = () => {
                 {/* Info */}
                 <div style={{ flex: 1, minWidth: 0 }}>
                   <div style={{ fontSize: '0.82rem', fontWeight: 600, color: '#f1f5f9', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                    {asset.customAlias ? `${asset.customAlias} (${asset.filename})` : asset.filename}
+                    {asset.originalName || asset.customAlias || asset.filename}
                   </div>
                   <div style={{ fontSize: '0.72rem', color: '#64748b', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                     {asset.url}

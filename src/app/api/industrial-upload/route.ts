@@ -18,6 +18,8 @@ export async function POST(req: NextRequest) {
     }
 
     const formData = await req.formData()
+    const projectId = formData.get('projectId') as string | null
+
     // Accept either 'files' or 'file'
     const rawFiles = formData.getAll('files').concat(formData.getAll('file'))
     const files = rawFiles.filter((f): f is File => typeof f === 'object' && f !== null && 'arrayBuffer' in f)
@@ -29,7 +31,13 @@ export async function POST(req: NextRequest) {
       )
     }
 
-    const uploadedDocs: Array<{ id: string | number; filename: string; url: string }> = []
+    const uploadedDocs: Array<{
+      id: string | number
+      filename: string
+      originalName: string
+      alt: string
+      url: string
+    }> = []
 
     for (const file of files) {
       const arrayBuffer = await file.arrayBuffer()
@@ -52,8 +60,41 @@ export async function POST(req: NextRequest) {
         uploadedDocs.push({
           id: doc.id,
           filename: doc.filename || file.name,
+          originalName: file.name,
+          alt: file.name,
           url: doc.url || '',
         })
+      }
+    }
+
+    // If projectId is provided, attach newly uploaded assets directly to the project
+    if (projectId && uploadedDocs.length > 0) {
+      try {
+        const existingProject = await payload.findByID({
+          collection: 'industrial-projects',
+          id: projectId,
+          depth: 0,
+        })
+
+        if (existingProject) {
+          const currentAssets = Array.isArray(existingProject.assets) ? [...existingProject.assets] : []
+          uploadedDocs.forEach((u) => {
+            currentAssets.push({
+              file: Number(u.id),
+              customAlias: u.originalName,
+            })
+          })
+
+          await payload.update({
+            collection: 'industrial-projects',
+            id: projectId,
+            data: {
+              assets: currentAssets,
+            },
+          })
+        }
+      } catch (attachErr) {
+        console.warn('Could not auto-attach uploaded assets to project:', attachErr)
       }
     }
 
