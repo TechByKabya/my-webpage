@@ -142,7 +142,16 @@ export default async function PortfolioHome() {
           <ProjectGrid projects={projects} totalCount={totalProjects} />
         </div>
 
-        <IndustrialPreview projects={industrialProjects} totalCount={totalIndustrialProjects} />
+        {industrialProjects && industrialProjects.length > 0 && (
+          <div id="section-industrial" style={{ 
+            background: '#ffffff', 
+            borderTop: '1px solid rgba(0,0,0,0.04)', 
+            boxShadow: '0 4px 30px rgba(0,0,0,0.02)',
+            paddingBottom: '20px'
+          }}>
+            <IndustrialPreview projects={industrialProjects} totalCount={totalIndustrialProjects} />
+          </div>
+        )}
         
         <div id="section-skills" style={{ 
           background: '#ffffff',

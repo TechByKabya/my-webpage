@@ -79,7 +79,7 @@ export default async function IndustrialProjectPage({
         width: '100vw',
         height: '100vh',
         overflow: 'hidden',
-        backgroundColor: '#07080c',
+        backgroundColor: '#ffffff',
       }}
     >
       <style>{`
@@ -92,37 +92,35 @@ export default async function IndustrialProjectPage({
           align-items: center;
           gap: 8px;
           padding: 8px 16px;
-          background: rgba(15, 23, 42, 0.75);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.92);
+          backdrop-filter: blur(12px);
+          -webkit-backdrop-filter: blur(12px);
+          border: 1px solid rgba(0, 0, 0, 0.08);
           border-radius: 9999px;
-          color: #f8fafc;
+          color: #1D1D1F;
           text-decoration: none;
           font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
           font-size: 0.85rem;
-          font-weight: 500;
-          box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 20px rgba(56, 189, 248, 0.15);
+          font-weight: 600;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
           transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-          opacity: 0.85;
         }
         .industrial-floating-nav:hover {
-          opacity: 1;
           transform: translateY(-2px);
-          background: rgba(15, 23, 42, 0.95);
-          border-color: rgba(56, 189, 248, 0.5);
-          box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6), 0 0 25px rgba(56, 189, 248, 0.3);
-          color: #ffffff;
+          background: #ffffff;
+          border-color: #0d9488;
+          color: #0d9488;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
         }
         .industrial-badge {
           display: inline-block;
           font-size: 0.65rem;
           text-transform: uppercase;
-          letter-spacing: 0.08em;
-          padding: 2px 7px;
+          letter-spacing: 0.06em;
+          padding: 2px 8px;
           border-radius: 9999px;
-          background: rgba(56, 189, 248, 0.2);
-          color: #38bdf8;
+          background: rgba(13, 148, 136, 0.12);
+          color: #0d9488;
           font-weight: 700;
         }
         .industrial-frame {

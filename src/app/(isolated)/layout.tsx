@@ -17,7 +17,7 @@ export default function IsolatedLayout({ children }: { children: React.ReactNode
           width: '100%',
           height: '100%',
           overflow: 'hidden',
-          backgroundColor: '#090a0f',
+          backgroundColor: '#ffffff',
           fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif',
         }}
       >
