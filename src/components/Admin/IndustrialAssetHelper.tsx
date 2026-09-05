@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { useFormFields, useField } from '@payloadcms/ui'
-import { Copy, Check, Zap, ExternalLink, Image as ImageIcon, RefreshCw, FileCode } from 'lucide-react'
+import { Copy, Check, Zap, ExternalLink, Image as ImageIcon, RefreshCw, FileCode, UploadCloud } from 'lucide-react'
 
 interface AssetItem {
   id?: string
@@ -18,12 +18,17 @@ export const IndustrialAssetHelper: React.FC = () => {
   const assetsField = useFormFields(([fields]) => fields?.assets)
   const slugField = useFormFields(([fields]) => fields?.slug)
   const { value: htmlCode, setValue: setHtmlCode } = useField<string>({ path: 'htmlCode' })
+  const { value: assetsValue, setValue: setAssetsValue } = useField<any[]>({ path: 'assets' })
 
   const [assetItems, setAssetItems] = useState<AssetItem[]>([])
   const [loading, setLoading] = useState(false)
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null)
   const [replaceResult, setReplaceResult] = useState<string | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [uploadProgress, setUploadProgress] = useState<string | null>(null)
+  const [dragOver, setDragOver] = useState(false)
 
+  const fileInputRef = useRef<HTMLInputElement>(null)
   const slug = (slugField?.value as string) || ''
 
   // Resolve media details from assets field
@@ -103,6 +108,87 @@ export const IndustrialAssetHelper: React.FC = () => {
     setTimeout(() => setCopiedIndex(null), 2000)
   }
 
+  // Handle multi-file bulk upload
+  const handleFilesSelected = async (files: FileList | File[]) => {
+    if (!files || files.length === 0) return
+
+    const fileArray = Array.from(files)
+    setUploading(true)
+    setUploadProgress(`Uploading ${fileArray.length} image(s)...`)
+
+    try {
+      const formData = new FormData()
+      fileArray.forEach((f) => formData.append('files', f))
+
+      const res = await fetch('/api/industrial-upload', {
+        method: 'POST',
+        body: formData,
+      })
+
+      if (!res.ok) {
+        const err = await res.json()
+        throw new Error(err.error || 'Failed to upload files')
+      }
+
+      const data = await res.json()
+      const newlyUploaded: Array<{ id: string | number; filename: string; url: string }> = data.uploaded || []
+
+      if (newlyUploaded.length > 0) {
+        // 1. Update assets array in Payload form
+        const currentAssets = Array.isArray(assetsValue) ? [...assetsValue] : []
+        newlyUploaded.forEach((u) => {
+          currentAssets.push({
+            file: u.id,
+            customAlias: u.filename,
+          })
+        })
+        if (setAssetsValue) {
+          setAssetsValue(currentAssets)
+        }
+
+        // 2. Update local assetItems list for immediate UI render
+        const newItems: AssetItem[] = newlyUploaded.map((u) => ({
+          id: String(u.id),
+          mediaId: u.id,
+          filename: u.filename,
+          url: u.url,
+          customAlias: u.filename,
+        }))
+        setAssetItems((prev) => [...prev, ...newItems])
+
+        // 3. Auto-replace into htmlCode if htmlCode is already pasted!
+        if (htmlCode) {
+          let code = htmlCode
+          let count = 0
+          newlyUploaded.forEach((u) => {
+            const escaped = u.filename.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+            const regex = new RegExp(`(['"\\(])(?:(?!(?:https?:)?\\/\\/)[^'"()\\s]*\\/)?${escaped}(['"\\)])`, 'g')
+            const matches = code.match(regex)
+            if (matches && matches.length > 0) {
+              count += matches.length
+              code = code.replace(regex, `$1${u.url}$2`)
+            }
+          })
+          if (count > 0) {
+            setHtmlCode(code)
+            setReplaceResult(`🎉 Uploaded ${newlyUploaded.length} images & auto-linked ${count} reference(s) in HTML!`)
+          } else {
+            setReplaceResult(`✅ Successfully uploaded ${newlyUploaded.length} images to Media Library!`)
+          }
+        } else {
+          setReplaceResult(`✅ Successfully uploaded ${newlyUploaded.length} images! Paste your HTML above and click Auto-Link.`)
+        }
+      }
+    } catch (err: any) {
+      setReplaceResult(`❌ Upload error: ${err.message}`)
+    } finally {
+      setUploading(false)
+      setUploadProgress(null)
+      if (fileInputRef.current) fileInputRef.current.value = ''
+      setTimeout(() => setReplaceResult(null), 6000)
+    }
+  }
+
   // Scan htmlCode and replace local file names / aliases with full CDN URLs
   const handleAutoReplace = () => {
     if (!htmlCode) {
@@ -112,7 +198,7 @@ export const IndustrialAssetHelper: React.FC = () => {
     }
 
     if (assetItems.length === 0) {
-      setReplaceResult('⚠️ No uploaded assets detected yet. Upload images in the section below.')
+      setReplaceResult('⚠️ No uploaded assets detected yet. Click "Bulk Upload Images" first.')
       setTimeout(() => setReplaceResult(null), 4000)
       return
     }
@@ -157,13 +243,27 @@ export const IndustrialAssetHelper: React.FC = () => {
         boxShadow: '0 8px 30px rgba(0, 0, 0, 0.25)',
       }}
     >
+      {/* Hidden Multi-file input */}
+      <input
+        type="file"
+        multiple
+        accept="image/*"
+        ref={fileInputRef}
+        style={{ display: 'none' }}
+        onChange={(e) => {
+          if (e.target.files && e.target.files.length > 0) {
+            handleFilesSelected(e.target.files)
+          }
+        }}
+      />
+
       {/* Header Bar */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '1rem', marginBottom: '1.25rem' }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           <div
             style={{
-              width: '36px',
-              height: '36px',
+              width: '38px',
+              height: '38px',
               borderRadius: '8px',
               background: 'rgba(56, 189, 248, 0.15)',
               display: 'flex',
@@ -176,15 +276,74 @@ export const IndustrialAssetHelper: React.FC = () => {
           </div>
           <div>
             <h4 style={{ margin: 0, fontSize: '1.05rem', fontWeight: 600, color: '#f8fafc' }}>
-              Industrial Asset Assistant & URL Auto-Linker
+              Industrial Asset Assistant & Bulk Uploader
             </h4>
             <p style={{ margin: 0, fontSize: '0.8rem', color: '#94a3b8' }}>
-              Bulk upload images below, then click Auto-Link to resolve local paths in your HTML to CDN URLs.
+              Upload all project images at once, and auto-link local paths in your HTML to live CDN URLs.
             </p>
           </div>
         </div>
 
-        <div style={{ display: 'flex', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.6rem' }}>
+          {/* Bulk Upload Button */}
+          <button
+            type="button"
+            onClick={() => fileInputRef.current?.click()}
+            disabled={uploading}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #10b981 0%, #059669 100%)',
+              color: '#ffffff',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              border: 'none',
+              cursor: uploading ? 'not-allowed' : 'pointer',
+              boxShadow: '0 2px 10px rgba(16, 185, 129, 0.3)',
+              opacity: uploading ? 0.7 : 1,
+              transition: 'all 0.15s ease',
+            }}
+          >
+            {uploading ? (
+              <>
+                <RefreshCw size={15} className="animate-spin" />
+                Uploading...
+              </>
+            ) : (
+              <>
+                <UploadCloud size={16} />
+                Bulk Upload Images
+              </>
+            )}
+          </button>
+
+          {/* Auto-Link Button */}
+          <button
+            type="button"
+            onClick={handleAutoReplace}
+            disabled={uploading}
+            style={{
+              display: 'inline-flex',
+              alignItems: 'center',
+              gap: '6px',
+              padding: '8px 16px',
+              borderRadius: '8px',
+              background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
+              color: '#ffffff',
+              fontSize: '0.85rem',
+              fontWeight: 600,
+              border: 'none',
+              cursor: 'pointer',
+              boxShadow: '0 2px 10px rgba(2, 132, 199, 0.3)',
+            }}
+          >
+            <Zap size={15} />
+            Auto-Link Assets in HTML
+          </button>
+
           {slug && (
             <a
               href={`/industrial/${slug}`}
@@ -205,42 +364,67 @@ export const IndustrialAssetHelper: React.FC = () => {
               }}
             >
               <ExternalLink size={14} />
-              Open Live Page
+              Live Preview
             </a>
           )}
-
-          <button
-            type="button"
-            onClick={handleAutoReplace}
-            style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '6px',
-              padding: '8px 16px',
-              borderRadius: '8px',
-              background: 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)',
-              color: '#ffffff',
-              fontSize: '0.85rem',
-              fontWeight: 600,
-              border: 'none',
-              cursor: 'pointer',
-              boxShadow: '0 2px 10px rgba(2, 132, 199, 0.3)',
-            }}
-          >
-            <Zap size={15} />
-            Auto-Link Assets in HTML
-          </button>
         </div>
       </div>
 
+      {/* Drag & Drop Upload Zone */}
+      <div
+        onDragOver={(e) => {
+          e.preventDefault()
+          setDragOver(true)
+        }}
+        onDragLeave={() => setDragOver(false)}
+        onDrop={(e) => {
+          e.preventDefault()
+          setDragOver(false)
+          if (e.dataTransfer.files && e.dataTransfer.files.length > 0) {
+            handleFilesSelected(e.dataTransfer.files)
+          }
+        }}
+        onClick={() => !uploading && fileInputRef.current?.click()}
+        style={{
+          border: dragOver ? '2px dashed #38bdf8' : '2px dashed rgba(255, 255, 255, 0.15)',
+          borderRadius: '10px',
+          padding: '1.25rem',
+          textAlign: 'center',
+          background: dragOver ? 'rgba(56, 189, 248, 0.08)' : 'rgba(0, 0, 0, 0.2)',
+          cursor: uploading ? 'not-allowed' : 'pointer',
+          transition: 'all 0.2s ease',
+          marginBottom: '1.25rem',
+        }}
+      >
+        {uploading ? (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px' }}>
+            <RefreshCw size={24} className="animate-spin" style={{ color: '#38bdf8' }} />
+            <span style={{ fontSize: '0.9rem', color: '#f8fafc', fontWeight: 500 }}>
+              {uploadProgress || 'Uploading images to Vercel Blob...'}
+            </span>
+          </div>
+        ) : (
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '6px' }}>
+            <UploadCloud size={30} style={{ color: '#38bdf8', opacity: 0.9 }} />
+            <div style={{ fontSize: '0.9rem', fontWeight: 600, color: '#f8fafc' }}>
+              Drag & Drop your project images here, or click to browse
+            </div>
+            <div style={{ fontSize: '0.78rem', color: '#94a3b8' }}>
+              Select multiple photos at once. They will upload to Vercel Blob and automatically link in your HTML!
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Toast Notification Result */}
       {replaceResult && (
         <div
           style={{
             padding: '10px 14px',
             borderRadius: '8px',
-            background: replaceResult.includes('✅') ? 'rgba(34, 197, 94, 0.15)' : 'rgba(245, 158, 11, 0.15)',
-            border: replaceResult.includes('✅') ? '1px solid rgba(34, 197, 94, 0.3)' : '1px solid rgba(245, 158, 11, 0.3)',
-            color: replaceResult.includes('✅') ? '#4ade80' : '#fbbf24',
+            background: replaceResult.includes('✅') || replaceResult.includes('🎉') ? 'rgba(34, 197, 94, 0.15)' : replaceResult.includes('❌') ? 'rgba(239, 68, 68, 0.15)' : 'rgba(245, 158, 11, 0.15)',
+            border: replaceResult.includes('✅') || replaceResult.includes('🎉') ? '1px solid rgba(34, 197, 94, 0.3)' : replaceResult.includes('❌') ? '1px solid rgba(239, 68, 68, 0.3)' : '1px solid rgba(245, 158, 11, 0.3)',
+            color: replaceResult.includes('✅') || replaceResult.includes('🎉') ? '#4ade80' : replaceResult.includes('❌') ? '#f87171' : '#fbbf24',
             fontSize: '0.85rem',
             marginBottom: '1rem',
           }}
@@ -251,8 +435,15 @@ export const IndustrialAssetHelper: React.FC = () => {
 
       {/* Asset List */}
       <div>
-        <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 600, marginBottom: '0.75rem' }}>
-          Uploaded Project Media ({assetItems.length})
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.75rem' }}>
+          <div style={{ fontSize: '0.78rem', textTransform: 'uppercase', letterSpacing: '0.05em', color: '#64748b', fontWeight: 600 }}>
+            Uploaded Project Media ({assetItems.length})
+          </div>
+          {assetItems.length > 0 && (
+            <span style={{ fontSize: '0.75rem', color: '#38bdf8' }}>
+              Click any URL to copy
+            </span>
+          )}
         </div>
 
         {loading ? (
@@ -273,10 +464,10 @@ export const IndustrialAssetHelper: React.FC = () => {
             }}
           >
             <ImageIcon size={20} style={{ margin: '0 auto 8px auto', opacity: 0.5 }} />
-            No assets added yet. Add media items in the <strong>Project Image & Media Assets</strong> field below.
+            No images uploaded yet. Use the <strong>Bulk Upload</strong> box above to upload all your project photos.
           </div>
         ) : (
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.75rem', maxHeight: '260px', overflowY: 'auto', paddingRight: '4px' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: '0.75rem', maxHeight: '280px', overflowY: 'auto', paddingRight: '4px' }}>
             {assetItems.map((asset, idx) => (
               <div
                 key={idx}
